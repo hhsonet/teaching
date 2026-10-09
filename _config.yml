@@ -1,0 +1,57 @@
+# Site settings
+title: Advanced Artificial Intelligence
+tagline: GAN, Transformers, Diffusion, RAG and LLM
+description: Course plan, resources, code and papers for Advanced Artificial Intelligence
+author: Hasan Sonet
+baseurl: '/teaching-advanced-ai' # repository name
+url: 'https://hhsonet.github.io'
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md"]
+
+# Theme settings
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+permalink: pretty
+aux_links:
+  Course on GitHub:
+    - 'https://github.com/hhsonet/teaching-advanced-ai'
+footer_content: 'Content: CC BY 4.0. Code: MIT. Built with Just the Class.'
+
+# Collections for website data
+collections:
+  staffers:
+  modules:
+  announcements:
+# Default layouts for each collection type
+defaults:
+  - scope:
+      path: ''
+      type: staffers
+    values:
+      layout: staffer
+      height: 300
+      subpath: '/assets/images/'
+      width: 300
+  - scope:
+      path: ''
+      type: modules
+    values:
+      layout: module
+  - scope:
+      path: ''
+      type: announcements
+    values:
+      layout: announcement
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+liquid:
+  error_mode: strict
+  strict_filters: true
