@@ -1,26 +1,11 @@
-# Advanced Artificial Intelligence
+# Teaching
 
-Course site, code and reading list. Live site: https://hhsonet.github.io/teaching-advanced-ai/
+Course materials, one folder per course. Site: https://hhsonet.github.io/teaching/
 
-Built on [Just the Class](https://github.com/kevinlin1/just-the-class) (MIT).
+| Course | Folder | Site |
+|---|---|---|
+| Advanced Artificial Intelligence | [advanced-ai](advanced-ai) | https://hhsonet.github.io/teaching/advanced-ai/ |
 
-## Local preview
+Each course is a Jekyll site (Just the Class). `.github/workflows/pages.yml` builds every course into one GitHub Pages deployment.
 
-```bash
-bundle install
-bundle exec jekyll serve
-```
-
-## Layout
-
-- `*.md`: site pages
-- `_modules/`: one file per lecture
-- `_announcements/`, `_staffers/`: feed and staff data
-- `code/`: course notebooks (own work only)
-- `papers/`: BibTeX and notes (no PDFs)
-
-## Licensing
-
-- Site content: CC BY 4.0 (TODO: confirm).
-- Code: MIT.
-- *Understanding Deep Learning* notebooks are CC BY-NC-ND. Link to the originals at https://github.com/udlbook/udlbook. Do not copy or modify them here.
+To add a course: create a folder, copy the Jekyll files, set its `baseurl` to `/teaching/<folder>`, and add a build step and landing-page link.
