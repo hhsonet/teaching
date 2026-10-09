@@ -1,6 +1,6 @@
 # Advanced Artificial Intelligence
 
-Course site, code and reading list. Live site: https://hhsonet.github.io/teaching-advanced-ai/
+Course site, code and reading list. Live site: https://hhsonet.github.io/teaching/advanced-ai/
 
 Built on [Just the Class](https://github.com/kevinlin1/just-the-class) (MIT).
 
