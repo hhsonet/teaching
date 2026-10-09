@@ -89,7 +89,7 @@
   function parseHash() {
     var m = location.hash.match(/^#\/lecture\/(\d+)/);
     if (m) { state.route = 'lecture'; state.lec = clamp(parseInt(m[1], 10)); return; }
-    m = location.hash.match(/^#\/(overview|schedule|assessment)/);
+    m = location.hash.match(/^#\/(overview|schedule|assessment|staff)/);
     state.route = m ? m[1] : 'overview'; state.lec = null;
   }
 
@@ -113,12 +113,12 @@
       '<a class="item" href="' + link('syllabus') + '">Syllabus</a><a class="item" href="' + link('reading-list') + '">Reading list</a><a class="item" href="' + link('papers') + '">Papers</a>' +
       '<a class="item" href="' + link('announcements') + '">Announcements</a>' +
       '<a class="item" href="https://udlbook.github.io/udlbook/"><span>UDL book</span><span class="hint" style="color:#a1a1aa;font-size:14px">↗</span></a></div>' +
-      '<a class="who" href="' + link('staff') + '"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jamee</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></a>' +
+      '<button class="who" data-act="tab:staff"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jamee</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></button>' +
       '</aside>';
   }
 
   function header() {
-    var label = state.lec ? 'Lecture ' + pad(state.lec) : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
+    var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'staff' ? 'Faculty' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
     var title = state.sidebar ? 'Close sidebar' : 'Open sidebar';
     return '<header class="top"><div class="crumbs">' +
       '<button class="icon-btn" data-act="toggleSide" title="' + title + '" aria-label="' + title + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg></button>' +
@@ -186,6 +186,21 @@
       '<div style="padding:0 24px 8px">' + accs + '<div class="acc-total"><span>Total</span><span class="mono" style="margin-right:28px">100</span></div></div></div></div>';
   }
 
+  var FACULTY = [
+    { initials: 'AJ', name: 'Dr. Abu Shafin Mohammad Mahdee Jamee', title: 'Assistant Professor, Dept. of CSE & Director, CAIR', email: 'mahdee@cse.uiu.ac.bd', role: 'Course teacher' }
+  ];
+
+  function staff() {
+    var cards = FACULTY.map(function (f) {
+      return '<div class="card person"><div class="person-av">' + f.initials + '</div><div class="stack g6" style="min-width:0"><span class="person-name">' + esc(f.name) + '</span>' +
+        '<span class="person-title">' + esc(f.title) + '</span><a class="person-mail" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a>' +
+        '<span class="badge b-default" style="align-self:flex-start;border-color:#18181b">' + esc(f.role) + '</span></div></div>';
+    }).join('');
+    return '<div class="stack" style="gap:32px"><div class="stack g8"><span class="mono muted" style="font-size:12px">Advanced Artificial Intelligence</span>' +
+      '<h1 class="lec-h1">Faculty</h1><p class="lede">Faculty members teaching this course.</p></div>' +
+      '<div class="stack g16"><span class="card-title">Course teacher</span><div class="people">' + cards + '</div></div></div>';
+  }
+
   function lecture() {
     var n = state.lec, h = L[n - 1][0], items = L[n - 1][1], units = UNIT_OF[h] || [], u0 = units[0];
     var st = status(n)[0];
@@ -226,10 +241,10 @@
   }
 
   function render() {
-    var page = state.route === 'lecture' ? lecture() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
+    var page = state.route === 'lecture' ? lecture() : state.route === 'staff' ? staff() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
     root.innerHTML = '<div class="app">' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
       '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Content CC BY 4.0 · Code MIT</span></footer></div></div>';
-    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
+    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Faculty' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
   }
 
   root.addEventListener('click', function (e) {

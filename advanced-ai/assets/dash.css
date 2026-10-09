@@ -146,3 +146,11 @@ textarea:focus{outline:none;border-color:#a1a1aa;box-shadow:0 0 0 3px rgba(161,1
 .nav-btn{height:36px;padding:0 14px;display:flex;align-items:center;border:1px solid #e4e4e7;border-radius:8px;font-size:14px;font-weight:500;box-shadow:0 1px 2px rgba(0,0,0,.05);white-space:nowrap}
 .nav-btn:hover{background:#f4f4f5}
 .foot{margin-top:auto;border-top:1px solid #e4e4e7;padding:16px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:#71717a}
+
+.who{width:100%}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+.person{padding:24px;display:flex;gap:16px;align-items:center}
+.person-av{flex:none;width:56px;height:56px;border-radius:50%;background:#f4f4f5;border:1px solid #e4e4e7;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#3f3f46}
+.person-name{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;text-wrap:pretty}
+.person-title{font-size:14px;line-height:1.45;color:#71717a;text-wrap:pretty}
+.person-mail{align-self:flex-start;font:400 13px/1.4 'Geist Mono',monospace;color:#09090b;text-decoration:underline;text-decoration-color:#d4d4d8;text-underline-offset:4px}
