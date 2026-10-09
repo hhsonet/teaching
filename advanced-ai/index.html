@@ -1,0 +1,23 @@
+---
+layout: null
+title: Overview
+permalink: /
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overview | Advanced AI</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/dash.css' | relative_url }}">
+</head>
+<body>
+  <div id="app" data-base="{{ site.baseurl }}" data-current="{{ site.current_lecture }}" data-github="{{ site.github_url }}"></div>
+  <noscript><p style="padding:24px">This page needs JavaScript. See the <a href="{{ '/syllabus/' | relative_url }}">syllabus</a> and <a href="{{ '/calendar/' | relative_url }}">calendar</a>.</p></noscript>
+  <script src="{{ '/assets/dash.js' | relative_url }}"></script>
+</body>
+</html>

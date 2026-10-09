@@ -13,7 +13,14 @@ color_scheme: light
 search_enabled: true
 heading_anchors: true
 permalink: pretty
+aux_links:
+  Course home:
+    - '/teaching/advanced-ai/'
 footer_content: 'Content CC BY 4.0 · Code MIT'
+
+# Dashboard settings
+current_lecture: 1 # bump each week; drives progress and deadlines on the home page
+github_url: 'https://github.com/hhsonet/teaching/tree/main/advanced-ai'
 
 # Collections for website data
 collections:
