@@ -88,3 +88,4 @@ h1{font-size:40px;font-weight:700;letter-spacing:-.035em;line-height:1.1}
 .s-who .t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .s-who b{font-size:13px;font-weight:500;line-height:1.25}
 .s-who span{font-size:12px;color:#71717a;line-height:1.2}
+.bar .wrap{max-width:none;margin:0}
