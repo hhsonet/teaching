@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int main()
+{
+    int year, month;
+    printf("Enter year and month (in numbers): ");
+    scanf("%d %d", &year, &month);
+    int days_in_month;
+    if (month == 2)
+    {
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+        {
+            days_in_month = 29;
+        }
+        else
+        {
+            days_in_month = 28;
+        }
+    }
+    else if (month == 4 || month == 6 || month == 9 || month == 11)
+    {
+        days_in_month = 30;
+    }
+    else
+    {
+        days_in_month = 31;
+    }
+    int total_organisms = 1;
+    for (int i = 1; i <= days_in_month; i++)
+    {
+        total_organisms *= 2;
+    }
+    printf("Number of days in month: %d\n", days_in_month);
+    printf("Projected total number of organisms: %d\n", total_organisms);
+    return 0;
+}
