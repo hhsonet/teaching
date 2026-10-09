@@ -29,9 +29,10 @@
     }
   ];
   var LABEL = { current: 'Current', past: 'Past' };
-  var state = { q: '', filter: 'all', side: window.innerWidth >= 900 };
+  var state = { q: '', filter: 'all', side: true, drawer: false };
+  var isMobile = function () { return window.matchMedia('(max-width: 899px)').matches; };
   try { var sv = localStorage.getItem('teaching-side'); if (sv !== null) state.side = sv === '1'; } catch (e) {}
-  var $list = document.getElementById('list'), $filters = document.getElementById('filters'), $q = document.getElementById('q'), $side = document.getElementById('side');
+  var $list = document.getElementById('list'), $filters = document.getElementById('filters'), $q = document.getElementById('q'), $side = document.getElementById('side'), $scrim = document.getElementById('scrim'), $toggle = document.getElementById('toggle');
 
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
   var match = function (c) {
@@ -62,7 +63,10 @@
     var browse = [['all', 'All courses'], ['current', 'Current'], ['past', 'Past']].map(function (f) {
       return '<button type="button" class="s-item' + (state.filter === f[0] ? ' on' : '') + '" data-f="' + f[0] + '"><span class="t">' + f[1] + '</span><span class="h">' + count(f[0]) + '</span></button>';
     }).join('');
-    $side.hidden = !state.side;
+    $side.className = 'side' + (state.drawer ? ' open' : '') + (state.side ? '' : ' collapsed');
+    $scrim.className = 'scrim' + (state.drawer ? ' on' : '');
+    $toggle.setAttribute('aria-expanded', String(isMobile() ? state.drawer : state.side));
+    document.body.style.overflow = state.drawer ? 'hidden' : '';
     $side.innerHTML =
       '<div class="s-brand"><div class="logo">T</div><div class="t"><b>Teaching</b><span>United International University</span></div></div>' +
       '<div class="s-sec"><div class="s-label">Browse</div>' + browse + '</div>' +
@@ -86,15 +90,21 @@
   $q.addEventListener('input', function () { state.q = $q.value; render(); });
   var pick = function (e) {
     var b = e.target.closest('button[data-f]');
-    if (b) { state.filter = b.getAttribute('data-f'); render(); }
+    if (b) { state.filter = b.getAttribute('data-f'); state.drawer = false; render(); }
   };
   $filters.addEventListener('click', pick);
   $side.addEventListener('click', pick);
-  document.getElementById('toggle').addEventListener('click', function () {
-    state.side = !state.side;
-    try { localStorage.setItem('teaching-side', state.side ? '1' : '0'); } catch (e) {}
+  $toggle.addEventListener('click', function () {
+    if (isMobile()) state.drawer = !state.drawer;
+    else {
+      state.side = !state.side;
+      try { localStorage.setItem('teaching-side', state.side ? '1' : '0'); } catch (e) {}
+    }
     render();
   });
+  $scrim.addEventListener('click', function () { state.drawer = false; render(); });
+  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
+  window.addEventListener('resize', function () { if (state.drawer && !isMobile()) { state.drawer = false; render(); } });
   $list.addEventListener('click', function (e) {
     if (e.target.id === 'clear') { state.q = ''; $q.value = ''; render(); }
   });

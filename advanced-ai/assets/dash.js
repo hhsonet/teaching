@@ -67,10 +67,11 @@
   var LOG_KEY = 'aai-v4-classlog';
   var SIDE_KEY = 'aai-v4-sidebar';
 
-  var state = { route: 'overview', lec: null, sel: null, open: [1], filter: 'all', sidebar: true, lecList: true, logs: {} };
+  var state = { route: 'overview', lec: null, sel: null, open: [1], filter: 'all', sidebar: true, drawer: false, lecList: true, logs: {} };
   try { state.logs = JSON.parse(localStorage.getItem(LOG_KEY) || '{}'); } catch (e) {}
   try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) {}
 
+  var isMobile = function () { return window.matchMedia('(max-width: 899px)').matches; };
   var pad = function (n) { return String(n).padStart(2, '0'); };
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
   var clamp = function (n) { return Math.min(14, Math.max(1, n)); };
@@ -81,7 +82,7 @@
   var link = function (path) { return BASE + '/' + path + '/'; };
 
   function go(route, lec) {
-    state.route = route; state.lec = lec || null;
+    state.route = route; state.lec = lec || null; state.drawer = false;
     var h = lec ? '#/lecture/' + lec : '#/' + route;
     if (location.hash !== h) history.pushState(null, '', h);
     render(); window.scrollTo(0, 0);
@@ -102,7 +103,7 @@
       var n = i + 1, c = cur();
       return '<button class="item lec' + (state.lec === n ? ' on' : '') + (n < c ? ' past' : '') + (n === c ? ' cur' : '') + '" data-act="lec:' + n + '"><span class="n">' + pad(n) + '</span><span class="t">' + (n === 1 ? 'First class' : l[0]) + '</span><span class="dot"></span></button>';
     }).join('') : '';
-    return '<aside class="side"' + (state.sidebar ? '' : ' hidden') + '>' +
+    return '<aside class="side' + (state.drawer ? ' open' : '') + (state.sidebar ? '' : ' collapsed') + '" id="side">' +
       '<div class="brand"><div class="logo">AI</div><div class="stack g2" style="min-width:0"><span style="font-size:14px;font-weight:600;line-height:1.2">Advanced AI</span><span class="muted" style="font-size:12px;line-height:1.2">14 lectures · 100 marks</span></div></div>' +
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span style="display:inline-block;transition:transform .2s;transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
@@ -121,7 +122,7 @@
     var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'staff' ? 'Faculty' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
     var title = state.sidebar ? 'Close sidebar' : 'Open sidebar';
     return '<header class="top"><div class="crumbs">' +
-      '<button class="icon-btn" data-act="toggleSide" title="' + title + '" aria-label="' + title + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg></button>' +
+      '<button class="icon-btn" data-act="toggleSide" title="' + title + '" aria-label="' + title + '" aria-expanded="' + (isMobile() ? state.drawer : state.sidebar) + '" aria-controls="side"><svg class="ic-panel" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg><svg class="ic-burger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg></button>' +
       '<span class="vr"></span><button data-act="tab:overview" style="white-space:nowrap">Advanced AI</button><span class="sep">/</span>' +
       (state.lec ? '<button data-act="tab:schedule">Lectures</button><span class="sep">/</span>' : '') +
       '<span class="here">' + label + '</span></div>' +
@@ -165,7 +166,7 @@
     var isDl = function (items) { return items.some(function (it) { return it[1] === 'due' || it[1] === 'exam'; }); };
     var rows = L.map(function (l, i) {
       var n = i + 1;
-      return '<div class="tr' + (n === cur() ? ' cur' : '') + (state.filter === 'deadlines' && !isDl(l[1]) ? ' dim' : '') + '" data-act="lec:' + n + '"><span class="num">' + pad(n) + '</span><span class="hd">' + l[0] + '</span><div class="badges">' + l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</div><span style="justify-self:start">' + statusBadge(n) + '</span></div>';
+      return '<div class="tr' + (n === cur() ? ' cur' : '') + (state.filter === 'deadlines' && !isDl(l[1]) ? ' dim' : '') + '" data-act="lec:' + n + '"><span class="num">' + pad(n) + '</span><span class="hd">' + l[0] + '</span><div class="badges">' + l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</div><span class="st">' + statusBadge(n) + '</span></div>';
     }).join('');
     var f = [['all', 'All'], ['deadlines', 'Deadlines']].map(function (x) { return '<button class="' + (state.filter === x[0] ? 'on' : '') + '" data-act="filter:' + x[0] + '">' + x[1] + '</button>'; }).join('');
     return '<div class="stack g24"><div class="stack g6"><h1 class="page-title">Advanced Artificial Intelligence</h1></div>' + tabsRow() +
@@ -242,7 +243,8 @@
 
   function render() {
     var page = state.route === 'lecture' ? lecture() : state.route === 'staff' ? staff() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
-    root.innerHTML = '<div class="app">' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
+    document.body.style.overflow = state.drawer ? 'hidden' : '';
+    root.innerHTML = '<div class="app"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
       '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Teaching | HHS</span></footer></div></div>';
     document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Faculty' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
   }
@@ -259,7 +261,12 @@
     }
     else if (k === 'filter') { state.filter = v; render(); }
     else if (k === 'acc') { var i = parseInt(v, 10), p = state.open.indexOf(i); if (p > -1) state.open.splice(p, 1); else state.open.push(i); render(); }
-    else if (k === 'toggleSide') { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} render(); }
+    else if (k === 'toggleSide') {
+      if (isMobile()) state.drawer = !state.drawer;
+      else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} }
+      render();
+    }
+    else if (k === 'closeDrawer') { state.drawer = false; render(); }
     else if (k === 'toggleLecs') { state.lecList = !state.lecList; render(); }
   });
 
@@ -275,6 +282,8 @@
     if (el) el.textContent = c + ' / 3';
   });
 
+  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
+  window.addEventListener('resize', function () { if (state.drawer && !isMobile()) { state.drawer = false; render(); } });
   window.addEventListener('popstate', function () { parseHash(); render(); });
   parseHash();
   render();
