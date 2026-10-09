@@ -16,7 +16,7 @@
       topics: ['Loops', 'Functions', 'Arrays', 'Pointers', 'Recursion'],
       facts: [['Lectures', 'TBA'], ['Assessment', 'TBA'], ['Book', 'TBA'], ['Format', 'Laboratory']],
       teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
-      teacherRole: 'Part-time Faculty, Dept. of CSE'
+      teacherRole: 'Senior Programmer, UIU'
     },
     {
       title: 'Introduction to Computer Systems', href: '', status: 'current',
@@ -25,7 +25,7 @@
       topics: ['C basics', 'Data types', 'Operators', 'Input / output', 'Conditionals', 'Loops'],
       facts: [['Lectures', 'TBA'], ['Assessment', 'TBA'], ['Book', 'TBA'], ['Format', 'Theory']],
       teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
-      teacherRole: 'Part-time Faculty, Dept. of CSE'
+      teacherRole: 'Senior Programmer, UIU'
     }
   ];
   var LABEL = { current: 'Current', past: 'Past' };
@@ -73,7 +73,7 @@
       '<div class="s-sec"><div class="s-label">Courses</div>' + courses + '</div>' +
       '<div class="s-sec"><div class="s-label">Links</div><a class="s-item" href="https://github.com/hhsonet/teaching"><span class="t">GitHub</span><span class="h">↗</span></a>' +
       '<a class="s-item" href="https://udlbook.github.io/udlbook/"><span class="t">UDL book</span><span class="h">↗</span></a></div>' +
-      '<div class="s-who"><div class="av">HHS</div><div class="t"><b>Hamudi Hasan Sonet</b><span>Part-time Faculty, Dept. of CSE</span></div></div>';
+      '<div class="s-who"><div class="av">HHS</div><div class="t"><b>Hamudi Hasan Sonet</b><span>Senior Programmer, UIU</span></div></div>';
   }
 
   function render() {
