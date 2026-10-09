@@ -7,6 +7,60 @@
 @import 'schedule';
 @import 'staffer';
 
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 2.2rem;
+}
+
+.main-content {
+  line-height: 1.7;
+}
+
+// Sidebar
+.site-title {
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.side-bar {
+  border-right: 1px solid #e5e7eb;
+}
+
+.navigation-list-link.active {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+// Tables
+table {
+  border-radius: $border-radius;
+  box-shadow: none;
+}
+
+th {
+  background: #fafafa;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+// Buttons
+.btn {
+  border-radius: 8px;
+  box-shadow: none;
+  font-weight: 500;
+}
+
 // Overrides
 code {
   font-size: 14px;
@@ -47,5 +101,121 @@ summary {
     + dt {
       margin-top: 1em;
     }
+  }
+}
+
+// Home page
+.hero {
+  padding: 1.5rem 0 1rem;
+
+  .eyebrow {
+    color: #4f46e5;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+    line-height: 1.1;
+    margin: 0 0 1rem;
+  }
+
+  .lead {
+    color: #6b7280;
+    font-size: 1.15rem;
+    margin: 0 0 1.5rem;
+    max-width: 34rem;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+
+  li {
+    background: #eef2ff;
+    border-radius: 999px;
+    color: #4338ca;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0;
+    padding: 4px 12px;
+  }
+}
+
+.cards {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  margin: 1rem 0 2rem;
+}
+
+.card-link {
+  border: 1px solid #e5e7eb;
+  border-radius: $border-radius;
+  color: #111827;
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    border-color: #a5b4fc;
+    transform: translateY(-1px);
+  }
+
+  strong {
+    display: block;
+    font-weight: 600;
+  }
+
+  span {
+    color: #6b7280;
+    font-size: 13px;
+  }
+}
+
+// Grading bar
+.grade-bar {
+  border-radius: 8px;
+  display: flex;
+  height: 12px;
+  margin: 0.5rem 0 0.75rem;
+  overflow: hidden;
+
+  i {
+    border-right: 2px solid #ffffff;
+    display: block;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+.grade-legend {
+  color: #6b7280;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 4px 16px;
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+
+  li {
+    margin: 0;
+  }
+
+  b {
+    color: #111827;
+    font-weight: 600;
   }
 }

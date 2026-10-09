@@ -8,28 +8,52 @@ seo:
   name: Advanced Artificial Intelligence
 ---
 
-# Advanced Artificial Intelligence
+<div class="hero">
+  <p class="eyebrow">Course &middot; 14 lectures</p>
+  <h1>Advanced Artificial Intelligence</h1>
+  <p class="lead">Generative models, attention and language models, taught through paper reading and a term project.</p>
+  <a class="btn btn-primary" href="{{ '/syllabus/' | relative_url }}">Syllabus</a>
+  <a class="btn" href="{{ '/calendar/' | relative_url }}">Calendar</a>
+</div>
 
-Advanced topics in modern deep learning, taught through lectures, paper reading, and a term project.
+<ul class="chips">
+  <li>GAN</li>
+  <li>Transformers</li>
+  <li>Diffusion</li>
+  <li>RAG</li>
+  <li>LLM</li>
+</ul>
 
-Main book: [*Understanding Deep Learning*](https://udlbook.github.io/udlbook/) (Simon J.D. Prince).
+Book: [*Understanding Deep Learning*](https://udlbook.github.io/udlbook/), Simon J.D. Prince (free online).
 
-## Topics
+## Explore
 
-1. GAN (book chapter 15)
-1. Attention and Transformers
-1. Diffusion models
-1. Retrieval-Augmented Generation (RAG)
-1. Large Language Models (LLM)
+<div class="cards">
+  <a class="card-link" href="{{ '/project/' | relative_url }}"><strong>Project</strong><span>Proposal, problem statement, implementation</span></a>
+  <a class="card-link" href="{{ '/paper-survey/' | relative_url }}"><strong>Paper survey</strong><span>15-minute video survey</span></a>
+  <a class="card-link" href="{{ '/team-review/' | relative_url }}"><strong>Team review</strong><span>Review another team</span></a>
+  <a class="card-link" href="{{ '/bd-top50/' | relative_url }}"><strong>BD / Top-50</strong><span>Research mapping activity</span></a>
+  <a class="card-link" href="{{ '/reading-list/' | relative_url }}"><strong>Reading list</strong><span>Papers, links only</span></a>
+  <a class="card-link" href="{{ '/first-class/' | relative_url }}"><strong>First class</strong><span>Plan for lecture 1</span></a>
+</div>
 
-## Quick links
+## Grading
 
-- [Syllabus and grading](syllabus.md)
-- [Calendar: 14-lecture plan](calendar.md)
-- [Project](project.md)
-- [Paper survey](paper-survey.md)
-- [Other team review](team-review.md)
-- [BD / Top-50 university activity](bd-top50.md)
-- [Reading list](reading-list.md)
-- [First class](first-class.md)
-- [Announcements](announcements.md)
+<div class="grade-bar">
+  <i style="width:25%;background:#4338ca"></i>
+  <i style="width:25%;background:#6366f1"></i>
+  <i style="width:15%;background:#818cf8"></i>
+  <i style="width:10%;background:#a5b4fc"></i>
+  <i style="width:10%;background:#c7d2fe"></i>
+  <i style="width:10%;background:#e0e7ff"></i>
+  <i style="width:5%;background:#eef2ff"></i>
+</div>
+<ul class="grade-legend">
+  <li><b>25</b> Class log</li>
+  <li><b>25</b> Project</li>
+  <li><b>15</b> Final</li>
+  <li><b>10</b> Paper survey</li>
+  <li><b>10</b> Team review</li>
+  <li><b>10</b> Midterm</li>
+  <li><b>5</b> BD / Top-50</li>
+</ul>

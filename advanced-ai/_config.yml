@@ -13,10 +13,7 @@ color_scheme: light
 search_enabled: true
 heading_anchors: true
 permalink: pretty
-aux_links:
-  Course on GitHub:
-    - 'https://github.com/hhsonet/teaching/tree/main/advanced-ai'
-footer_content: 'Content: CC BY 4.0. Code: MIT. Built with Just the Class.'
+footer_content: 'Content CC BY 4.0 · Code MIT'
 
 # Collections for website data
 collections:
