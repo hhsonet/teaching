@@ -1,15 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Teaching</title>
-  <style>body{font-family:system-ui,sans-serif;max-width:40rem;margin:3rem auto;padding:0 1rem}</style>
+  <title>Teaching | HHS</title>
+  <meta name="description" content="Syllabi, schedules, readings and assessment for every course.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="teaching.css?v=__V__">
 </head>
 <body>
-  <h1>Teaching</h1>
-  <ul>
-    <li><a href="advanced-ai/">Advanced Artificial Intelligence</a></li>
-  </ul>
+  <div class="page">
+    <header class="bar">
+      <div class="wrap bar-in">
+        <div class="brand"><div class="logo">T</div><span>Teaching</span></div>
+        <a class="btn" href="https://github.com/hhsonet/teaching">GitHub</a>
+      </div>
+    </header>
+
+    <main class="wrap main">
+      <div class="intro">
+        <span class="eyebrow">United International University</span>
+        <h1>Courses</h1>
+        <p>Syllabi, schedules, readings and assessment for every course, in one place.</p>
+      </div>
+
+      <div class="tools">
+        <div class="search">
+          <span class="glass" aria-hidden="true">⌕</span>
+          <input id="q" type="search" placeholder="Search courses or topics…" aria-label="Search courses or topics" autocomplete="off">
+        </div>
+        <div class="seg" id="filters" role="tablist"></div>
+      </div>
+
+      <div id="list" class="list"></div>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap foot-in"><span>Teaching</span><span>Teaching | HHS</span></div>
+    </footer>
+  </div>
+  <noscript><p style="padding:24px"><a href="advanced-ai/">Advanced Artificial Intelligence</a></p></noscript>
+  <script src="teaching.js?v=__V__"></script>
 </body>
 </html>
