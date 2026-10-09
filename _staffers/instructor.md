@@ -1,4 +1,4 @@
 ---
-name: Hasan Sonet
+name: Dr. Abu Shafin Mohammad Mahdee Jamee
 role: Instructor
 ---

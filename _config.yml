@@ -2,7 +2,7 @@
 title: Advanced Artificial Intelligence
 tagline: GAN, Transformers, Diffusion, RAG and LLM
 description: Course plan, resources, code and papers for Advanced Artificial Intelligence
-author: Hasan Sonet
+author: Dr. Abu Shafin Mohammad Mahdee Jamee
 baseurl: '/teaching-advanced-ai' # repository name
 url: 'https://hhsonet.github.io'
 exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md"]
