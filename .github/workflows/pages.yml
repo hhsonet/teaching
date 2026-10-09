@@ -24,7 +24,7 @@ jobs:
           source: ./advanced-ai
           destination: ./_site/advanced-ai
       - name: Add landing page
-        run: cp site-root/index.html _site/index.html
+        run: sudo cp site-root/index.html _site/index.html
       - uses: actions/upload-pages-artifact@v3
 
   deploy:
