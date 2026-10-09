@@ -243,7 +243,7 @@
   function render() {
     var page = state.route === 'lecture' ? lecture() : state.route === 'staff' ? staff() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
     root.innerHTML = '<div class="app">' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
-      '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Content CC BY 4.0 · Code MIT</span></footer></div></div>';
+      '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Teaching | HHS</span></footer></div></div>';
     document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Faculty' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
   }
 

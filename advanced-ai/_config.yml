@@ -16,7 +16,7 @@ permalink: pretty
 aux_links:
   Course home:
     - '/teaching/advanced-ai/'
-footer_content: 'Content CC BY 4.0 · Code MIT'
+footer_content: 'Teaching | HHS'
 
 # Dashboard settings
 current_lecture: 1 # bump each week; drives progress and deadlines on the home page
