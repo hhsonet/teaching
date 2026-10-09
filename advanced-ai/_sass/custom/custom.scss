@@ -219,3 +219,14 @@ summary {
     font-weight: 600;
   }
 }
+
+// Fixes for theme specificity
+.site-title.lh-tight {
+  font-size: 1rem !important;
+}
+
+.chips li::before,
+.grade-legend li::before,
+.cards li::before {
+  content: none !important;
+}
