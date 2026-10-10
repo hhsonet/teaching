@@ -1,5 +1,5 @@
 ---
-name: Dr. Abu Shafin Mohammad Mahdee Jamee
+name: Dr. Abu Shafin Mohammad Mahdee Jameel
 role: Instructor
 email: mahdee@cse.uiu.ac.bd
 meta:

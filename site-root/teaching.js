@@ -6,7 +6,7 @@
       desc: 'Modern deep learning through lectures, paper reading and a term project.',
       topics: ['GAN', 'Transformers', 'Diffusion', 'RAG', 'LLMs'],
       facts: [['Lectures', '14'], ['Assessment', '100 marks'], ['Book', 'Understanding Deep Learning'], ['Project', '25 marks']],
-      teacher: 'Dr. Abu Shafin Mohammad Mahdee Jamee', initials: 'ASMMJ',
+      teacher: 'Dr. Abu Shafin Mohammad Mahdee Jameel', initials: 'ASMMJ',
       teacherRole: 'Assistant Professor, Dept. of CSE & Director, CAIR'
     },
     {

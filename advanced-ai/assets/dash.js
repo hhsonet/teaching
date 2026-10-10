@@ -114,7 +114,7 @@
       '<a class="item" href="' + link('syllabus') + '">Syllabus</a><a class="item" href="' + link('reading-list') + '">Reading list</a><a class="item" href="' + link('papers') + '">Papers</a>' +
       '<a class="item" href="' + link('announcements') + '">Announcements</a>' +
       '<a class="item" href="https://udlbook.github.io/udlbook/"><span>UDL book</span><span class="hint" style="color:#a1a1aa;font-size:14px">↗</span></a></div>' +
-      '<button class="who" data-act="tab:staff"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jamee</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></button>' +
+      '<button class="who" data-act="tab:staff"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jameel</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></button>' +
       '</aside>';
   }
 
@@ -188,12 +188,22 @@
   }
 
   var FACULTY = [
-    { initials: 'AJ', name: 'Dr. Abu Shafin Mohammad Mahdee Jamee', title: 'Assistant Professor, Dept. of CSE & Director, CAIR', email: 'mahdee@cse.uiu.ac.bd', role: 'Course teacher' }
+    { initials: 'AJ', name: 'Dr. Abu Shafin Mohammad Mahdee Jameel', title: 'Assistant Professor, Dept. of CSE & Director, CAIR', email: 'mahdee@cse.uiu.ac.bd', role: 'Course teacher' }
   ];
 
+  // Teaching assistants. linkedin: profile URL; name links to it when set.
   var ASSISTANTS = [
-    { initials: 'TA', name: 'To be announced', title: 'Teaching Assistant', email: '', role: 'Teaching assistant' }
+    { name: 'To be announced', designation: 'Teaching Assistant', email: '', linkedin: '' }
   ];
+
+  function taTable(list) {
+    var rows = list.map(function (t) {
+      var name = t.linkedin ? '<a class="ta-link" href="' + esc(t.linkedin) + '" target="_blank" rel="noopener">' + esc(t.name) + '</a>' : esc(t.name);
+      var mail = t.email ? '<a class="person-mail" href="mailto:' + esc(t.email) + '">' + esc(t.email) + '</a>' : '<span class="muted">—</span>';
+      return '<tr><td>' + name + '</td><td>' + esc(t.designation) + '</td><td>' + mail + '</td></tr>';
+    }).join('');
+    return '<div class="card ta-wrap"><table class="ta-table"><thead><tr><th>Name</th><th>Designation</th><th>Email</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
 
   function personCards(list) {
     return list.map(function (f) {
@@ -205,11 +215,11 @@
   }
 
   function staff() {
-    var cards = personCards(FACULTY), taCards = personCards(ASSISTANTS);
+    var cards = personCards(FACULTY), taCards = taTable(ASSISTANTS);
     return '<div class="stack" style="gap:32px"><div class="stack g8"><span class="mono muted" style="font-size:12px">Advanced Artificial Intelligence</span>' +
       '<h1 class="lec-h1">Staff</h1><p class="lede">Faculty and teaching assistants for this course.</p></div>' +
       '<div class="stack g16"><span class="card-title">Course teacher</span><div class="people">' + cards + '</div></div>' +
-      '<div class="stack g16"><span class="card-title">Teaching assistants</span><div class="people">' + taCards + '</div></div></div>';
+      '<div class="stack g16"><span class="card-title">Teaching assistants</span>' + taCards + '</div></div>';
   }
 
   function lecture() {
