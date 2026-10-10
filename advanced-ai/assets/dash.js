@@ -119,7 +119,7 @@
   }
 
   function header() {
-    var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'staff' ? 'Faculty' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
+    var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'staff' ? 'Staff' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
     var title = state.sidebar ? 'Close sidebar' : 'Open sidebar';
     return '<header class="top"><div class="crumbs">' +
       '<button class="icon-btn" data-act="toggleSide" title="' + title + '" aria-label="' + title + '" aria-expanded="' + (isMobile() ? state.drawer : state.sidebar) + '" aria-controls="side"><svg class="ic-panel" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg><svg class="ic-burger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg></button>' +
@@ -191,15 +191,25 @@
     { initials: 'AJ', name: 'Dr. Abu Shafin Mohammad Mahdee Jamee', title: 'Assistant Professor, Dept. of CSE & Director, CAIR', email: 'mahdee@cse.uiu.ac.bd', role: 'Course teacher' }
   ];
 
-  function staff() {
-    var cards = FACULTY.map(function (f) {
+  var ASSISTANTS = [
+    { initials: 'TA', name: 'To be announced', title: 'Teaching Assistant', email: '', role: 'Teaching assistant' }
+  ];
+
+  function personCards(list) {
+    return list.map(function (f) {
+      var mail = f.email ? '<a class="person-mail" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a>' : '';
       return '<div class="card person"><div class="person-av">' + f.initials + '</div><div class="stack g6" style="min-width:0"><span class="person-name">' + esc(f.name) + '</span>' +
-        '<span class="person-title">' + esc(f.title) + '</span><a class="person-mail" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a>' +
+        '<span class="person-title">' + esc(f.title) + '</span>' + mail +
         '<span class="badge b-default" style="align-self:flex-start;border-color:#18181b">' + esc(f.role) + '</span></div></div>';
     }).join('');
+  }
+
+  function staff() {
+    var cards = personCards(FACULTY), taCards = personCards(ASSISTANTS);
     return '<div class="stack" style="gap:32px"><div class="stack g8"><span class="mono muted" style="font-size:12px">Advanced Artificial Intelligence</span>' +
-      '<h1 class="lec-h1">Faculty</h1><p class="lede">Faculty members teaching this course.</p></div>' +
-      '<div class="stack g16"><span class="card-title">Course teacher</span><div class="people">' + cards + '</div></div></div>';
+      '<h1 class="lec-h1">Staff</h1><p class="lede">Faculty and teaching assistants for this course.</p></div>' +
+      '<div class="stack g16"><span class="card-title">Course teacher</span><div class="people">' + cards + '</div></div>' +
+      '<div class="stack g16"><span class="card-title">Teaching assistants</span><div class="people">' + taCards + '</div></div></div>';
   }
 
   function lecture() {
@@ -246,7 +256,7 @@
     document.body.style.overflow = state.drawer ? 'hidden' : '';
     root.innerHTML = '<div class="app"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
       '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Teaching | HHS</span></footer></div></div>';
-    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Faculty' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
+    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Staff' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
   }
 
   root.addEventListener('click', function (e) {
