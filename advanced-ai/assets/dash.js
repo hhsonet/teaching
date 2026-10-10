@@ -90,8 +90,8 @@
   function parseHash() {
     var m = location.hash.match(/^#\/lecture\/(\d+)/);
     if (m) { state.route = 'lecture'; state.lec = clamp(parseInt(m[1], 10)); return; }
-    m = location.hash.match(/^#\/(overview|schedule|assessment|staff)/);
-    state.route = m ? m[1] : 'overview'; state.lec = null;
+    m = location.hash.match(/^#\/(overview|schedule|assessment|teaching-team|staff)/);
+    state.route = m ? (m[1] === 'staff' ? 'teaching-team' : m[1]) : 'overview'; state.lec = null;
   }
 
   function sidebar() {
@@ -114,12 +114,12 @@
       '<a class="item" href="' + link('syllabus') + '">Syllabus</a><a class="item" href="' + link('reading-list') + '">Reading list</a><a class="item" href="' + link('papers') + '">Papers</a>' +
       '<a class="item" href="' + link('announcements') + '">Announcements</a>' +
       '<a class="item" href="https://udlbook.github.io/udlbook/"><span>UDL book</span><span class="hint" style="color:#a1a1aa;font-size:14px">↗</span></a></div>' +
-      '<button class="who" data-act="tab:staff"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jameel</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></button>' +
+      '<button class="who" data-act="tab:teaching-team"><div class="avatar">AJ</div><div class="stack g2" style="min-width:0"><span style="font-size:13px;font-weight:500;line-height:1.25">Dr. A. S. M. Mahdee Jameel</span><span class="muted" style="font-size:12px;line-height:1.2">Instructor</span></div></button>' +
       '</aside>';
   }
 
   function header() {
-    var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'staff' ? 'Staff' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
+    var label = state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'teaching-team' ? 'Teaching Team' : TABS.filter(function (t) { return t[0] === state.route; })[0][1];
     var title = state.sidebar ? 'Close sidebar' : 'Open sidebar';
     return '<header class="top"><div class="crumbs">' +
       '<button class="icon-btn" data-act="toggleSide" title="' + title + '" aria-label="' + title + '" aria-expanded="' + (isMobile() ? state.drawer : state.sidebar) + '" aria-controls="side"><svg class="ic-panel" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg><svg class="ic-burger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg></button>' +
@@ -218,7 +218,7 @@
   function staff() {
     var cards = personCards(FACULTY), taCards = taTable(ASSISTANTS);
     return '<div class="stack" style="gap:32px"><div class="stack g8"><span class="mono muted" style="font-size:12px">Advanced Artificial Intelligence</span>' +
-      '<h1 class="lec-h1">Staff</h1><p class="lede">Faculty and teaching assistants for this course.</p></div>' +
+      '<h1 class="lec-h1">Teaching Team</h1><p class="lede">Faculty and teaching assistants for this course.</p></div>' +
       '<div class="stack g16"><span class="card-title">Course teacher</span><div class="people">' + cards + '</div></div>' +
       '<div class="stack g16"><span class="card-title">Teaching assistants</span>' + taCards + '</div></div>';
   }
@@ -263,11 +263,11 @@
   }
 
   function render() {
-    var page = state.route === 'lecture' ? lecture() : state.route === 'staff' ? staff() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
+    var page = state.route === 'lecture' ? lecture() : state.route === 'teaching-team' ? staff() : state.route === 'schedule' ? schedule() : state.route === 'assessment' ? assessment() : overview();
     document.body.style.overflow = state.drawer ? 'hidden' : '';
     root.innerHTML = '<div class="app"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() + '<div class="col">' + header() + '<main>' + page + '</main>' +
       '<footer class="foot"><span>Advanced Artificial Intelligence</span><span>Teaching | HHS</span></footer></div></div>';
-    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'staff' ? 'Staff' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
+    document.title = (state.lec ? 'Lecture ' + pad(state.lec) : state.route === 'overview' ? 'Overview' : state.route === 'teaching-team' ? 'Teaching Team' : state.route[0].toUpperCase() + state.route.slice(1)) + ' | Advanced AI';
   }
 
   root.addEventListener('click', function (e) {

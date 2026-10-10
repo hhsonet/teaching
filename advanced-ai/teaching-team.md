@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Staff
-description: A listing of all the course staff members.
+title: Teaching Team
+description: A listing of all the course teaching team members.
 nav_order: 10
 ---
 
-# Staff
+# Teaching Team
 
 Staff information is stored in the `_staffers` directory and rendered according to the layout file, `_layouts/staffer.html`.
 
