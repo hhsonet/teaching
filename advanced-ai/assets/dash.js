@@ -193,7 +193,7 @@
 
   // Teaching assistants. linkedin: profile URL; name links to it when set.
   var ASSISTANTS = [
-    { name: 'To be announced', designation: 'Teaching Assistant', email: '', linkedin: '' }
+    { name: 'Proshanta Kumer Das', designation: 'Machine Learning Engineer, Softwrd Limited', email: '', linkedin: '' }
   ];
 
   function taTable(list) {

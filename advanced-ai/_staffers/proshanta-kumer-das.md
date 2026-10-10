@@ -1,6 +1,6 @@
 ---
-name: To be announced
+name: Proshanta Kumer Das
 role: Teaching Assistant
 meta:
-  Position: Teaching Assistant
+  Position: Machine Learning Engineer, Softwrd Limited
 ---
