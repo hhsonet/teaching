@@ -6,6 +6,33 @@ Course materials, one folder per course. Site: https://hhsonet.github.io/teachin
 |---|---|---|
 | Advanced Artificial Intelligence | [advanced-ai](advanced-ai) | https://hhsonet.github.io/teaching/advanced-ai/ |
 
-Each course is a Jekyll site (Just the Class). `.github/workflows/pages.yml` builds every course into one GitHub Pages deployment.
+## Repository layout
 
-To add a course: create a folder, copy the Jekyll files, set its `baseurl` to `/teaching/<folder>`, and add a build step and landing-page link.
+- `advanced-ai/`: Jekyll course site (Just the Docs theme). Pages, lectures, dashboard and course code. See [advanced-ai/README.md](advanced-ai/README.md).
+  - `advanced-ai/code/`: course code, including the Monte Carlo pi notebook and the Mars population C program.
+- `site-root/`: landing page (`index.html`, `teaching.css`, `teaching.js`) that lists all courses.
+- `.github/workflows/pages.yml`: builds every course and the landing page into one GitHub Pages deployment on each push to `main`.
+- `.github/ISSUE_TEMPLATE/`: templates for paper reviews and project proposals.
+
+## Local preview
+
+Course site:
+
+```bash
+cd advanced-ai
+bundle install
+bundle exec jekyll serve
+```
+
+Landing page: open `site-root/index.html` in a browser.
+
+## Deployment
+
+Push to `main`. The workflow builds each course with `actions/jekyll-build-pages`, copies `site-root/` into the output, and deploys to GitHub Pages.
+
+## Add a course
+
+1. Create a folder and copy the Jekyll files from `advanced-ai`.
+2. Set its `baseurl` to `/teaching/<folder>`.
+3. Add a build step in `pages.yml` with `destination: ./_site/<folder>`.
+4. Add the course to the list in `site-root/teaching.js`.
