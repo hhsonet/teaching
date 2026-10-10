@@ -2,7 +2,7 @@
 title: Advanced AI
 tagline: GAN, Transformers, Diffusion, RAG and LLM
 description: Course plan, resources, code and papers for Advanced Artificial Intelligence
-author: Dr. Abu Shafin Mohammad Mahdee Jamee
+author: Dr. Abu Shafin Mohammad Mahdee Jameel
 baseurl: '/teaching/advanced-ai' # repo name + course folder
 url: 'https://hhsonet.github.io'
 exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md"]
