@@ -193,7 +193,8 @@
 
   // Teaching assistants. linkedin: profile URL; name links to it when set.
   var ASSISTANTS = [
-    { name: 'Proshanta Kumer Das', designation: 'Machine Learning Engineer, Softwrd Limited', email: '', linkedin: '' }
+    { name: 'Proshanta Kumer Das', designation: 'Machine Learning Engineer, Softwrd Limited', email: '', linkedin: '' },
+    { name: 'Hamudi Hasan Sonet', designation: 'Senior Programmer, United International University', email: 'hhsonet@gmail.com', linkedin: '' }
   ];
 
   function taTable(list) {
