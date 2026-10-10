@@ -16,7 +16,6 @@ bundle exec jekyll serve
 - `*.md`: site pages
 - `_modules/`: one file per lecture
 - `_announcements/`, `_staffers/`: feed and staff data
-- `code/`: course notebooks (own work only)
 - `papers/`: BibTeX and notes (no PDFs)
 
 ## Licensing

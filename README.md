@@ -8,8 +8,7 @@ Course materials, one folder per course. Site: https://hhsonet.github.io/teachin
 
 ## Repository layout
 
-- `advanced-ai/`: Jekyll course site (Just the Docs theme). Pages, lectures, dashboard and course code. See [advanced-ai/README.md](advanced-ai/README.md).
-  - `advanced-ai/code/`: course code, including the Monte Carlo pi notebook and the Mars population C program.
+- `advanced-ai/`: Jekyll course site (Just the Docs theme). Pages, lectures and dashboard. See [advanced-ai/README.md](advanced-ai/README.md).
 - `site-root/`: landing page (`index.html`, `teaching.css`, `teaching.js`) that lists all courses.
 - `.github/workflows/pages.yml`: builds every course and the landing page into one GitHub Pages deployment on each push to `main`.
 - `.github/ISSUE_TEMPLATE/`: templates for paper reviews and project proposals.

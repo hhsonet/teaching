@@ -5,7 +5,7 @@ description: Course plan, resources, code and papers for Advanced Artificial Int
 author: Dr. Abu Shafin Mohammad Mahdee Jameel
 baseurl: '/teaching/advanced-ai' # repo name + course folder
 url: 'https://hhsonet.github.io'
-exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md"]
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
 
 # Theme settings
 remote_theme: just-the-docs/just-the-docs@v0.12.0
