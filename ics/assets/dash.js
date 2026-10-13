@@ -9,9 +9,16 @@
   var L = [];
   for (var i = 1; i <= 14; i++) L.push([i === 1 ? 'First class' : 'To be announced', []]);
   var TOPICS = [['Basic C', '', null, null], ['Variable', '', null, null], ['Condition', '', null, null], ['Loop', '', null, null]];
-  var PARTS = [];
+  var PARTS = [
+    ['Attendance', 5, 'Details to be announced', ['Details to be announced']],
+    ['Assignment', 15, 'Details to be announced', ['Details to be announced']],
+    ['Class performance', 30, 'Details to be announced', ['Details to be announced']],
+    ['Mid-term examination', 20, 'Details to be announced', ['Details to be announced']],
+    ['Final exam', 20, 'Details to be announced', ['Details to be announced']],
+    ['Viva', 10, 'Details to be announced', ['Details to be announced']]
+  ];
   var AGENDA = [['Course overview', 'Details to be announced', '—']];
-  var TABS = [['overview', 'Overview', ''], ['schedule', 'Schedule', '14'], ['assessment', 'Assessment', 'TBA'], ['first', 'First class', 'L01']];
+  var TABS = [['overview', 'Overview', ''], ['schedule', 'Schedule', '14'], ['assessment', 'Assessment', '100'], ['first', 'First class', 'L01']];
   var UNIT_OF = {};
   var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'Survey', exam: 'Exam', log: 'Class log', admin: 'Overview' };
   var DESC = {};
@@ -56,7 +63,7 @@
       return '<button class="item lec' + (state.lec === n ? ' on' : '') + (n < c ? ' past' : '') + (n === c ? ' cur' : '') + '" data-act="lec:' + n + '"><span class="n">' + pad(n) + '</span><span class="t">' + (n === 1 ? 'First class' : l[0]) + '</span><span class="dot"></span></button>';
     }).join('') : '';
     return '<aside class="side' + (state.drawer ? ' open' : '') + (state.sidebar ? '' : ' collapsed') + '" id="side">' +
-      '<div class="brand"><div class="logo">ICS</div><div class="stack g2" style="min-width:0"><span style="font-size:14px;font-weight:600;line-height:1.2">ICS</span><span class="muted" style="font-size:12px;line-height:1.2">14 lectures · Programming with C</span></div></div>' +
+      '<div class="brand"><div class="logo">ICS</div><div class="stack g2" style="min-width:0"><span style="font-size:14px;font-weight:600;line-height:1.2">ICS</span><span class="muted" style="font-size:12px;line-height:1.2">14 lectures · 100 marks</span></div></div>' +
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span style="display:inline-block;transition:transform .2s;transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Resources</div>' +
@@ -95,7 +102,7 @@
       return '<div class="list-row"><div class="stack g2" style="min-width:0"><span class="label">' + t[0] + '</span><span class="sub">' + (t[1] ? t[1] + ' · ' : '') + (set ? 'L' + pad(t[2]) + '–L' + pad(t[3]) : 'Lectures to be announced') + '</span></div>' + badge(st[0], st[1]) + '</div>';
     }).join('');
     var dist = PARTS.map(function (p) {
-      return '<div class="dist"><span class="nm">' + p[0] + '</span><div class="bar"><div style="width:' + (p[1] / 25 * 100) + '%;transition:none"></div></div><span class="mk">' + p[1] + '</span></div>';
+      return '<div class="dist"><span class="nm">' + p[0] + '</span><div class="bar"><div style="width:' + (p[1] / 30 * 100) + '%;transition:none"></div></div><span class="mk">' + p[1] + '</span></div>';
     }).join('');
     return '<div class="stack g24"><div class="stack g6"><h1 class="page-title">Introduction to Computer Systems</h1>' +
       '<p class="lede">A first course in programming with C, from writing your first program up to loops. Details will be announced.</p></div>' + tabsRow() +
@@ -104,7 +111,7 @@
       '<div class="card pad"><div class="row-between"><button class="label" data-act="lec:' + c + '">This lecture →</button>' + statusBadge(c) + '</div><div class="big">' + h[0] + '</div><div class="badges">' + h[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</div></div>' +
       '<div class="card pad"><span class="label">Upcoming deadlines</span><div class="stack" style="gap:10px">' + deadlines.slice(0, 4).map(function (d) { return '<div class="deadline"><span>' + d[0] + '</span><span class="l">L' + d[1] + '</span></div>'; }).join('') + '</div></div></div>' +
       '<div class="grid2"><div class="card"><div class="card-h"><span class="card-title">Topics</span><span class="card-desc">Four units, in teaching order.</span></div><div class="card-b stack">' + topics + '</div></div>' +
-      '<div class="card"><div class="card-h row"><div class="stack g6"><span class="card-title">Mark distribution</span><span class="card-desc">To be announced.</span></div><button class="btn-out" data-act="tab:assessment">Details</button></div><div class="stack g16" style="padding:12px 24px 24px;gap:14px">' + dist + '</div></div></div>' +
+      '<div class="card"><div class="card-h row"><div class="stack g6"><span class="card-title">Mark distribution</span><span class="card-desc">100 marks across six parts.</span></div><button class="btn-out" data-act="tab:assessment">Details</button></div><div class="stack g16" style="padding:12px 24px 24px;gap:14px">' + dist + '</div></div></div>' +
       '</div></div>';
   }
 
@@ -129,8 +136,8 @@
         (open ? '<ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul>' : '') + '</div>';
     }).join('');
     return '<div class="stack g24"><div class="stack g6"><h1 class="page-title">Introduction to Computer Systems</h1></div>' + tabsRow() +
-      '<div class="card"><div class="card-h" style="padding-bottom:16px;gap:16px"><div class="stack g4"><span class="card-title">Assessment</span><span class="card-desc">To be announced.</span></div><div class="segbar">' + segs + '</div></div>' +
-      '<div style="padding:0 24px 8px">' + accs + '<div class="acc-total"><span>Total</span><span class="mono" style="margin-right:28px">TBA</span></div></div></div></div>';
+      '<div class="card"><div class="card-h" style="padding-bottom:16px;gap:16px"><div class="stack g4"><span class="card-title">Assessment</span><span class="card-desc">100 marks total. Expand a part for requirements.</span></div><div class="segbar">' + segs + '</div></div>' +
+      '<div style="padding:0 24px 8px">' + accs + '<div class="acc-total"><span>Total</span><span class="mono" style="margin-right:28px">100</span></div></div></div></div>';
   }
 
   var FACULTY = [
