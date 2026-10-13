@@ -126,7 +126,8 @@
       return '<div class="dist"><span class="nm">' + p[0] + '</span><div class="bar"><div style="width:' + (p[1] / 30 * 100) + '%;transition:none"></div></div><span class="mk">' + p[1] + '</span></div>';
     }).join('');
     return '<div class="stack g24"><div class="stack g6"><h1 class="page-title">Structured Programming Language</h1>' +
-      '<p class="lede">Hands-on lab sessions in structured programming: writing, testing and debugging programs step by step. Reference book: <strong>ANSI C</strong>.</p></div>' + tabsRow() +
+      '<p class="lede">Hands-on lab sessions in structured programming: writing, testing and debugging programs step by step. Reference book: <strong>ANSI C</strong>.</p>' +
+      '<div class="row-between" style="justify-content:flex-start;gap:8px;margin-top:6px"><a class="btn-dark" href="' + link('problem-sets') + '">Problem sets</a><a class="btn-out" href="' + link('code') + '">Code</a></div></div>' + tabsRow() +
       '<div class="stack g16"><div class="grid3">' +
       '<div class="card pad"><div class="row-between"><span class="label">Progress</span><span class="mono muted" style="font-size:12px">' + pct + '%</span></div><div class="big">' + pad(c) + '<span class="of"> / 12</span></div><div class="bar"><div style="width:' + pct + '%"></div></div></div>' +
       '<div class="card pad"><div class="row-between"><button class="label" data-act="lec:' + c + '">This lecture →</button>' + statusBadge(c) + '</div><div class="big">' + h[0] + '</div><div class="badges">' + h[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</div></div>' +
