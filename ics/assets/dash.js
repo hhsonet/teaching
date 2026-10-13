@@ -107,7 +107,7 @@
     return '<div class="stack g24"><div class="stack g6"><h1 class="page-title">Introduction to Computer Systems</h1>' +
       '<p class="lede">A first course in programming with C, from writing your first program up to loops. Details will be announced.</p></div>' + tabsRow() +
       '<div class="stack g16"><div class="grid3">' +
-      '<div class="card pad"><div class="row-between"><span class="label">Progress</span><span class="mono muted" style="font-size:12px">' + pct + '%</span></div><div class="big">' + pad(c) + '<span class="of"> / 14</span></div><div class="bar"><div style="width:' + pct + '%"></div></div></div>' +
+      '<div class="card pad"><div class="row-between"><span class="label">Progress</span><span class="mono muted" style="font-size:12px">' + pct + '%</span></div><div class="big">' + pad(c) + '<span class="of"> / 12</span></div><div class="bar"><div style="width:' + pct + '%"></div></div></div>' +
       '<div class="card pad"><div class="row-between"><button class="label" data-act="lec:' + c + '">This lecture →</button>' + statusBadge(c) + '</div><div class="big">' + h[0] + '</div><div class="badges">' + h[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</div></div>' +
       '<div class="card pad"><span class="label">Upcoming deadlines</span><div class="stack" style="gap:10px">' + deadlines.slice(0, 4).map(function (d) { return '<div class="deadline"><span>' + d[0] + '</span><span class="l">L' + d[1] + '</span></div>'; }).join('') + '</div></div></div>' +
       '<div class="grid2"><div class="card"><div class="card-h"><span class="card-title">Topics</span><span class="card-desc">Four units, in teaching order.</span></div><div class="card-b stack">' + topics + '</div></div>' +
