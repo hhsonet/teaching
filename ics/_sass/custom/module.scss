@@ -1,0 +1,33 @@
+// One lecture = one quiet card with a small-caps number
+.main-content .module,
+.module {
+  @extend %card;
+  padding: $sp-1 $sp-4;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: #d4d4d8;
+  }
+
+  ul {
+    margin: 0 0 $sp-2;
+    padding-left: $sp-4;
+  }
+
+  li {
+    margin: 2px 0;
+  }
+
+  p {
+    margin: 0 0 $sp-2;
+  }
+}
+
+h2.fs-4 {
+  color: #18181b;
+  font-size: 12px !important;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: $sp-3 0 $sp-1;
+  text-transform: uppercase;
+}

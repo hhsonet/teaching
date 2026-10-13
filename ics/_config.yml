@@ -1,0 +1,47 @@
+# Site settings
+title: Introduction to Computer Systems
+tagline: Programming with C
+description: Course plan, resources and assessment for Introduction to Computer Systems
+author: Hamudi Hasan Sonet
+baseurl: '/teaching/ics' # repo name + course folder
+url: 'https://hhsonet.github.io'
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
+
+# Theme settings
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+permalink: pretty
+aux_links:
+  Course home:
+    - '/teaching/ics/'
+footer_content: 'Teaching | HHS'
+
+# Dashboard settings
+current_lecture: 1 # bump each week; drives progress and deadlines on the home page
+github_url: 'https://github.com/hhsonet/teaching/tree/main/ics'
+
+collections:
+  staffers:
+defaults:
+  - scope:
+      path: ''
+      type: staffers
+    values:
+      layout: staffer
+      height: 300
+      subpath: '/assets/images/'
+      width: 300
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+liquid:
+  error_mode: strict
+  strict_filters: true

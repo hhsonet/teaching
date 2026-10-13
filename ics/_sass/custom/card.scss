@@ -1,0 +1,30 @@
+@mixin abstract-card() {
+  border: 1px solid #e5e7eb;
+  border-radius: $border-radius;
+  box-shadow: none;
+  margin: $sp-3 0;
+}
+
+%card {
+  @include abstract-card();
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 $sp-4;
+  position: relative;
+  word-wrap: break-word;
+
+  >:first-child {
+    border-top: none !important;
+  }
+
+  >:last-child {
+    border-bottom: none !important;
+  }
+
+  .label {
+    border-radius: 6px;
+    margin-left: 0;
+    user-select: none;
+  }
+}

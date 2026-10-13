@@ -23,6 +23,10 @@ jobs:
         with:
           source: ./advanced-ai
           destination: ./_site/advanced-ai
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./ics
+          destination: ./_site/ics
       - name: Add landing page
         run: |
           sudo cp -r site-root/. _site/

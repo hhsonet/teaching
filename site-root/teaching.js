@@ -19,7 +19,7 @@
       teacherRole: 'Senior Programmer, UIU'
     },
     {
-      title: 'Introduction to Computer Systems', href: '', status: 'current',
+      title: 'Introduction to Computer Systems', href: 'ics/', status: 'current',
       meta: 'Dept. of CSE',
       desc: 'A first course in programming with C — from writing your first program up to loops.',
       topics: ['C basics', 'Data types', 'Operators', 'Input / output', 'Conditionals', 'Loops'],
