@@ -1,0 +1,15 @@
+---
+layout: page
+---
+{%- assign pdf_path = '/assets/problemsets/' | append: page.slug | append: '.pdf' -%}
+{%- assign pdf = site.static_files | where: 'path', pdf_path | first -%}
+<p class="ps-back"><a href="{{ '/problem-sets/' | relative_url }}">← All problem sets</a></p>
+<h1>{{ page.title }}</h1>
+<p class="ps-links">
+  {%- if pdf -%}
+  <a class="btn btn-primary" href="{{ pdf.path | relative_url }}" download>Download PDF</a>
+  {%- else -%}
+  <span class="ps-soon">PDF coming soon</span>
+  {%- endif -%}
+</p>
+{{ content }}

@@ -27,6 +27,10 @@ jobs:
         with:
           source: ./ics
           destination: ./_site/ics
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./spl
+          destination: ./_site/spl
       - name: Add landing page
         run: |
           sudo cp -r site-root/. _site/

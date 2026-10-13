@@ -1,0 +1,56 @@
+# Site settings
+title: Structured Programming Language
+tagline: Laboratory
+description: Course plan, resources and assessment for Structured Programming Language
+author: Hamudi Hasan Sonet
+baseurl: '/teaching/spl' # repo name + course folder
+url: 'https://hhsonet.github.io'
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md", "code/lecture-01/README.md"]
+
+# Theme settings
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+permalink: pretty
+aux_links:
+  Course home:
+    - '/teaching/spl/'
+footer_content: 'Teaching | HHS'
+
+# Dashboard settings
+current_lecture: 1 # bump each week; drives progress and deadlines on the home page
+github_url: 'https://github.com/hhsonet/teaching/tree/main/spl'
+
+collections:
+  staffers:
+  problemsets:
+    output: true
+    permalink: /problemsets/:name/
+defaults:
+  - scope:
+      path: ''
+      type: problemsets
+    values:
+      layout: problemset
+      nav_exclude: true
+  - scope:
+      path: ''
+      type: staffers
+    values:
+      layout: staffer
+      height: 300
+      subpath: '/assets/images/'
+      width: 300
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+liquid:
+  error_mode: strict
+  strict_filters: true

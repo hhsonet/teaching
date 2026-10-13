@@ -10,11 +10,11 @@
       teacherRole: 'Assistant Professor, Dept. of CSE & Director, CAIR'
     },
     {
-      title: 'Structured Programming Language', href: '', status: 'current',
+      title: 'Structured Programming Language', href: 'spl/', status: 'current',
       meta: 'Dept. of CSE · Laboratory',
       desc: 'Hands-on lab sessions in structured programming: writing, testing and debugging programs step by step.',
-      topics: ['Loops', 'Functions', 'Arrays', 'Pointers', 'Recursion'],
-      facts: [['Lectures', 'TBA'], ['Assessment', 'TBA'], ['Book', 'TBA'], ['Format', 'Laboratory']],
+      topics: ['Function & Loop', 'Array', 'String', 'Structure', 'Pointer'],
+      facts: [['Lectures', '12'], ['Assessment', '100 marks'], ['Book', 'ANSI C'], ['Format', 'Laboratory']],
       teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
       teacherRole: 'Senior Programmer, UIU'
     },
