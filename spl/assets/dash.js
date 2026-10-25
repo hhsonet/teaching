@@ -162,10 +162,12 @@
     var deadlines = [];
     L.forEach(function (l, i) { l[1].forEach(function (it) { if (/^(due|exam|ct)$/.test(it[1]) && i + 1 >= c) deadlines.push({ t: it[0].replace('Due · ', ''), n: pad(i + 1), ex: it[1] !== 'due' }); }); });
     var nd = deadlines[0] ? { n: deadlines[0].n, label: deadlines[0].t } : { n: '—', label: 'No deadlines left' };
-    var upcoming = L.slice(c - 1, c + 2).map(function (l, i) {
-      var n = c + i;
-      return '<button class="reset up-row" data-act="lec:' + n + '"><span class="chip' + (n === c ? ' cur' : '') + '">' + pad(n) + '</span><span class="stack g6" style="flex:1;min-width:0"><span class="up-head">' + l[0] + (n === c ? '<span class="tag-now">This week</span>' : '') + '</span>' +
-        '<span class="badges">' + (l[1].length ? l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') : '<span class="muted" style="font-size:12px">' + esc(DETAILS[n]) + '</span>') + '</span></span></button>';
+    var upcoming = L.slice(c - 1, c + 3).map(function (l, i) {
+      var n = c + i, now = n === c, last = n === Math.min(L.length, c + 3);
+      var tags = l[1].filter(function (it) { return /^(due|exam|ct|project)$/.test(it[1]); }).map(function (it) { return badge(it[0], TV[it[1]]); }).join('');
+      return '<button class="reset tl-item' + (now ? ' now' : '') + (last ? ' last' : '') + '" data-act="lec:' + n + '"><span class="tl-dot"></span>' +
+        '<span class="stack g4" style="min-width:0"><span class="tl-top"><span class="mono tl-n">L' + pad(n) + '</span><span class="tl-t">' + l[0] + '</span>' + (now ? '<span class="tag-now">This week</span>' : '') + '</span>' +
+        '<span class="tl-d">' + esc(DETAILS[n]) + '</span>' + (tags ? '<span class="badges">' + tags + '</span>' : '') + '</span></button>';
     }).join('');
     return '<div class="stack g40">' +
       '<section class="hero"><div class="hero-in"><span class="pill"><i></i>CSE 1112 · Dept. of CSE · United International University</span><h1>Structured Programming Language</h1>' +
@@ -187,7 +189,7 @@
       '<button class="reset" data-act="lec:12"><span class="k">Final</span><span class="big">Lecture 12</span><span class="k" style="font-weight:400">20 marks · lectures 7 to 11</span></button></div></div>' +
       '</section>' +
 
-      '<div class="grid2 w"><section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming lectures</h2><button class="reset link-more" data-act="go:lectures">All 12 →</button></div><div class="card hid up-list">' + upcoming + '</div></section>' +
+      '<div class="grid2 w"><section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming lectures</h2><button class="reset link-more" data-act="go:lectures">All 12 →</button></div><div class="card tl-card"><div class="tl">' + upcoming + '</div></div></section>' +
       '<section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Assessment</h2><button class="reset link-more" data-act="go:info">Details →</button></div>' + assessChart() + '</section></div>' +
       '<div class="stack g10"><span class="k">Quick links</span><div class="quick">' + goBtn('project', 'Project') + arrowLink(link('problem-sets'), 'Problem sets') + arrowLink(link('code'), 'Code') + arrowLink(link('syllabus'), 'Syllabus') + goBtn('info', 'Assessment') + goBtn('team', 'Teaching team') + arrowLink(GITHUB, 'GitHub repository', true) + '</div></div>' + '</div>';
   }

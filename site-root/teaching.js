@@ -17,15 +17,6 @@
       facts: [['Lectures', '12'], ['Assessment', '100 marks'], ['Book', 'Programming in ANSI C'], ['Format', 'Laboratory']],
       teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
       teacherRole: 'Senior Programmer, UIU'
-    },
-    {
-      title: 'Introduction to Computer Systems', href: 'ics/', status: 'current',
-      meta: 'Dept. of CSE',
-      desc: 'A first course in programming with C — from writing your first program up to loops.',
-      topics: ['C basics', 'Data types', 'Operators', 'Input / output', 'Conditionals', 'Loops'],
-      facts: [['Lectures', 'TBA'], ['Assessment', 'TBA'], ['Book', 'TBA'], ['Format', 'Theory']],
-      teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
-      teacherRole: 'Senior Programmer, UIU'
     }
   ];
   var LABEL = { current: 'Current', past: 'Past' };
