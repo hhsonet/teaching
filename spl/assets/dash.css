@@ -70,7 +70,7 @@ button{font-family:inherit}
 .btn-out:hover{background:#f4f4f5;text-decoration:none;color:#09090b}
 .btn-lg{height:38px;padding:0 16px;font-size:14px}
 
-main{flex:1;max-width:1040px;width:100%;margin:0 auto;padding:32px 32px 72px;display:flex;flex-direction:column;gap:40px}
+main{flex:1;max-width:none;width:100%;margin:0 auto;padding:32px 32px 72px;display:flex;flex-direction:column;gap:40px}
 .foot{border-top:1px solid #e4e4e7}
 .foot>div{padding:16px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:#71717a}
 
