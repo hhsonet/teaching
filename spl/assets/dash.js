@@ -72,6 +72,11 @@
     { name: 'To be announced', designation: 'Teaching Assistant', email: '', linkedin: '' }
   ];
 
+  // Counseling schedule. Add one entry per slot: { day, time, room, with }.
+  var COUNSELING = [
+    { day: 'To be announced', time: '', room: '', with: 'Hamudi Hasan Sonet' }
+  ];
+
   var PAGES = {
     home: ['home', 'Home'], info: ['syllabus', 'Syllabus'], lectures: ['lectures', 'Lectures'], materials: ['materials', 'Materials'],
     team: ['teaching-team', 'Teaching Team'], project: ['project', 'Project']
@@ -425,6 +430,9 @@
       '<section class="stack g16"><h2 class="h2">Course teacher</h2><div class="card people"><div class="av" style="flex:none;min-width:56px;height:56px;padding:0 12px;border-radius:999px;font-size:15px">' + f.initials + '</div>' +
       '<div class="stack g6" style="min-width:0"><span style="font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;text-wrap:pretty">' + esc(f.name) + '</span><span class="muted" style="font-size:14px;line-height:1.45;text-wrap:pretty">' + esc(f.title) + '</span>' +
       '<a class="person-mail" style="align-self:flex-start" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a></div></div></section>' +
+      '<section class="stack g16"><h2 class="h2">Counseling schedule</h2><div class="card ta-wrap"><table class="ev-table" style="min-width:460px"><thead><tr><th>Day</th><th>Time</th><th>Room</th><th>With</th></tr></thead><tbody>' + COUNSELING.map(function (c) {
+        return '<tr><td class="c-ty">' + esc(c.day) + '</td><td class="c-dt">' + (c.time ? esc(c.time) : '<span class="muted">—</span>') + '</td><td class="c-dt">' + (c.room ? esc(c.room) : '<span class="muted">—</span>') + '</td><td class="c-dt">' + esc(c.with) + '</td></tr>';
+      }).join('') + '</tbody></table></div></section>' +
       '<section class="stack g16"><h2 class="h2">Teaching assistants</h2><div class="card ta-wrap"><table class="ta-table"><thead><tr><th>Name</th><th>Designation</th><th>Email</th></tr></thead><tbody>' + ta + '</tbody></table></div></section></div>';
   }
 
