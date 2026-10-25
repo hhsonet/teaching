@@ -334,6 +334,29 @@ h1,h2,h3,h4,p{margin:0}
 .cs-slot.cs-class b{color:#3f3f46}
 .cs-slot.cs-class i{color:#71717a}
 .avatar.hhs,.av.hhs{background:#086288;border-color:#086288;color:#fff}
+/* hero art */
+.hero{position:relative}
+.hero-in{position:relative;z-index:1}
+.hero-art{position:absolute;right:40px;top:34px;width:340px;height:300px;pointer-events:none}
+.code-win{position:absolute;left:0;top:26px;width:310px;background:#fff;border:1px solid #e4e4e7;border-radius:12px;box-shadow:0 10px 30px rgba(9,9,11,.08),0 1px 2px rgba(0,0,0,.05);overflow:hidden}
+.code-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #f4f4f5;background:#fafafa}
+.code-bar i{width:9px;height:9px;border-radius:50%;background:#e4e4e7}
+.code-bar i:nth-child(1){background:#e3b4ae}.code-bar i:nth-child(2){background:#e6d2a3}.code-bar i:nth-child(3){background:#b9d4bf}
+.code-bar span{margin-left:8px;font:500 11px/1 'Geist Mono',ui-monospace,monospace;color:#71717a}
+.code-body{margin:0;padding:12px 14px 14px;font:400 12px/1.75 'Geist Mono',ui-monospace,monospace;color:#3f3f46;display:flex;flex-direction:column}
+.code-body .cl{display:block;white-space:pre;min-height:1.75em}
+.code-body .cl b{display:inline-block;width:22px;color:#c4c4cc;font-weight:400}
+.c-k{color:#7a6aa8}.c-f{color:#4f7ba3}.c-s{color:#5d8a6a}.c-p{color:#b0728a}.c-n{color:#b08545}.c-c{color:#a1a1aa}
+.chipx{position:absolute;min-width:36px;height:36px;padding:0 8px;border-radius:10px;border:1px solid #e4e4e7;background:#fff;display:flex;align-items:center;justify-content:center;font:600 13px/1 'Geist Mono',ui-monospace,monospace;box-shadow:0 2px 6px rgba(9,9,11,.06)}
+.chipx.c1{right:6px;top:0;color:#7a6aa8;background:#f3f0fa}
+.chipx.c2{right:-4px;top:92px;color:#4f7ba3;background:#eef3f9}
+.chipx.c3{right:20px;top:172px;color:#b0728a;background:#fbeff3}
+.chipx.c4{right:62px;top:236px;color:#b08545;background:#fbf4e6}
+.chipx.c5{left:-14px;top:0;color:#5d8a6a;background:#eef6f0}
+.chipx.c6{left:-22px;top:210px;color:#4f7ba3;background:#eef3f9}
+.chipx.c7{left:96px;top:262px;color:#7a6aa8;background:#f3f0fa}
+.chipx.c8{left:230px;top:0;color:#8a8a93;background:#f6f6f7}
+@media(max-width:1199px){.hero-art{display:none}}
 /* small screens: sidebar becomes a drawer */
 @media(max-width:899px){
   .side{position:fixed;left:0;top:0;z-index:30;height:100vh;width:min(86vw,300px);flex:none;background:#fafafa;box-shadow:0 0 0 1px #e4e4e7,0 12px 40px rgba(0,0,0,.18);transform:translateX(-105%);transition:transform .2s}

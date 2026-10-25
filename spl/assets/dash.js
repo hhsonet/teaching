@@ -183,6 +183,29 @@
     }).join('');
   }
 
+  // Decorative hero art: a small C source window and floating C symbols.
+  function heroArt() {
+    var k = function (t) { return '<span class="c-k">' + t + '</span>'; };
+    var f = function (t) { return '<span class="c-f">' + t + '</span>'; };
+    var st = function (t) { return '<span class="c-s">' + t + '</span>'; };
+    var pp = function (t) { return '<span class="c-p">' + t + '</span>'; };
+    var cm = function (t) { return '<span class="c-c">' + t + '</span>'; };
+    var lines = [
+      pp('#include') + ' &lt;stdio.h&gt;',
+      '',
+      k('int') + ' ' + f('main') + '(' + k('void') + ') {',
+      '    ' + k('int') + ' x = <span class="c-n">42</span>;',
+      '    ' + k('int') + ' *p = &amp;x;',
+      '    ' + f('printf') + '(' + st('"%d\\n"') + ', *p);',
+      '    ' + k('return') + ' <span class="c-n">0</span>;',
+      '}'
+    ];
+    var chips = [['{ }', 'c1'], ['[ ]', 'c2'], ['*p', 'c3'], ['&amp;x', 'c4'], ['#', 'c5'], ['-&gt;', 'c6'], ['%d', 'c7'], [';', 'c8']];
+    return '<div class="hero-art" aria-hidden="true"><div class="code-win"><div class="code-bar"><i></i><i></i><i></i><span>main.c</span></div><pre class="code-body">' +
+      lines.map(function (l, i) { return '<span class="cl"><b>' + (i + 1) + '</b>' + l + '</span>'; }).join('') + '</pre></div>' +
+      chips.map(function (c) { return '<span class="chipx ' + c[1] + '">' + c[0] + '</span>'; }).join('') + '</div>';
+  }
+
   function home() {
     var c = CURRENT, h = L[c - 1], u = UNIT_OF[h[0]];
     var curUnit = u !== undefined ? 'Unit ' + (u + 1) + ' of 6 · ' + TOPICS[u][0] : c === 11 ? 'Team project' : 'Review and exams';
@@ -197,7 +220,7 @@
         '<span class="tl-d">' + esc(DETAILS[n]) + '</span>' + (tags ? '<span class="badges">' + tags + '</span>' : '') + '</span></button>';
     }).join('');
     return '<div class="stack g40">' +
-      '<section class="hero"><div class="hero-in"><span class="pill"><i></i>CSE 1112 · Dept. of CSE · United International University</span><h1>Structured Programming Language</h1>' +
+      '<section class="hero">' + heroArt() + '<div class="hero-in"><span class="pill"><i></i>CSE 1112 · Dept. of CSE · United International University</span><h1>Structured Programming Language</h1>' +
       '<p>A 12-session lab in structured C programming. We review the basics, then work through functions and loops, arrays, strings, structures and pointers, and finish with a team project. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.</p>' +
       '<div class="row wrap g8"><button class="reset btn btn-dark btn-lg" data-act="lec:' + c + '">Continue · Lecture ' + pad(c) + ' <span style="opacity:.6">→</span></button><button class="reset btn btn-out btn-lg" data-act="go:lectures">View schedule</button><a class="btn btn-out btn-lg noul" href="' + link('problem-sets') + '">Problem sets</a></div></div>' +
       '<div class="hero-stats"><div><span class="k">Progress</span><span class="big">' + pad(c) + '<span class="of"> / 12</span></span><span class="bar"><i style="width:' + (c / 12 * 100) + '%"></i></span></div>' +
