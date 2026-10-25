@@ -349,7 +349,7 @@
     document.body.style.overflow = state.drawer ? 'hidden' : '';
     root.innerHTML = '<div class="shell"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() +
       '<div class="frame">' + header() + '<main>' + VIEW[state.page]() + '</main>' +
-      '<footer class="foot"><div><span>Advanced Artificial Intelligence · United International University</span><span>Content CC BY 4.0 · Code MIT</span></div></footer></div></div>';
+      '<footer class="foot"><div><span>Advanced Artificial Intelligence · United International University</span></div></footer></div></div>';
     document.title = (state.page === 'lecture' ? 'Lecture ' + pad(state.lec) : PAGES[state.page][1]) + ' | Advanced AI';
   }
 

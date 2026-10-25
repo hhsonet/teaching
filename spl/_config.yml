@@ -5,7 +5,7 @@ description: Course plan, resources and assessment for Structured Programming La
 author: Hamudi Hasan Sonet
 baseurl: '/teaching/spl' # repo name + course folder
 url: 'https://hhsonet.github.io'
-exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md", "code/lecture-01/README.md"]
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md", "code/README.md", "code/lecture-01/README.md", "code/lecture-02/README.md"]
 
 # Theme settings
 remote_theme: just-the-docs/just-the-docs@v0.12.0

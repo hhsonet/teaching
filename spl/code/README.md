@@ -6,8 +6,8 @@ Example code shared in class for Structured Programming Language. One folder per
 
 ```
 code/
-  lecture-01/   Review on ICS, Loop and Basic Function
-  lecture-02/   Function, Loop
+  lecture-01/   Basics
+  lecture-02/   Function & Loop
   ...
 ```
 
@@ -16,11 +16,11 @@ Each lecture folder has a `README.md` listing its files, and the `.c` files show
 ## Compile and run
 
 ```bash
-gcc -Wall -o sum_1_to_n sum_1_to_n.c
-./sum_1_to_n
+gcc -Wall -o sum_two sum_two.c
+./sum_two
 ```
 
-On Windows, run `sum_1_to_n.exe`.
+On Windows, run `sum_two.exe`.
 
 ## Contributing code
 

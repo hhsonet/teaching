@@ -1,7 +1,7 @@
 ---
 title: Function and Loop
 order: 1
-lectures: L1–L2
+lectures: L2
 ---
 
 Practice for loops (`for`, `while`, `do-while`) and basic functions.
