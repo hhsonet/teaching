@@ -2,7 +2,32 @@
 (function () {
   var root = document.getElementById('app');
   var BASE = root.dataset.base || '';
-  var CURRENT = Math.min(12, Math.max(1, parseInt(root.dataset.current, 10) || 1));
+  var WEEKS = [];
+  try { WEEKS = JSON.parse(root.dataset.weeks || '[]') || []; } catch (e) {}
+  // Current lecture: the first lecture whose last class date is today or later. Lectures without dates are skipped.
+  // After the last dated lecture it stays on that lecture. With no dates at all, current_lecture from _config.yml is used.
+  function pickLecture(weeks, today, fallback) {
+    var dated = weeks.filter(function (w) { return w.dates && w.dates.length; }).map(function (w) {
+      return { n: parseInt(w.lecture, 10), last: w.dates.slice().sort().pop() };
+    }).sort(function (a, b) { return a.n - b.n; });
+    if (!dated.length) return fallback;
+    for (var i = 0; i < dated.length; i++) if (dated[i].last >= today) return dated[i].n;
+    return dated[dated.length - 1].n;
+  }
+  var now = new Date();
+  var TODAY = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  var CURRENT = Math.min(12, Math.max(1, pickLecture(WEEKS, TODAY, parseInt(root.dataset.current, 10) || 1)));
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // "Oct 27, 28" for a lecture's class dates, or '' when none are set.
+  function classDates(n) {
+    var w = WEEKS.filter(function (x) { return parseInt(x.lecture, 10) === n; })[0];
+    if (!w || !w.dates || !w.dates.length) return '';
+    var last = '';
+    return w.dates.slice().sort().map(function (d) {
+      var p = d.split('-'), m = MONTHS[parseInt(p[1], 10) - 1], day = parseInt(p[2], 10), out = (m === last ? '' : m + ' ') + day;
+      last = m; return out;
+    }).join(', ');
+  }
   var GITHUB = root.dataset.github || '#';
   var TEACHING = BASE.replace(/\/[^\/]*$/, '/') || '/';
 
@@ -224,7 +249,7 @@
       '<p>A 12-session lab in structured C programming. We review the basics, then work through functions and loops, arrays, strings, structures and pointers, and finish with a team project. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.</p>' +
       '<div class="row wrap g8"><button class="reset btn btn-dark btn-lg" data-act="lec:' + c + '">Continue · Lecture ' + pad(c) + ' <span style="opacity:.6">→</span></button><button class="reset btn btn-out btn-lg" data-act="go:lectures">View schedule</button><a class="btn btn-out btn-lg noul" href="' + link('problem-sets') + '">Problem sets</a></div></div>' +
       '<div class="hero-stats"><div><span class="k">Progress</span><span class="big">' + pad(c) + '<span class="of"> / 12</span></span><span class="bar"><i style="width:' + (c / 12 * 100) + '%"></i></span></div>' +
-      '<div><span class="k">This week</span><span class="big">' + h[0] + '</span><span class="k" style="font-weight:400">' + curUnit + '</span></div>' +
+      '<div><span class="k">This week</span><span class="big">' + h[0] + '</span><span class="k" style="font-weight:400">' + curUnit + (classDates(c) ? ' · ' + classDates(c) : '') + '</span></div>' +
       '<div><span class="k">Next deadline</span><span class="big">Lecture ' + nd.n + '</span><span class="k" style="font-weight:400">' + esc(nd.label) + '</span></div>' +
       '<div><span class="k">Assessment</span><span class="big">100<span class="of"> marks</span></span><span class="k" style="font-weight:400">7 parts · midterm L06 · final L12</span></div></div></section>' +
 

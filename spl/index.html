@@ -16,7 +16,7 @@ permalink: /
   <link rel="stylesheet" href="{{ '/assets/dash.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
-  <div id="app" data-base="{{ site.baseurl }}" data-current="{{ site.current_lecture }}" data-github="{{ site.github_url }}"></div>
+  <div id="app" data-base="{{ site.baseurl }}" data-current="{{ site.current_lecture }}" data-weeks="{{ site.data.weeks | jsonify | escape }}" data-github="{{ site.github_url }}"></div>
   <noscript><p style="padding:24px">This page needs JavaScript. See the <a href="{{ '/syllabus/' | relative_url }}">syllabus</a> and <a href="{{ '/calendar/' | relative_url }}">calendar</a>.</p></noscript>
   <script src="{{ '/assets/dash.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 </body>

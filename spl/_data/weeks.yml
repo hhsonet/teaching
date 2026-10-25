@@ -1,0 +1,28 @@
+# Class dates for each lecture, used to work out "This week" on the dashboard.
+# Two sections means two dates per lecture. Write each date in quotes as YYYY-MM-DD.
+# The current lecture is the first lecture whose last date is today or later.
+# A lecture with no dates is skipped. With no dates at all, current_lecture in _config.yml is used.
+- lecture: 1
+  dates: ["2026-10-27", "2026-10-28"]
+- lecture: 2
+  dates: []
+- lecture: 3
+  dates: []
+- lecture: 4
+  dates: []
+- lecture: 5
+  dates: []
+- lecture: 6
+  dates: []
+- lecture: 7
+  dates: []
+- lecture: 8
+  dates: []
+- lecture: 9
+  dates: []
+- lecture: 10
+  dates: []
+- lecture: 11
+  dates: []
+- lecture: 12
+  dates: []
