@@ -73,10 +73,10 @@
   ];
 
   var PAGES = {
-    home: ['home', 'Home'], info: ['assessment', 'Assessment'], lectures: ['lectures', 'Lectures'], materials: ['materials', 'Materials'],
+    home: ['home', 'Home'], info: ['syllabus', 'Syllabus'], lectures: ['lectures', 'Lectures'], materials: ['materials', 'Materials'],
     team: ['teaching-team', 'Teaching Team'], project: ['project', 'Project']
   };
-  var ALIAS = { overview: 'home', schedule: 'lectures', assessment: 'info', staff: 'team', faculty: 'team', 'teaching-team': 'team' };
+  var ALIAS = { overview: 'home', schedule: 'lectures', assessment: 'info', syllabus: 'info', staff: 'team', faculty: 'team', 'teaching-team': 'team' };
 
   var ICON = {
     home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>',
@@ -132,7 +132,7 @@
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="reset sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span class="chev" style="transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Assignments</div><button class="reset link-item' + (state.page === 'project' ? ' on' : '') + '" data-act="go:project">Project</button></div>' +
-      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="' + link('syllabus') + '"><span>Syllabus</span></a><a class="link-item" href="' + link('problem-sets') + '"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
+      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="' + link('problem-sets') + '"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
       '<button class="reset who" data-act="go:team"><span class="avatar">HHS</span><span class="stack g2" style="min-width:0"><span class="n1">Hamudi Hasan Sonet</span><span class="n2">Course teacher</span></span></button>' +
       '</aside>';
   }
@@ -154,6 +154,25 @@
       return '<div class="ch-row" data-i="' + i + '"><span class="ch-nm"><i style="background:' + SHADES[i] + '"></i>' + esc(p[0]) + '</span><span class="ch-bar"><b style="width:' + (p[1] / 30 * 100) + '%;background:' + SHADES[i] + '"></b></span><span class="ch-mk">' + p[1] + '</span></div>';
     }).join('');
     return '<div class="card ch-card"><div class="ch-head"><span class="k">Mark distribution</span><span class="mono" style="font-size:12px;color:#71717a">100 marks</span></div><div class="ch-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="ch-rows">' + rows + '</div></div>';
+  }
+
+  var HOME_RESOURCES = [
+    ['DOC', 'Syllabus', 'Course plan, marks and outcomes', '#info'],
+    ['SET', 'Problem sets', 'Topic-wise C problems, with PDF', 'problem-sets'],
+    ['C', 'Code', 'Example programs, one folder per lecture', 'code'],
+    ['BOOK', 'Programming in ANSI C', 'E. Balagurusamy · 5th edition or later', ''],
+    ['BOOK', 'Teach Yourself C', 'Herbert Schildt', ''],
+    ['WEB', 'C reference', 'Language and library reference', 'https://en.cppreference.com/w/c'],
+    ['WEB', 'GCC compiler', 'Download and install instructions', 'https://gcc.gnu.org/install/'],
+    ['WEB', 'Online C compiler', 'Run code in the browser, no setup', 'https://www.onlinegdb.com/online_c_compiler']
+  ];
+  function homeResources() {
+    return HOME_RESOURCES.map(function (r) {
+      if (r[3] === '#info') return '<button class="reset mat" data-act="go:info"><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0;text-align:left"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">→</span></button>';
+      var href = !r[3] ? '' : /^https?:/.test(r[3]) ? r[3] : link(r[3]);
+      var ext = /^https?:/.test(r[3]);
+      return '<a class="mat' + (href ? '' : ' plain') + '" ' + (href ? 'href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') : '') + '><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">' + (href ? (ext ? '↗' : '→') : '') + '</span></a>';
+    }).join('');
   }
 
   function home() {
@@ -190,10 +209,11 @@
       '</section>' +
 
       '<div class="grid2 w"><section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming lectures</h2><button class="reset link-more" data-act="go:lectures">All 12 →</button></div><div class="card tl-card"><div class="tl">' + upcoming + '</div></div></section>' +
-      '<section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Assessment</h2><button class="reset link-more" data-act="go:info">Details →</button></div>' + assessChart() + '</section></div>' +
-      '<div class="stack g10"><span class="k">Quick links</span><div class="quick">' + goBtn('project', 'Project') + arrowLink(link('problem-sets'), 'Problem sets') + arrowLink(link('code'), 'Code') + arrowLink(link('syllabus'), 'Syllabus') + goBtn('info', 'Assessment') + goBtn('team', 'Teaching team') + arrowLink(GITHUB, 'GitHub repository', true) + '</div></div>' + '</div>';
+      '<section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Assessment</h2><button class="reset link-more" data-act="go:info">Full syllabus →</button></div>' + assessChart() + '</section></div>' +
+      '<section class="stack g16"><div class="between" style="align-items:baseline"><h2 class="h2">Resources</h2><span class="muted" style="font-size:13px">Course pages, books and tools</span></div><div class="mats wrapt">' + homeResources() + '</div></section></div>';
   }
 
+  var BOOKS = [['Programming in ANSI C', 'E. Balagurusamy · 5th edition or later'], ['Teach Yourself C', 'Herbert Schildt']];
   function info() {
     var rows = PARTS.map(function (p, i) {
       var open = state.open.indexOf(i) > -1;
@@ -203,13 +223,23 @@
         (open ? '<div class="part-d cols-ev"><span></span><ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul></div>' : '') + '</div>';
     }).join('');
     var cos = COS.map(function (c) { return '<tr><td class="c-ty">' + c[0] + '</td><td class="c-dt">' + esc(c[1]) + '</td></tr>'; }).join('');
-    return '<div class="stack g32"><div class="stack g8"><h1 class="h1">Assessment &amp; Evaluation Details</h1><p class="sub">How the course is assessed — 100 marks across seven parts.</p></div>' +
-      '<div class="card sx"><div class="tbl"><div class="thead cols-ev"><span>Assessment Types</span><span>Marks</span><span>Details</span><span></span></div>' + rows +
-      '<div class="trow total cols-ev" style="border-bottom:0"><span>Total</span><span class="mono">100</span><span style="font-weight:400;color:#71717a">7 components</span><span></span></div></div></div>' +
-      '<section class="stack g16"><h2 class="h2">Evaluation details</h2><div class="grid2">' +
-      '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Class Performance</span><span style="font-size:14px;line-height:1.6;color:#52525b">Class Performance marks will be calculated based on the best 2 out of 3 class tests as the base. Additional marks may be awarded for assignments and active participation in class activities.</span></div>' +
-      '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Project</span><span style="font-size:14px;line-height:1.6;color:#52525b">Teams of 3 students build a C program that solves a real-world scenario. The project uses structures, functions and file handling together.</span></div></div></section>' +
-      '<section class="stack g16"><h2 class="h2">Course outcomes</h2><div class="card ta-wrap"><table class="ev-table" style="min-width:360px"><thead><tr><th>CO</th><th>Description</th></tr></thead><tbody>' + cos + '</tbody></table></div></section></div>';
+    var plan = L.map(function (l, i) {
+      var n = i + 1, exam = /Exam$/.test(l[0]);
+      return '<tr class="plan-row" data-act="lec:' + n + '"><td class="c-n">' + n + '</td><td class="c-ty" style="font-weight:' + (exam ? 700 : 500) + '">' + l[0] + '</td><td class="c-dt">' + details(n) + '</td></tr>';
+    }).join('');
+    var books = BOOKS.map(function (b, i) { return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-ty">' + esc(b[0]) + '</td><td class="c-dt">' + esc(b[1]) + '</td></tr>'; }).join('');
+    var sec = function (title, body) { return '<section class="stack g16"><h2 class="h2">' + title + '</h2>' + body + '</section>'; };
+    var tbl = function (head, body) { return '<div class="card ta-wrap"><table class="ev-table" style="min-width:420px"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'; };
+    return '<div class="stack g32"><div class="stack g8"><span class="eyebrow">CSE 1112 · Fall 2026</span><h1 class="h1">Syllabus</h1><p class="lede">Structured Programming Language Laboratory. A 12-session lab in structured C programming. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.</p></div>' +
+      sec('At a glance', tbl('<th>Instructor</th><th>Email</th>', '<tr><td class="c-ty">Hamudi Hasan Sonet (HHS)</td><td class="c-dt"><a class="person-mail" href="mailto:sonet@admin.uiu.ac.bd">sonet@admin.uiu.ac.bd</a></td></tr>')) +
+      sec('Reference books', tbl('<th>#</th><th>Book</th><th>Author</th>', books)) +
+      sec('Course outcomes', tbl('<th>CO</th><th>Description</th>', cos)) +
+      sec('Course plan', tbl('<th>Lecture</th><th>Topic</th><th>Details</th>', plan)) +
+      sec('Assessment &amp; Evaluation Details', '<div class="card sx"><div class="tbl"><div class="thead cols-ev"><span>Assessment Types</span><span>Marks</span><span>Details</span><span></span></div>' + rows +
+        '<div class="trow total cols-ev" style="border-bottom:0"><span>Total</span><span class="mono">100</span><span style="font-weight:400;color:#71717a">7 components</span><span></span></div></div></div>') +
+      sec('Evaluation details', '<div class="grid2">' +
+        '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Class Performance</span><span style="font-size:14px;line-height:1.6;color:#52525b">Class Performance marks will be calculated based on the best 2 out of 3 class tests as the base. Additional marks may be awarded for assignments and active participation in class activities.</span></div>' +
+        '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Project</span><span style="font-size:14px;line-height:1.6;color:#52525b">Teams of 3 students build a C program that solves a real-world scenario. The project uses structures, functions and file handling together.</span></div></div>') + '</div>';
   }
 
   function details(n) {
