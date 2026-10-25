@@ -72,10 +72,10 @@
     { name: 'To be announced', designation: 'Teaching Assistant', email: '', linkedin: '' }
   ];
 
-  // Counseling schedule. Add one entry per slot: { day, time, room, with }.
-  var COUNSELING = [
-    { day: 'To be announced', time: '', room: '', with: 'Hamudi Hasan Sonet' }
-  ];
+  // Counseling schedule. Hours are 8:30 AM to 4:30 PM. Add one entry per slot, times in 24-hour form:
+  // { day: 'Sun', start: '10:00', end: '11:00', room: '405', with: 'Hamudi Hasan Sonet' }
+  var COUNSEL_START = 8.5, COUNSEL_END = 16.5, COUNSEL_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
+  var COUNSELING = [];
 
   var PAGES = {
     home: ['home', 'Home'], info: ['syllabus', 'Syllabus'], lectures: ['lectures', 'Lectures'], materials: ['materials', 'Materials'],
@@ -419,6 +419,30 @@
       '<div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Readings</span></div>' + rows + '</div></div></div>';
   }
 
+  function hm(t) { var p = t.split(':'); return parseInt(p[0], 10) + parseInt(p[1] || '0', 10) / 60; }
+  function clock(h) {
+    var m = Math.round((h % 1) * 60), hh = Math.floor(h), ap = hh >= 12 ? 'PM' : 'AM', h12 = hh % 12 || 12;
+    return h12 + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  function counselingTimeline() {
+    var span = COUNSEL_END - COUNSEL_START, ticks = [];
+    for (var h = COUNSEL_START; h <= COUNSEL_END + 0.001; h += 1) ticks.push(h);
+    var axis = '<div class="cs-row cs-axis"><span></span><div class="cs-track">' + ticks.map(function (h) {
+      return '<span class="cs-tick" style="left:' + ((h - COUNSEL_START) / span * 100) + '%">' + clock(h).replace(' AM', '').replace(' PM', '') + '</span>';
+    }).join('') + '</div></div>';
+    var rows = COUNSEL_DAYS.map(function (d) {
+      var bars = COUNSELING.filter(function (c) { return c.day === d; }).map(function (c) {
+        var l = Math.max(0, hm(c.start) - COUNSEL_START), w = Math.min(span, hm(c.end) - COUNSEL_START) - l;
+        var tip = d + ' ' + clock(hm(c.start)) + ' – ' + clock(hm(c.end)) + (c.room ? ' · Room ' + c.room : '') + ' · ' + c.with;
+        return '<span class="cs-slot" title="' + esc(tip) + '" style="left:' + (l / span * 100) + '%;width:' + (w / span * 100) + '%"><b>' + clock(hm(c.start)).replace(/ [AP]M/, '') + '–' + clock(hm(c.end)).replace(/ [AP]M/, '') + '</b><i>' + esc(c.with.split(' ')[0]) + (c.room ? ' · ' + esc(c.room) : '') + '</i></span>';
+      }).join('');
+      return '<div class="cs-row"><span class="cs-day">' + d + '</span><div class="cs-track">' + bars + '</div></div>';
+    }).join('');
+    return '<div class="card cs-card"><div class="between wrap" style="gap:8px"><span class="k">Weekly counseling hours</span><span class="cs-range mono">' + clock(COUNSEL_START) + ' – ' + clock(COUNSEL_END) + '</span></div>' +
+      '<div class="cs-scroll"><div class="cs-grid">' + axis + rows + '</div></div>' +
+      (COUNSELING.length ? '' : '<p class="cs-note">Counseling slots are to be announced. Check back soon.</p>') + '</div>';
+  }
+
   function team() {
     var f = FACULTY[0];
     var ta = ASSISTANTS.map(function (t) {
@@ -430,9 +454,7 @@
       '<section class="stack g16"><h2 class="h2">Course teacher</h2><div class="card people"><div class="av" style="flex:none;min-width:56px;height:56px;padding:0 12px;border-radius:999px;font-size:15px">' + f.initials + '</div>' +
       '<div class="stack g6" style="min-width:0"><span style="font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;text-wrap:pretty">' + esc(f.name) + '</span><span class="muted" style="font-size:14px;line-height:1.45;text-wrap:pretty">' + esc(f.title) + '</span>' +
       '<a class="person-mail" style="align-self:flex-start" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a></div></div></section>' +
-      '<section class="stack g16"><h2 class="h2">Counseling schedule</h2><div class="card ta-wrap"><table class="ev-table" style="min-width:460px"><thead><tr><th>Day</th><th>Time</th><th>Room</th><th>With</th></tr></thead><tbody>' + COUNSELING.map(function (c) {
-        return '<tr><td class="c-ty">' + esc(c.day) + '</td><td class="c-dt">' + (c.time ? esc(c.time) : '<span class="muted">—</span>') + '</td><td class="c-dt">' + (c.room ? esc(c.room) : '<span class="muted">—</span>') + '</td><td class="c-dt">' + esc(c.with) + '</td></tr>';
-      }).join('') + '</tbody></table></div></section>' +
+      '<section class="stack g16"><h2 class="h2">Counseling schedule</h2>' + counselingTimeline() + '</section>' +
       '<section class="stack g16"><h2 class="h2">Teaching assistants</h2><div class="card ta-wrap"><table class="ta-table"><thead><tr><th>Name</th><th>Designation</th><th>Email</th></tr></thead><tbody>' + ta + '</tbody></table></div></section></div>';
   }
 
