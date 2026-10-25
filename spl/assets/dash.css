@@ -333,6 +333,7 @@ h1,h2,h3,h4,p{margin:0}
 .cs-slot.cs-class{background:#f1f1f3;border-color:#d4d4d8}
 .cs-slot.cs-class b{color:#3f3f46}
 .cs-slot.cs-class i{color:#71717a}
+.avatar.hhs,.av.hhs{background:#086288;border-color:#086288;color:#fff}
 /* small screens: sidebar becomes a drawer */
 @media(max-width:899px){
   .side{position:fixed;left:0;top:0;z-index:30;height:100vh;width:min(86vw,300px);flex:none;background:#fafafa;box-shadow:0 0 0 1px #e4e4e7,0 12px 40px rgba(0,0,0,.18);transform:translateX(-105%);transition:transform .2s}

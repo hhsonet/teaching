@@ -141,7 +141,7 @@
       '<div class="stack g2"><button class="reset sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span class="chev" style="transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Assignments</div><button class="reset link-item' + (state.page === 'project' ? ' on' : '') + '" data-act="go:project">Project</button></div>' +
       '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="' + link('problem-sets') + '"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
-      '<button class="reset who" data-act="go:team"><span class="avatar">HHS</span><span class="stack g2" style="min-width:0"><span class="n1">Hamudi Hasan Sonet</span><span class="n2">Course teacher</span></span></button>' +
+      '<button class="reset who" data-act="go:team"><span class="avatar hhs">HHS</span><span class="stack g2" style="min-width:0"><span class="n1">Hamudi Hasan Sonet</span><span class="n2">Course teacher</span></span></button>' +
       '</aside>';
   }
   function header() {
@@ -206,7 +206,7 @@
       '<div><span class="k">Assessment</span><span class="big">100<span class="of"> marks</span></span><span class="k" style="font-weight:400">7 parts · midterm L06 · final L12</span></div></div></section>' +
 
       '<section class="stack g16"><h2 class="h2">General information</h2><div class="grid2">' +
-      '<div class="card person-card"><span class="k">Course teacher</span><div class="row" style="gap:14px"><span class="av" style="width:44px;height:44px;font-size:14px">HHS</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">Hamudi Hasan Sonet</span><span class="muted" style="font-size:13px;line-height:1.4">Senior Programmer, United International University</span></span></div>' +
+      '<div class="card person-card"><span class="k">Course teacher</span><div class="row" style="gap:14px"><span class="av hhs" style="width:44px;height:44px;font-size:14px">HHS</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">Hamudi Hasan Sonet</span><span class="muted" style="font-size:13px;line-height:1.4">Senior Programmer, United International University</span></span></div>' +
       '<div class="row wrap g8" style="margin-top:auto"><a class="btn btn-dark noul" href="mailto:sonet@admin.uiu.ac.bd"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>sonet@admin.uiu.ac.bd</a><button class="reset btn btn-out" data-act="go:team">Teaching team</button></div></div>' +
       '<div class="card person-card"><span class="k">Reference books</span><div class="stack g12"><div class="row" style="gap:14px"><span class="book">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Programming in ANSI C</span><span class="muted" style="font-size:13px">E. Balagurusamy · 5th edition or later</span></span></div>' +
       '<div class="row" style="gap:14px"><span class="book" style="background:#3f3f46">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Teach Yourself C</span><span class="muted" style="font-size:13px">Herbert Schildt</span></span></div></div></div></div>' +
@@ -454,7 +454,7 @@
       return '<tr><td>' + name + '</td><td>' + esc(t.designation) + '</td><td>' + mail + '</td></tr>';
     }).join('');
     return '<div class="stack g32"><div class="stack g8"><h1 class="h1">Teaching Team</h1><p class="sub">Faculty and teaching assistants for this course.</p></div>' +
-      '<section class="stack g16"><h2 class="h2">Course teacher</h2><div class="card people"><div class="av" style="flex:none;min-width:56px;height:56px;padding:0 12px;border-radius:999px;font-size:15px">' + f.initials + '</div>' +
+      '<section class="stack g16"><h2 class="h2">Course teacher</h2><div class="card people"><div class="av hhs" style="flex:none;min-width:56px;height:56px;padding:0 12px;border-radius:999px;font-size:15px">' + f.initials + '</div>' +
       '<div class="stack g6" style="min-width:0"><span style="font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3;text-wrap:pretty">' + esc(f.name) + '</span><span class="muted" style="font-size:14px;line-height:1.45;text-wrap:pretty">' + esc(f.title) + '</span>' +
       '<a class="person-mail" style="align-self:flex-start" href="mailto:' + esc(f.email) + '">' + esc(f.email) + '</a></div></div></section>' +
       '<section class="stack g16"><h2 class="h2">Class &amp; counseling schedule</h2>' + counselingTimeline() + '</section>' +
