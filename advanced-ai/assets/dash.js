@@ -109,7 +109,7 @@
   var icon = function (k) { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICON[k] + '</svg>'; };
 
   var SIDE_KEY = 'aai-v6-sidebar';
-  var state = { page: 'home', lec: null, open: [1], filter: 'all', spTab: 'All', pubTab: 'All', sidebar: true, drawer: false, lecList: true };
+  var state = { page: 'home', lec: null, open: [1], filter: 'all', spTab: 'All', pubTab: 'All', sidebar: true, drawer: false, lecList: true, modal: null };
   try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) {}
 
   var isMobile = function () { return window.matchMedia('(max-width: 899px)').matches; };
@@ -171,20 +171,72 @@
   }
 
   // ---- pages ----
+  // Resource cards. A '#go:page' link opens a dashboard page; other paths are course pages or full URLs.
+  var RESOURCES = [
+    ['BOOK', 'Understanding Deep Learning', 'Simon J. D. Prince · free online', 'https://udlbook.github.io/udlbook/'],
+    ['LIST', 'Reading list', 'Topics and papers by unit', '#go:reading'],
+    ['PAPER', 'Publications', 'Recent papers by topic', '#go:pubs'],
+    ['SURVEY', 'Paper survey', 'Pick a paper to survey', '#go:survey'],
+    ['TEAM', 'Other team review', 'Review another team\u2019s project', 'team-review'],
+    ['BD', 'BD / Top-50 activity', 'Map the researchers in your field', 'bd-top50'],
+    ['NEWS', 'Announcements', 'Course updates', 'announcements'],
+    ['GIT', 'GitHub repository', 'Course source and files', GITHUB]
+  ];
+  var pick = function (names) { return RESOURCES.filter(function (r) { return names.indexOf(r[1]) > -1; }); };
+  var SHADES = ['#7fa58d', '#7a96b8', '#9a8fbb', '#d2ac6b', '#c993a4', '#7db0b0', '#c9807b'];
+  function assessChart() {
+    var segs = PARTS.map(function (p, i) { return '<i data-i="' + i + '" title="' + esc(p[0]) + ' · ' + p[1] + '" style="flex:' + p[1] + ';background:' + SHADES[i] + '"></i>'; }).join('');
+    var rows = PARTS.map(function (p, i) {
+      return '<div class="ch-row" data-i="' + i + '"><span class="ch-nm"><i style="background:' + SHADES[i] + '"></i>' + esc(p[0]) + '</span><span class="ch-bar"><b style="width:' + (p[1] / 25 * 100) + '%;background:' + SHADES[i] + '"></b></span><span class="ch-mk">' + p[1] + '</span></div>';
+    }).join('');
+    return '<div class="card ch-card"><div class="ch-head"><span class="k">Mark distribution</span><span class="mono" style="font-size:12px;color:#71717a">100 marks</span></div><div class="ch-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="ch-rows">' + rows + '</div></div>';
+  }
+
+  function resCards(list) {
+    return list.map(function (r) {
+      if (/^#go:/.test(r[3])) return '<button class="reset mat" data-act="go:' + r[3].slice(4) + '"><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0;text-align:left"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">→</span></button>';
+      var href = !r[3] ? '' : /^https?:/.test(r[3]) ? r[3] : link(r[3]);
+      var ext = /^https?:/.test(r[3]);
+      return '<a class="mat' + (href ? '' : ' plain') + '" ' + (href ? 'href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') : '') + '><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">' + (href ? (ext ? '↗' : '→') : '') + '</span></a>';
+    }).join('');
+  }
+
+  function homeResources() { return resCards(RESOURCES); }
+
+  // Decorative hero art: a small attention snippet and floating symbols.
+  function heroArt() {
+    var k = function (t) { return '<span class="c-k">' + t + '</span>'; };
+    var f = function (t) { return '<span class="c-f">' + t + '</span>'; };
+    var cm = function (t) { return '<span class="c-c">' + t + '</span>'; };
+    var lines = [
+      k('def') + ' ' + f('attention') + '(q, k, v):',
+      '    s = q @ k.T / ' + f('sqrt') + '(d)',
+      '    w = ' + f('softmax') + '(s)',
+      '    ' + k('return') + ' w @ v',
+      '',
+      cm('# attention is all you need')
+    ];
+    var chips = [['Q·K', 'c1'], ['GAN', 'c2'], ['∇', 'c3'], ['RAG', 'c4'], ['LLM', 'c5'], ['x₀', 'c6'], ['β', 'c7'], ['↦', 'c8']];
+    return '<div class="hero-art" aria-hidden="true"><div class="code-win"><div class="code-bar"><i></i><i></i><i></i><span>attention.py</span></div><pre class="code-body">' +
+      lines.map(function (l, i) { return '<span class="cl"><b>' + (i + 1) + '</b>' + l + '</span>'; }).join('') + '</pre></div>' +
+      chips.map(function (c) { return '<span class="chipx ' + c[1] + '">' + c[0] + '</span>'; }).join('') + '</div>';
+  }
+
   function home() {
     var c = CURRENT, h = L[c - 1], u = UNIT_OF[h[0]];
     var curUnit = u !== undefined ? 'Unit ' + (u + 1) + ' of 5 · ' + TOPICS[u][0] : c === 1 ? 'Course overview' : 'Review session';
     var deadlines = [];
     L.forEach(function (l, i) { l[1].forEach(function (it) { if ((it[1] === 'due' || it[1] === 'exam') && i + 1 >= c) deadlines.push({ t: it[0].replace('Due · ', ''), n: pad(i + 1), ex: it[1] === 'exam', due: it[1] === 'due' }); }); });
     var nd = deadlines[0] ? { n: deadlines[0].n, label: (deadlines[0].ex ? '' : 'Due · ') + deadlines[0].t } : { n: '—', label: 'No deadlines left' };
-    var upcoming = L.slice(c - 1, c + 2).map(function (l, i) {
-      var n = c + i;
-      return '<button class="reset up-row" data-act="lec:' + n + '"><span class="chip' + (n === c ? ' cur' : '') + '">' + pad(n) + '</span><span class="stack g6" style="flex:1;min-width:0"><span class="up-head">' + l[0] + (n === c ? '<span class="tag-now">This week</span>' : '') + '</span>' +
-        '<span class="badges">' + l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('') + '</span></span></button>';
+    var upcoming = L.slice(c - 1, c + 3).map(function (l, i) {
+      var n = c + i, now = n === c, last = n === Math.min(L.length, c + 3);
+      var tags = l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('');
+      return '<button class="reset tl-item' + (now ? ' now' : '') + (last ? ' last' : '') + '" data-act="lec:' + n + '"><span class="tl-dot"></span>' +
+        '<span class="stack g4" style="min-width:0"><span class="tl-top"><span class="mono tl-n">L' + pad(n) + '</span><span class="tl-t">' + l[0] + '</span>' + (now ? '<span class="tag-now">This week</span>' : '') + '</span>' +
+        (tags ? '<span class="badges">' + tags + '</span>' : '') + '</span></button>';
     }).join('');
-    var dls = deadlines.slice(0, 4).map(function (d) { return '<div class="dl-row"><span class="row g10" style="min-width:0"><span class="dot' + (d.ex ? ' ex' : '') + '"></span><span>' + esc(d.t) + '</span></span><span class="mono muted" style="flex:none;font-size:12px;font-weight:500">Lecture ' + d.n + '</span></div>'; }).join('');
     return '<div class="stack g40">' +
-      '<section class="hero"><div class="hero-in"><span class="pill"><i></i>Dept. of CSE · United International University</span><h1>Advanced Artificial Intelligence</h1>' +
+      '<section class="hero">' + heroArt() + '<div class="hero-in"><span class="pill"><i></i>Dept. of CSE · United International University</span><h1>Advanced Artificial Intelligence</h1>' +
       '<p>This course covers modern deep learning through lectures, paper reading and a term project. We start with generative adversarial networks, move through attention and Transformers, diffusion models and retrieval-augmented generation, and end with large language models. Alongside the lectures you will survey recent papers in your field, define and build a research project grounded in 20–30 recent papers, and review other teams’ work.</p>' +
       '<div class="row wrap g8"><button class="reset btn btn-dark btn-lg" data-act="lec:' + c + '">Continue · Lecture ' + pad(c) + ' <span style="opacity:.6">→</span></button><button class="reset btn btn-out btn-lg" data-act="go:lectures">View schedule</button></div></div>' +
       '<div class="hero-stats"><div><span class="k">Progress</span><span class="big">' + pad(c) + '<span class="of"> / 14</span></span><span class="bar"><i style="width:' + (c / 14 * 100) + '%"></i></span></div>' +
@@ -201,26 +253,23 @@
       '<div class="dates"><button class="reset" data-act="lec:7"><span class="k">Midterm</span><span class="big">Lecture 07</span><span class="k" style="font-weight:400">10 marks · based on papers</span></button>' +
       '<button class="reset" data-act="lec:12"><span class="k">Project due</span><span class="big">Lecture 12</span><span class="k" style="font-weight:400">25 marks</span></button>' +
       '<button class="reset" data-act="lec:14"><span class="k">Final</span><span class="big">Lecture 14</span><span class="k" style="font-weight:400">15 marks · other teams’ projects</span></button></div></div>' +
-      '<div class="stack g10"><span class="k">Quick links</span><div class="quick">' + goBtn('project', 'Project') + goBtn('survey', 'Paper survey') +
-      arrowLink(link('team-review'), 'Other team review', true) + arrowLink(link('bd-top50'), 'BD / Top-50 activity', true) + goBtn('reading', 'Reading list') + goBtn('pubs', 'Publications') +
-      arrowLink(link('announcements'), 'Announcements', true) + arrowLink(GITHUB, 'GitHub repository', true) + '</div></div></section>' +
+      '</section>' +
 
-      '<div class="grid2 w"><section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming lectures</h2><button class="reset link-more" data-act="go:lectures">All 14 →</button></div><div class="card hid up-list">' + upcoming + '</div></section>' +
-      '<section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming deadlines</h2><button class="reset link-more" data-act="go:info">Assessment →</button></div><div class="card hid dl-list">' + (dls || '<div class="dl-row"><span class="muted">No deadlines left</span></div>') + '</div></section></div></div>';
+      '<div class="grid2 w"><section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Upcoming lectures</h2><button class="reset link-more" data-act="go:lectures">All 14 →</button></div><div class="card tl-card"><div class="tl">' + upcoming + '</div></div></section>' +
+      '<section class="stack g16" style="min-width:0"><div class="between" style="align-items:baseline"><h2 class="h2">Assessment</h2><button class="reset link-more" data-act="go:info">Full assessment →</button></div>' + assessChart() + '</section></div>' +
+      '<section class="stack g16"><div class="between" style="align-items:baseline"><h2 class="h2">Resources</h2><span class="muted" style="font-size:13px">Course pages, papers and links</span></div><div class="mats wrapt">' + homeResources() + '</div></section></div>';
   }
 
-  function info() {
-    var anyOpen = state.open.length > 0;
-    var rows = PARTS.map(function (p, i) {
-      var open = state.open.indexOf(i) > -1;
-      return '<div class="part' + (open ? ' open' : '') + '"><div class="trow cols-as" data-act="acc:' + i + '"><span style="font-weight:500">' + p[0] + '</span>' +
-        '<span class="marks"><b>' + p[1] + '</b><span class="bar"><i style="width:' + (p[1] * 4) + '%"></i></span></span><span style="color:#52525b;line-height:1.45">' + esc(p[2]) + '</span><span class="when">' + WHEN[i] + '</span>' +
-        '<span class="chev muted" style="text-align:center;transform:' + (open ? 'rotate(180deg)' : 'none') + '">⌄</span></div>' +
-        (open ? '<div class="part-d cols-as"><span></span><ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul></div>' : '') + '</div>';
+  function assessTiles() {
+    var segs = PARTS.map(function (p, i) { return '<i title="' + esc(p[0]) + ' · ' + p[1] + '" style="flex:' + p[1] + ';background:' + SHADES[i] + '"></i>'; }).join('');
+    var tiles = PARTS.map(function (p, i) {
+      return '<div class="at" role="button" tabindex="0" aria-label="' + esc(p[0]) + ' details" data-act="modal:' + i + '" style="--c:' + SHADES[i] + '"><div class="at-top"><span class="at-nm">' + esc(p[0]) + '</span><span class="at-mk">' + p[1] + '</span></div><div class="at-bar"><i style="width:' + (p[1] / 25 * 100) + '%"></i></div><div class="at-foot"><p>' + esc(p[2]) + '</p></div></div>';
     }).join('');
-    return '<div class="stack g32"><div class="stack g8"><h1 class="h1">Assessment</h1><p class="sub">How the course is assessed — 100 marks across seven parts.</p></div>' +
-      '<div class="card sx"><div class="tbl"><div class="thead cols-as"><span>Component</span><span>Marks</span><span>Breakdown</span><span>When</span><span></span></div>' + rows +
-      '<div class="trow total cols-as" style="border-bottom:0"><span>Total</span><span class="mono">100</span><span style="font-weight:400;color:#71717a">7 components</span><span></span><span></span></div></div></div>' +
+    return '<div class="card asm"><div class="asm-head"><span class="k">Total</span><span class="asm-tot"><b>100</b> marks · 7 components</span></div><div class="asm-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="asm-grid">' + tiles + '</div></div>';
+  }
+  function info() {
+    return '<div class="stack g32"><div class="stack g8"><h1 class="h1">Assessment</h1><p class="sub">How the course is assessed. 100 marks across seven parts. Click a part for details.</p></div>' +
+      assessTiles() +
       '<section class="soft" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px 24px"><div class="stack g4"><span style="font-size:14px;font-weight:500">Book printout</span><span class="muted" style="font-size:13px">Bring the chapter for the next class.</span></div>' +
       '<div class="stack g4"><span style="font-size:14px;font-weight:500">Special notes</span><span class="muted" style="font-size:13px">Things to do and questions to ask.</span></div>' +
       '<div class="stack g4"><span style="font-size:14px;font-weight:500">Class log</span><span class="muted" style="font-size:13px">What you learned · 2 marks per class.</span></div></section></div>';
@@ -271,8 +320,9 @@
         '<span class="row">' + f(m.slides, 'Slides') + '</span><span class="row">' + f(m.notes, 'Notes') + '</span>' +
         '<span class="row wrap g6" style="min-width:0">' + (papers.length ? papers.map(function (p) { return '<a class="pchip" href="' + esc(p[1]) + '" title="' + esc(p[0]) + '">' + esc(p[0]) + '</a>'; }).join('') : '<span class="dash">—</span>') + '</span></div>';
     }).join('');
-    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Slides, class notes and papers for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
-      '<div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Papers</span></div>' + rows + '</div></div></div>';
+    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files and links, plus slides, notes and papers for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
+      '<section class="stack g16"><h2 class="h2">Course files</h2><div class="mats wrapt">' + resCards(pick(['Understanding Deep Learning', 'Reading list', 'Publications', 'Paper survey'])) + '</div></section>' +
+      '<section class="stack g16"><h2 class="h2">Lecture materials</h2><div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Papers</span></div>' + rows + '</div></div></section></div>';
   }
 
   function team() {
@@ -345,11 +395,21 @@
 
   var VIEW = { home: home, info: info, lectures: lectures, lecture: lecture, materials: materials, team: team, project: project, survey: survey, reading: reading, pubs: pubs };
 
+  function modal() {
+    if (state.modal === null) return '';
+    var p = PARTS[state.modal], i = state.modal;
+    return '<div class="mdl-scrim" data-act="scrim"><div class="mdl" role="dialog" aria-modal="true" aria-label="' + esc(p[0]) + '" style="--c:' + SHADES[i] + '">' +
+      '<button class="reset mdl-x" data-act="closeModal" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
+      '<span class="ev-k">' + p[1] + ' marks · ' + esc(WHEN[i]) + '</span><h3 class="mdl-t">' + esc(p[0]) + '</h3><p class="mdl-s">' + esc(p[2]) + '</p>' +
+      '<ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul></div></div>';
+  }
+
+
   function render() {
-    document.body.style.overflow = state.drawer ? 'hidden' : '';
+    document.body.style.overflow = state.drawer || state.modal !== null ? 'hidden' : '';
     root.innerHTML = '<div class="shell"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() +
       '<div class="frame">' + header() + '<main>' + VIEW[state.page]() + '</main>' +
-      '<footer class="foot"><div><span>Advanced Artificial Intelligence · United International University</span></div></footer></div></div>';
+      '<footer class="foot"><div><span>Advanced Artificial Intelligence · United International University</span></div></footer></div></div>' + modal();
     document.title = (state.page === 'lecture' ? 'Lecture ' + pad(state.lec) : PAGES[state.page][1]) + ' | Advanced AI';
   }
 
@@ -368,10 +428,27 @@
       else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} }
       render();
     }
+    else if (k === 'modal') { state.modal = parseInt(v, 10); render(); }
+    else if (k === 'scrim') { if (e.target === el) { state.modal = null; render(); } }
+    else if (k === 'closeModal') { state.modal = null; render(); }
     else if (k === 'closeDrawer') { state.drawer = false; render(); }
     else if (k === 'toggleLecs') { state.lecList = !state.lecList; render(); }
   });
-  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
+  // Assessment chart: hover a segment or row to highlight it and dim the rest.
+  function chartHl(card, idx) {
+    card.classList.toggle('hl', idx !== null);
+    card.querySelectorAll('[data-i]').forEach(function (el) { el.classList.toggle('is-hl', idx !== null && el.getAttribute('data-i') === idx); });
+  }
+  root.addEventListener('mouseover', function (e) {
+    var card = e.target.closest('.ch-card'); if (!card) return;
+    var it = e.target.closest('[data-i]');
+    chartHl(card, it ? it.getAttribute('data-i') : null);
+  });
+  root.addEventListener('mouseout', function (e) {
+    var card = e.target.closest('.ch-card');
+    if (card && !(e.relatedTarget && card.contains(e.relatedTarget))) chartHl(card, null);
+  });
+  window.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('at')) { e.preventDefault(); e.target.click(); return; } if (e.key === 'Escape' && state.modal !== null) { state.modal = null; render(); } else if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
   window.addEventListener('resize', function () { if (state.drawer && !isMobile()) { state.drawer = false; render(); } });
   window.addEventListener('popstate', function () { parseHash(); render(); });
   parseHash();

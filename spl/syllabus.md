@@ -100,5 +100,5 @@ A 12-session lab in structured C programming. You move from basics, functions an
 
 ## Reference books
 
-1. *Programming in ANSI C* (5th edition or later), E. Balagurusamy
+1. [*Programming in ANSI C*](https://drive.google.com/file/d/1u0pgbXTC7BGAHU0Z-ncumaTCAC964hsq/view?usp=sharing) (5th edition or later), E. Balagurusamy
 2. *Teach Yourself C*, Herbert Schildt

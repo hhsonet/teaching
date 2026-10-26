@@ -169,7 +169,7 @@
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="reset sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span class="chev" style="transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Assignments</div><button class="reset link-item' + (state.page === 'project' ? ' on' : '') + '" data-act="go:project">Project</button></div>' +
-      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="https://drive.google.com/drive/folders/1tE0oCDc2jl17sWwwA08xo1x9ykkj9sIu?usp=drive_link" target="_blank" rel="noopener"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
+      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="https://drive.google.com/drive/folders/1tE0oCDc2jl17sWwwA08xo1x9ykkj9sIu?usp=drive_link" target="_blank" rel="noopener"><span>Problem sets</span></a><a class="link-item" href="' + GITHUB + '/code" target="_blank" rel="noopener"><span>Code</span></a></div>' +
       '<button class="reset who" data-act="go:team"><span class="avatar hhs">HHS</span><span class="stack g2" style="min-width:0"><span class="n1">Hamudi Hasan Sonet</span><span class="n2">Course teacher</span></span></button>' +
       '</aside>';
   }
@@ -196,21 +196,26 @@
   var HOME_RESOURCES = [
     ['DOC', 'Syllabus', 'Course plan, marks and outcomes', '#info'],
     ['SET', 'Problem sets', 'Topic-wise C problems, with PDF', 'https://drive.google.com/drive/folders/1tE0oCDc2jl17sWwwA08xo1x9ykkj9sIu?usp=drive_link'],
-    ['C', 'Code', 'Example programs, one folder per lecture', 'code'],
-    ['BOOK', 'Programming in ANSI C', 'E. Balagurusamy · 5th edition or later', ''],
+    ['C', 'Code', 'Example programs, one folder per lecture', GITHUB + '/code'],
+    ['SLIDE', 'Super Simple C', 'Slide deck introducing C programming', 'https://docs.google.com/presentation/d/1cxrnU-0y0p0pd4w1PfB-6gL7NcBBKg1Q/edit?usp=drive_link'],
+    ['BOOK', 'Programming in ANSI C', 'E. Balagurusamy · 5th edition or later', 'https://drive.google.com/file/d/1u0pgbXTC7BGAHU0Z-ncumaTCAC964hsq/view?usp=sharing'],
     ['BOOK', 'Teach Yourself C', 'Herbert Schildt', ''],
     ['WEB', 'C reference', 'Language and library reference', 'https://en.cppreference.com/w/c'],
     ['WEB', 'GCC compiler', 'Download and install instructions', 'https://gcc.gnu.org/install/'],
+    ['WEB', 'Code::Blocks', 'Free C IDE, download the installer with GCC (mingw-setup)', 'https://www.codeblocks.org/downloads/binaries/'],
     ['WEB', 'Online C compiler', 'Run code in the browser, no setup', 'https://www.onlinegdb.com/online_c_compiler']
   ];
-  function homeResources() {
-    return HOME_RESOURCES.map(function (r) {
+  function resCards(list) {
+    return list.map(function (r) {
       if (r[3] === '#info') return '<button class="reset mat" data-act="go:info"><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0;text-align:left"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">→</span></button>';
       var href = !r[3] ? '' : /^https?:/.test(r[3]) ? r[3] : link(r[3]);
       var ext = /^https?:/.test(r[3]);
       return '<a class="mat' + (href ? '' : ' plain') + '" ' + (href ? 'href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') : '') + '><span class="tag">' + r[0] + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(r[1]) + '</span><span class="s">' + esc(r[2]) + '</span></span><span class="go">' + (href ? (ext ? '↗' : '→') : '') + '</span></a>';
     }).join('');
   }
+
+  function homeResources() { return resCards(HOME_RESOURCES); }
+  var pick = function (names) { return HOME_RESOURCES.filter(function (r) { return names.indexOf(r[1]) > -1; }); };
 
   // Decorative hero art: a small C source window and floating C symbols.
   function heroArt() {
@@ -260,7 +265,7 @@
       '<section class="stack g16"><h2 class="h2">General information</h2><div class="grid2">' +
       '<div class="card person-card"><span class="k">Course teacher</span><div class="row" style="gap:14px"><span class="av hhs" style="width:44px;height:44px;font-size:14px">HHS</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">Hamudi Hasan Sonet</span><span class="muted" style="font-size:13px;line-height:1.4">Senior Programmer, United International University</span></span></div>' +
       '<div class="row wrap g8" style="margin-top:auto"><a class="btn btn-dark noul" href="mailto:sonet@admin.uiu.ac.bd"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>sonet@admin.uiu.ac.bd</a><button class="reset btn btn-out" data-act="go:team">Counseling</button></div></div>' +
-      '<div class="card person-card"><span class="k">Reference books</span><div class="stack g12"><div class="row" style="gap:14px"><span class="book">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Programming in ANSI C</span><span class="muted" style="font-size:13px">E. Balagurusamy · 5th edition or later</span></span></div>' +
+      '<div class="card person-card"><span class="k">Reference books</span><div class="stack g12"><div class="row" style="gap:14px"><span class="book">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3"><a class="noul" style="color:inherit" href="https://drive.google.com/file/d/1u0pgbXTC7BGAHU0Z-ncumaTCAC964hsq/view?usp=sharing" target="_blank" rel="noopener">Programming in ANSI C ↗</a></span><span class="muted" style="font-size:13px">E. Balagurusamy · 5th edition or later</span></span></div>' +
       '<div class="row" style="gap:14px"><span class="book" style="background:#3f3f46">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Teach Yourself C</span><span class="muted" style="font-size:13px">Herbert Schildt</span></span></div></div></div></div>' +
       '<div class="card hid"><div class="between" style="padding:14px 20px;border-bottom:1px solid #e4e4e7"><span style="font-size:14px;font-weight:600">Key dates</span><span class="mono muted" style="font-size:12px">12 lectures · 6 units</span></div>' +
       '<div class="dates"><button class="reset" data-act="lec:6"><span class="k">Midterm</span><span class="big">Lecture 06</span><span class="k" style="font-weight:400">20 marks · lectures 1 to 5</span></button>' +
@@ -292,7 +297,7 @@
       return '<div class="card cn-i"><span class="cn-d">' + c.day + '</span><span class="cn-b"><b>' + DAYFULL[c.day] + '</b><span>' + clock(hm(c.start)) + ' – ' + clock(hm(c.end)) + '</span></span>' + (c.room ? '<span class="cn-r">Room ' + esc(c.room) + '</span>' : '') + '</div>';
     }).join('');
   }
-  var BOOKS = [['Programming in ANSI C', 'E. Balagurusamy · 5th edition or later'], ['Teach Yourself C', 'Herbert Schildt']];
+  var BOOKS = [['Programming in ANSI C', 'E. Balagurusamy · 5th edition or later', 'https://drive.google.com/file/d/1u0pgbXTC7BGAHU0Z-ncumaTCAC964hsq/view?usp=sharing'], ['Teach Yourself C', 'Herbert Schildt']];
   function assessTiles() {
     var segs = PARTS.map(function (p, i) { return '<i title="' + esc(p[0]) + ' · ' + p[1] + '" style="flex:' + p[1] + ';background:' + SHADES[i] + '"></i>'; }).join('');
     var tiles = PARTS.map(function (p, i) {
@@ -302,7 +307,7 @@
   }
   function info() {
     var cos = COS.map(function (c) { return '<tr><td class="c-ty">' + c[0] + '</td><td class="c-dt">' + esc(c[1]) + '</td></tr>'; }).join('');
-    var books = BOOKS.map(function (b, i) { return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-ty">' + esc(b[0]) + '</td><td class="c-dt">' + esc(b[1]) + '</td></tr>'; }).join('');
+    var books = BOOKS.map(function (b, i) { return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-ty">' + (b[2] ? '<a href="' + esc(b[2]) + '" target="_blank" rel="noopener">' + esc(b[0]) + ' ↗</a>' : esc(b[0])) + '</td><td class="c-dt">' + esc(b[1]) + '</td></tr>'; }).join('');
     var sec = function (title, body) { return '<section class="stack g16"><h2 class="h2">' + title + '</h2>' + body + '</section>'; };
     var tbl = function (head, body) { return '<div class="card ta-wrap"><table class="ev-table" style="min-width:420px"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'; };
     return '<div class="stack g32"><div class="stack g8"><span class="eyebrow">CSE 1112 · Fall 2026</span><h1 class="h1">Syllabus</h1><p class="lede">A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.</p></div>' +
@@ -488,8 +493,10 @@
         '<span class="row">' + f(m.slides, 'Slides') + '</span><span class="row">' + f(m.notes, 'Notes') + '</span>' +
         '<span class="row wrap g6" style="min-width:0">' + (papers.length ? papers.map(function (p) { return '<a class="pchip" href="' + esc(p[1]) + '" title="' + esc(p[0]) + '">' + esc(p[0]) + '</a>'; }).join('') : '<span class="dash">—</span>') + '</span></div>';
     }).join('');
-    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Slides, class notes and readings for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
-      '<div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Readings</span></div>' + rows + '</div></div></div>';
+    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files, tools and links, plus slides, notes and readings for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
+      '<section class="stack g16"><h2 class="h2">Course files</h2><div class="mats wrapt">' + resCards(pick(['Problem sets', 'Code', 'Super Simple C', 'Programming in ANSI C', 'Teach Yourself C'])) + '</div></section>' +
+      '<section class="stack g16"><h2 class="h2">Tools &amp; references</h2><div class="mats wrapt">' + resCards(pick(['GCC compiler', 'Code::Blocks', 'Online C compiler', 'C reference'])) + '</div></section>' +
+      '<section class="stack g16"><h2 class="h2">Lecture materials</h2><div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Readings</span></div>' + rows + '</div></div></section></div>';
   }
 
   function hm(t) { var p = t.split(':'); return parseInt(p[0], 10) + parseInt(p[1] || '0', 10) / 60; }
