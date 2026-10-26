@@ -20,7 +20,7 @@ A 12-session lab in structured C programming. You move from basics, functions an
 
 | Course | Why it matters |
 |---|---|
-| Introduction to Computer Systems (ICS) | Lecture 1 builds on input and output, variables, operators and selection statements from ICS. |
+| Introduction to Computer Systems (ICS) | Lecture 1 builds on input and output, variables, operators, selection statements and loops from ICS. |
 
 ## Course outcomes
 
@@ -35,7 +35,7 @@ A 12-session lab in structured C programming. You move from basics, functions an
 
 | Lecture | Topic | Details | CO |
 |---|---|---|---|
-| 1 | Basics | Review of ICS: input and output, variables, operators, selection statements | CO1, CO2 |
+| 1 | Basics | Review of ICS: input and output, variables, operators, selection statements, loop | CO1, CO2 |
 | 2 | Function & Loop | Functions with parameters and return values; for, while and do-while loops | CO1, CO2 |
 | 3 | Array | One- and two-dimensional arrays; passing arrays to functions. **Class Test 01** (lectures 1 and 2) | CO2, CO3 |
 | 4 | String | Character arrays; string library functions such as strlen, strcpy and strcmp | CO2, CO3 |
@@ -54,15 +54,14 @@ A 12-session lab in structured C programming. You move from basics, functions an
 |---|---|---|
 | Attendance | 5 | Full marks for attending 10 or more classes; 2 absences ignored |
 | Assignment | 10 | 10 weekly progress logs, 1 mark each |
-| Project | 10 | Team project (CO4) |
+| Project & Viva | 20 | Team project with an individual viva (CO4) |
 | Class performance | 25 | Base score, plus bonus for assignments and active participation |
-| Viva | 10 | Oral assessment |
 | Mid-term exam | 20 | Covers lectures 1 to 5 |
 | Final exam | 20 | Covers lectures 7 to 11 |
 | **Total** | **100** | |
 
 - **Class performance:** calculated from the best 2 of the 3 class tests as the base. Additional marks may be awarded for assignments and active participation in class activities.
-- **Project:** teams of 3 students build a C program that solves a real-world scenario. The project uses structures, functions and file handling together.
+- **Project & Viva:** teams of 3 students build a C program that solves a real-world scenario. The project uses structures, functions and file handling together.
 
 ## Grading scale
 

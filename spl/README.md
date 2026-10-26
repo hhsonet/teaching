@@ -17,7 +17,7 @@ A 12-session lab in structured C programming. You move from basics, functions an
 
 ## Assessment
 
-Attendance 5, assignment 10, project 10, class performance 25, viva 10, mid-term exam 20, final exam 20. Total 100.
+Attendance 5, assignment 10, project and viva 20, class performance 25, mid-term exam 20, final exam 20. Total 100.
 
 ## Local preview
 

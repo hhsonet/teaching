@@ -51,26 +51,25 @@
   var PARTS = [
     ['Attendance', 5, 'Full marks for attending 10 or more classes; 2 absences ignored', ['There are 12 classes in total', 'Full marks for attending 10 or more classes', '2 absences are ignored']],
     ['Assignment', 10, '10 weekly progress logs, 1 mark each', ['10 weekly progress logs', '1 mark for each log']],
-    ['Project', 10, 'Team project (CO4)', ['Teams of 3 students build a C program that solves a real-world scenario', 'The project uses structures, functions and file handling together', 'Team project in lecture 11']],
+    ['Project & Viva', 20, 'Team project with an individual viva (CO4)', ['Teams of 3 students build a C program that solves a real-world scenario', 'The project uses structures, functions and file handling together', 'Team project in lecture 11', 'Viva: each member explains their own component']],
     ['Class Performance', 25, 'Base score, plus bonus for assignments and active participation', ['The base score is the best 2 of the 3 class tests (Class Test 01, 02 and 03)', 'Additional marks may be awarded for assignments and active participation in class activities']],
-    ['Viva', 10, 'Oral assessment', ['Oral assessment']],
     ['Mid-Term Exam', 20, 'Covers lectures 1 to 5', ['Lecture 6', 'Covers lectures 1 to 5']],
     ['Final Exam', 20, 'Covers lectures 7 to 11', ['Lecture 12', 'Covers lectures 7 to 11']]
   ];
-  var WHEN = ['Every class', 'Weekly', 'L11', 'L03 · L08 · L10', 'To be announced', 'L06', 'L12'];
+  var WHEN = ['Every class', 'Weekly', 'L11', 'L03 · L08 · L10', 'L06', 'L12'];
   var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'Survey', exam: 'Exam', ct: 'Class test', log: 'Class log', admin: 'Overview' };
   var DESC = {
-    'Review of ICS': 'Input and output, variables, operators and selection statements from Introduction to Computer Systems.',
+    'Review of ICS': 'Input and output, variables, operators, selection statements and loops from Introduction to Computer Systems.',
     'Class Test 01': 'Covers lectures 1 and 2. Counts toward class performance (best 2 of 3 tests).',
     'Practice problems, lectures 1 to 4': 'Practice problems from lectures 1 to 4.',
     'Midterm exam': '20 marks. Covers lectures 1 to 5.',
     'Class Test 02': 'Counts toward class performance (best 2 of 3 tests).',
     'Class Test 03': 'Counts toward class performance (best 2 of 3 tests).',
-    'Team project': 'Teams of 3 build a modular C program using structures, functions and file handling. 10 marks.',
+    'Team project': 'Teams of 3 build a modular C program using structures, functions and file handling. 20 marks with the viva.',
     'Final exam': '20 marks. Covers lectures 7 to 11.'
   };
   var DETAILS = {
-    1: 'Review of ICS: input and output, variables, operators, selection statements',
+    1: 'Review of ICS: input and output, variables, operators, selection statements, loop',
     2: 'Functions with parameters and return values; for, while and do-while loops',
     3: 'One- and two-dimensional arrays; passing arrays to functions. Class Test 01 (lectures 1 and 2)',
     4: 'Character arrays; string library functions such as strlen, strcpy and strcmp',
@@ -261,7 +260,7 @@
       '<div class="hero-stats"><div><span class="k">Progress</span><span class="big">' + pad(c) + '<span class="of"> / 12</span></span><span class="bar"><i style="width:' + (c / 12 * 100) + '%"></i></span></div>' +
       '<div><span class="k">This week</span><span class="big">' + h[0] + '</span><span class="k" style="font-weight:400">' + curUnit + (classDates(c) ? ' · ' + classDates(c) : '') + '</span></div>' +
       '<div><span class="k">Next deadline</span><span class="big">Lecture ' + nd.n + '</span><span class="k" style="font-weight:400">' + esc(nd.label) + '</span></div>' +
-      '<div><span class="k">Assessment</span><span class="big">100<span class="of"> marks</span></span><span class="k" style="font-weight:400">7 parts · midterm L06 · final L12</span></div></div></section>' +
+      '<div><span class="k">Assessment</span><span class="big">100<span class="of"> marks</span></span><span class="k" style="font-weight:400">6 parts · midterm L06 · final L12</span></div></div></section>' +
 
       '<section class="stack g16"><h2 class="h2">General information</h2><div class="grid2">' +
       '<div class="card person-card"><span class="k">Course teacher</span><div class="row" style="gap:14px"><span class="av hhs" style="width:44px;height:44px;font-size:14px">HHS</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">Hamudi Hasan Sonet</span><span class="muted" style="font-size:13px;line-height:1.4">Senior Programmer, United International University</span></span></div>' +
@@ -270,7 +269,7 @@
       '<div class="row" style="gap:14px"><span class="book" style="background:#3f3f46">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Teach Yourself C</span><span class="muted" style="font-size:13px">Herbert Schildt</span></span></div></div></div></div>' +
       '<div class="card hid"><div class="between" style="padding:14px 20px;border-bottom:1px solid #e4e4e7"><span style="font-size:14px;font-weight:600">Key dates</span><span class="mono muted" style="font-size:12px">12 lectures · 6 units</span></div>' +
       '<div class="dates"><button class="reset" data-act="lec:6"><span class="k">Midterm</span><span class="big">Lecture 06</span><span class="k" style="font-weight:400">20 marks · lectures 1 to 5</span></button>' +
-      '<button class="reset" data-act="lec:11"><span class="k">Team project</span><span class="big">Lecture 11</span><span class="k" style="font-weight:400">10 marks</span></button>' +
+      '<button class="reset" data-act="lec:11"><span class="k">Team project & viva</span><span class="big">Lecture 11</span><span class="k" style="font-weight:400">20 marks</span></button>' +
       '<button class="reset" data-act="lec:12"><span class="k">Final</span><span class="big">Lecture 12</span><span class="k" style="font-weight:400">20 marks · lectures 7 to 11</span></button></div></div>' +
       '</section>' +
 
@@ -304,7 +303,7 @@
     var tiles = PARTS.map(function (p, i) {
       return '<div class="at" role="button" tabindex="0" aria-label="' + esc(p[0]) + ' details" data-act="modal:' + i + '" style="--c:' + SHADES[i] + '"><div class="at-top"><span class="at-nm">' + esc(p[0]) + '</span><span class="at-mk">' + p[1] + '</span></div><div class="at-bar"><i style="width:' + (p[1] / 25 * 100) + '%"></i></div><div class="at-foot"><p>' + esc(p[2]) + '</p></div></div>';
     }).join('');
-    return '<div class="card asm"><div class="asm-head"><span class="k">Total</span><span class="asm-tot"><b>100</b> marks · 7 components</span></div><div class="asm-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="asm-grid">' + tiles + '</div></div>';
+    return '<div class="card asm"><div class="asm-head"><span class="k">Total</span><span class="asm-tot"><b>100</b> marks · ' + PARTS.length + ' components</span></div><div class="asm-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="asm-grid">' + tiles + '</div></div>';
   }
   function info() {
     var cos = COS.map(function (c) { return '<tr><td class="c-ty">' + c[0] + '</td><td class="c-dt">' + esc(c[1]) + '</td></tr>'; }).join('');
@@ -313,7 +312,7 @@
     var tbl = function (head, body) { return '<div class="card ta-wrap"><table class="ev-table" style="min-width:420px"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'; };
     return '<div class="stack g32"><div class="stack g8"><span class="eyebrow">CSE 1112 · Fall 2026</span><h1 class="h1">Syllabus</h1><p class="lede">A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.</p></div>' +
       sec('Counseling hours', '<div class="cn-grid">' + counselRows() + '</div>') +
-      sec('Prerequisites', tbl('<th>Course</th><th>Why it matters</th>', '<tr><td class="c-ty">Introduction to Computer Systems (ICS)</td><td class="c-dt">Lecture 1 builds on input and output, variables, operators and selection statements from ICS.</td></tr>')) +
+      sec('Prerequisites', tbl('<th>Course</th><th>Why it matters</th>', '<tr><td class="c-ty">Introduction to Computer Systems (ICS)</td><td class="c-dt">Lecture 1 builds on input and output, variables, operators, selection statements and loops from ICS.</td></tr>')) +
       sec('Course outcomes', '<div class="co-hint">' + COS.map(function (c) { return '<div><b>' + c[0] + '</b><span>' + esc(c[1]) + '</span></div>'; }).join('') + '</div>') +
       sec('Course plan', lecTable(true)) +
       sec('Assessment &amp; Evaluation Details', assessTiles()) +
