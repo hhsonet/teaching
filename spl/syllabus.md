@@ -7,7 +7,7 @@ description: Course topics, class materials and grading.
 
 # CSE 1112: Structured Programming Language Laboratory
 
-A 12-session lab in structured C programming. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.
+A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.
 
 ## At a glance
 
@@ -54,7 +54,7 @@ A 12-session lab in structured C programming. Marks are split across attendance,
 | Attendance | 5 | Full marks for attending 10 or more classes; 2 absences ignored |
 | Assignment | 10 | 10 weekly progress logs, 1 mark each |
 | Project | 10 | Team project (CO4) |
-| Class performance | 30 | Base score, plus bonus for assignments and active participation |
+| Class performance | 25 | Base score, plus bonus for assignments and active participation |
 | Viva | 10 | Oral assessment |
 | Mid-term exam | 20 | Covers lectures 1 to 5 |
 | Final exam | 20 | Covers lectures 7 to 11 |

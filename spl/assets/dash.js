@@ -52,7 +52,7 @@
     ['Attendance', 5, 'Full marks for attending 10 or more classes; 2 absences ignored', ['There are 12 classes in total', 'Full marks for attending 10 or more classes', '2 absences are ignored']],
     ['Assignment', 10, '10 weekly progress logs, 1 mark each', ['10 weekly progress logs', '1 mark for each log']],
     ['Project', 10, 'Team project (CO4)', ['Teams of 3 students build a C program that solves a real-world scenario', 'The project uses structures, functions and file handling together', 'Team project in lecture 11']],
-    ['Class Performance', 30, 'Base score, plus bonus for assignments and active participation', ['The base score is the best 2 of the 3 class tests (Class Test 01, 02 and 03)', 'Additional marks may be awarded for assignments and active participation in class activities']],
+    ['Class Performance', 25, 'Base score, plus bonus for assignments and active participation', ['The base score is the best 2 of the 3 class tests (Class Test 01, 02 and 03)', 'Additional marks may be awarded for assignments and active participation in class activities']],
     ['Viva', 10, 'Oral assessment', ['Oral assessment']],
     ['Mid-Term Exam', 20, 'Covers lectures 1 to 5', ['Lecture 6', 'Covers lectures 1 to 5']],
     ['Final Exam', 20, 'Covers lectures 7 to 11', ['Lecture 12', 'Covers lectures 7 to 11']]
@@ -101,13 +101,15 @@
   // { day: 'Sun', start: '10:00', end: '11:00', room: '405', with: 'Hamudi Hasan Sonet' }; add kind: 'class' for a class session
   var COUNSEL_START = 8.5, COUNSEL_END = 16.5, COUNSEL_DAYS = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed'];
   var COUNSELING = [
-    { day: 'Sun', start: '09:00', end: '10:30', room: '', with: 'Hamudi Hasan Sonet' },
-    { kind: 'class', day: 'Mon', start: '08:30', end: '11:00', room: '523', with: 'CSE 1112 (F)' }
+    { day: 'Sun', start: '10:00', end: '12:30', room: '525', with: 'Hamudi Hasan Sonet' },
+    { day: 'Tue', start: '08:30', end: '11:00', room: '525', with: 'Hamudi Hasan Sonet' },
+    { kind: 'class', day: 'Mon', start: '08:30', end: '11:00', room: '522', with: 'CSE 1112 (F)' },
+    { kind: 'class', day: 'Tue', start: '14:00', end: '16:30', room: '523', with: 'CSE 1112 (O)' }
   ];
 
   var PAGES = {
     home: ['home', 'Home'], info: ['syllabus', 'Syllabus'], lectures: ['lectures', 'Lectures'], materials: ['materials', 'Materials'],
-    team: ['teaching-team', 'Teaching Team'], project: ['project', 'Project']
+    team: ['teaching-team', 'Counseling'], project: ['project', 'Project']
   };
   var ALIAS = { overview: 'home', schedule: 'lectures', assessment: 'info', syllabus: 'info', staff: 'team', faculty: 'team', 'teaching-team': 'team' };
 
@@ -121,7 +123,9 @@
   var icon = function (k) { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICON[k] + '</svg>'; };
 
   var SIDE_KEY = 'spl-v6-sidebar';
-  var state = { page: 'home', lec: null, open: [0], filter: 'all', sidebar: true, drawer: false, lecList: true };
+  // Lectures with a page ready. Add a number here to make it clickable everywhere.
+  var OPEN_LECTURES = [1];
+  var state = { page: 'home', lec: null, open: [0], filter: 'all', sidebar: true, drawer: false, lecList: true, modal: null };
   try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) {}
 
   var isMobile = function () { return window.matchMedia('(max-width: 899px)').matches; };
@@ -144,7 +148,7 @@
   }
   function parseHash() {
     var m = location.hash.match(/^#\/lecture\/(\d+)/);
-    if (m) { state.page = 'lecture'; state.lec = clamp(parseInt(m[1], 10)); return; }
+    if (m) { var ln = clamp(parseInt(m[1], 10)); if (OPEN_LECTURES.indexOf(ln) > -1) { state.page = 'lecture'; state.lec = ln; return; } state.page = 'lectures'; return; }
     m = location.hash.match(/^#\/([\w-]+)/);
     var k = m ? (ALIAS[m[1]] || m[1]) : 'home';
     state.page = PAGES[k] ? k : 'home'; state.lec = null;
@@ -184,7 +188,7 @@
   function assessChart() {
     var segs = PARTS.map(function (p, i) { return '<i data-i="' + i + '" title="' + esc(p[0]) + ' · ' + p[1] + '" style="flex:' + p[1] + ';background:' + SHADES[i] + '"></i>'; }).join('');
     var rows = PARTS.map(function (p, i) {
-      return '<div class="ch-row" data-i="' + i + '"><span class="ch-nm"><i style="background:' + SHADES[i] + '"></i>' + esc(p[0]) + '</span><span class="ch-bar"><b style="width:' + (p[1] / 30 * 100) + '%;background:' + SHADES[i] + '"></b></span><span class="ch-mk">' + p[1] + '</span></div>';
+      return '<div class="ch-row" data-i="' + i + '"><span class="ch-nm"><i style="background:' + SHADES[i] + '"></i>' + esc(p[0]) + '</span><span class="ch-bar"><b style="width:' + (p[1] / 25 * 100) + '%;background:' + SHADES[i] + '"></b></span><span class="ch-mk">' + p[1] + '</span></div>';
     }).join('');
     return '<div class="card ch-card"><div class="ch-head"><span class="k">Mark distribution</span><span class="mono" style="font-size:12px;color:#71717a">100 marks</span></div><div class="ch-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="ch-rows">' + rows + '</div></div>';
   }
@@ -246,7 +250,7 @@
     }).join('');
     return '<div class="stack g40">' +
       '<section class="hero">' + heroArt() + '<div class="hero-in"><span class="pill"><i></i>CSE 1112 · Dept. of CSE · United International University</span><h1>Structured Programming Language</h1>' +
-      '<p>A 12-session lab in structured C programming. We review the basics, then work through functions and loops, arrays, strings, structures and pointers, and finish with a team project. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.</p>' +
+      '<p>A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.</p>' +
       '<div class="row wrap g8"><button class="reset btn btn-dark btn-lg" data-act="lec:' + c + '">Continue · Lecture ' + pad(c) + ' <span style="opacity:.6">→</span></button><button class="reset btn btn-out btn-lg" data-act="go:lectures">View schedule</button><a class="btn btn-out btn-lg noul" href="' + link('problem-sets') + '">Problem sets</a></div></div>' +
       '<div class="hero-stats"><div><span class="k">Progress</span><span class="big">' + pad(c) + '<span class="of"> / 12</span></span><span class="bar"><i style="width:' + (c / 12 * 100) + '%"></i></span></div>' +
       '<div><span class="k">This week</span><span class="big">' + h[0] + '</span><span class="k" style="font-weight:400">' + curUnit + (classDates(c) ? ' · ' + classDates(c) : '') + '</span></div>' +
@@ -255,7 +259,7 @@
 
       '<section class="stack g16"><h2 class="h2">General information</h2><div class="grid2">' +
       '<div class="card person-card"><span class="k">Course teacher</span><div class="row" style="gap:14px"><span class="av hhs" style="width:44px;height:44px;font-size:14px">HHS</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">Hamudi Hasan Sonet</span><span class="muted" style="font-size:13px;line-height:1.4">Senior Programmer, United International University</span></span></div>' +
-      '<div class="row wrap g8" style="margin-top:auto"><a class="btn btn-dark noul" href="mailto:sonet@admin.uiu.ac.bd"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>sonet@admin.uiu.ac.bd</a><button class="reset btn btn-out" data-act="go:team">Teaching team</button></div></div>' +
+      '<div class="row wrap g8" style="margin-top:auto"><a class="btn btn-dark noul" href="mailto:sonet@admin.uiu.ac.bd"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg>sonet@admin.uiu.ac.bd</a><button class="reset btn btn-out" data-act="go:team">Counseling</button></div></div>' +
       '<div class="card person-card"><span class="k">Reference books</span><div class="stack g12"><div class="row" style="gap:14px"><span class="book">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Programming in ANSI C</span><span class="muted" style="font-size:13px">E. Balagurusamy · 5th edition or later</span></span></div>' +
       '<div class="row" style="gap:14px"><span class="book" style="background:#3f3f46">C</span><span class="stack g3" style="min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.3">Teach Yourself C</span><span class="muted" style="font-size:13px">Herbert Schildt</span></span></div></div></div></div>' +
       '<div class="card hid"><div class="between" style="padding:14px 20px;border-bottom:1px solid #e4e4e7"><span style="font-size:14px;font-weight:600">Key dates</span><span class="mono muted" style="font-size:12px">12 lectures · 6 units</span></div>' +
@@ -269,47 +273,65 @@
       '<section class="stack g16"><div class="between" style="align-items:baseline"><h2 class="h2">Resources</h2><span class="muted" style="font-size:13px">Course pages, books and tools</span></div><div class="mats wrapt">' + homeResources() + '</div></section></div>';
   }
 
+  // Grading scale. Check against the current UIU grading policy.
+  var GRADES = [['90 to 100', 'A', '4.00'], ['86 to 89', 'A-', '3.67'], ['82 to 85', 'B+', '3.33'], ['78 to 81', 'B', '3.00'], ['74 to 77', 'B-', '2.67'], ['70 to 73', 'C+', '2.33'], ['66 to 69', 'C', '2.00'], ['62 to 65', 'C-', '1.67'], ['58 to 61', 'D+', '1.33'], ['55 to 57', 'D', '1.00'], ['Below 55', 'F', '0.00']];
+  // Course policies. Edit the wording to match the course rules.
+  var POLICIES = [
+    ['Attendance', 'Attend at least 10 of the 12 classes for full attendance marks. 2 absences are ignored.'],
+    ['Late work', 'Submit weekly progress logs and the project by the stated deadline. Late work may lose marks.'],
+    ['Class tests', 'The best 2 of 3 class tests count. Missed tests are not retaken unless the instructor approves.'],
+    ['Academic integrity', 'Write your own code. Copying code from classmates or online, or sharing yours, is plagiarism and is reported under university rules.'],
+    ['Teamwork', 'Every team member must contribute to the project. Marks may differ between members.']
+  ];
+  // Course outcomes covered by each lecture, in lecture order. Check against the course outcome mapping.
+  var LEC_CO = [['CO1', 'CO2'], ['CO1', 'CO2'], ['CO2', 'CO3'], ['CO2', 'CO3'], ['CO1', 'CO2'], ['CO1', 'CO2'], ['CO3'], ['CO3'], ['CO1', 'CO3'], ['CO1', 'CO3'], ['CO4'], ['CO2', 'CO3']];
+  var TOOLS = [['GCC', 'C compiler used to build and run programs.'], ['Code editor or IDE', 'Write code, for example VS Code or Code::Blocks.'], ['Terminal', 'Compile and run programs from the command line.']];
+  var DAYFULL = { Sat: 'Saturday', Sun: 'Sunday', Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday' };
+  function counselRows() {
+    return COUNSELING.filter(function (c) { return c.kind !== 'class'; }).map(function (c) {
+      return '<div class="card cn-i"><span class="cn-d">' + c.day + '</span><span class="cn-b"><b>' + DAYFULL[c.day] + '</b><span>' + clock(hm(c.start)) + ' – ' + clock(hm(c.end)) + '</span></span>' + (c.room ? '<span class="cn-r">Room ' + esc(c.room) + '</span>' : '') + '</div>';
+    }).join('');
+  }
   var BOOKS = [['Programming in ANSI C', 'E. Balagurusamy · 5th edition or later'], ['Teach Yourself C', 'Herbert Schildt']];
+  function assessTiles() {
+    var segs = PARTS.map(function (p, i) { return '<i title="' + esc(p[0]) + ' · ' + p[1] + '" style="flex:' + p[1] + ';background:' + SHADES[i] + '"></i>'; }).join('');
+    var tiles = PARTS.map(function (p, i) {
+      return '<div class="at" role="button" tabindex="0" aria-label="' + esc(p[0]) + ' details" data-act="modal:' + i + '" style="--c:' + SHADES[i] + '"><div class="at-top"><span class="at-nm">' + esc(p[0]) + '</span><span class="at-mk">' + p[1] + '</span></div><div class="at-bar"><i style="width:' + (p[1] / 25 * 100) + '%"></i></div><div class="at-foot"><p>' + esc(p[2]) + '</p></div></div>';
+    }).join('');
+    return '<div class="card asm"><div class="asm-head"><span class="k">Total</span><span class="asm-tot"><b>100</b> marks · 7 components</span></div><div class="asm-stack" role="img" aria-label="Mark distribution">' + segs + '</div><div class="asm-grid">' + tiles + '</div></div>';
+  }
   function info() {
-    var rows = PARTS.map(function (p, i) {
-      var open = state.open.indexOf(i) > -1;
-      return '<div class="part' + (open ? ' open' : '') + '"><div class="trow cols-ev" data-act="acc:' + i + '"><span style="font-weight:500">' + p[0] + '</span>' +
-        '<span class="marks"><b>' + pad(p[1]) + '</b><span class="bar"><i style="width:' + (p[1] / 30 * 100) + '%;background:' + SHADES[i] + '"></i></span></span><span style="color:#52525b;line-height:1.45">' + esc(p[2]) + '</span>' +
-        '<span class="chev muted" style="text-align:center;transform:' + (open ? 'rotate(180deg)' : 'none') + '">⌄</span></div>' +
-        (open ? '<div class="part-d cols-ev"><span></span><ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul></div>' : '') + '</div>';
-    }).join('');
     var cos = COS.map(function (c) { return '<tr><td class="c-ty">' + c[0] + '</td><td class="c-dt">' + esc(c[1]) + '</td></tr>'; }).join('');
-    var plan = L.map(function (l, i) {
-      var n = i + 1, exam = /Exam$/.test(l[0]);
-      return '<tr class="plan-row" data-act="lec:' + n + '"><td class="c-n">' + n + '</td><td class="c-ty" style="font-weight:' + (exam ? 700 : 500) + '">' + l[0] + '</td><td class="c-dt">' + details(n) + '</td></tr>';
-    }).join('');
     var books = BOOKS.map(function (b, i) { return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-ty">' + esc(b[0]) + '</td><td class="c-dt">' + esc(b[1]) + '</td></tr>'; }).join('');
     var sec = function (title, body) { return '<section class="stack g16"><h2 class="h2">' + title + '</h2>' + body + '</section>'; };
     var tbl = function (head, body) { return '<div class="card ta-wrap"><table class="ev-table" style="min-width:420px"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'; };
-    return '<div class="stack g32"><div class="stack g8"><span class="eyebrow">CSE 1112 · Fall 2026</span><h1 class="h1">Syllabus</h1><p class="lede">Structured Programming Language Laboratory. A 12-session lab in structured C programming. Marks are split across attendance, assignments, a project, class performance, viva and two exams, totaling 100.</p></div>' +
-      sec('At a glance', tbl('<th>Instructor</th><th>Email</th>', '<tr><td class="c-ty">Hamudi Hasan Sonet (HHS)</td><td class="c-dt"><a class="person-mail" href="mailto:sonet@admin.uiu.ac.bd">sonet@admin.uiu.ac.bd</a></td></tr>')) +
-      sec('Reference books', tbl('<th>#</th><th>Book</th><th>Author</th>', books)) +
-      sec('Course outcomes', tbl('<th>CO</th><th>Description</th>', cos)) +
-      sec('Course plan', tbl('<th>Lecture</th><th>Topic</th><th>Details</th>', plan)) +
-      sec('Assessment &amp; Evaluation Details', '<div class="card sx"><div class="tbl"><div class="thead cols-ev"><span>Assessment Types</span><span>Marks</span><span>Details</span><span></span></div>' + rows +
-        '<div class="trow total cols-ev" style="border-bottom:0"><span>Total</span><span class="mono">100</span><span style="font-weight:400;color:#71717a">7 components</span><span></span></div></div></div>') +
-      sec('Evaluation details', '<div class="grid2">' +
-        '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Class Performance</span><span style="font-size:14px;line-height:1.6;color:#52525b">Class Performance marks will be calculated based on the best 2 out of 3 class tests as the base. Additional marks may be awarded for assignments and active participation in class activities.</span></div>' +
-        '<div class="card pad stack g8"><span style="font-size:14px;font-weight:600">Project</span><span style="font-size:14px;line-height:1.6;color:#52525b">Teams of 3 students build a C program that solves a real-world scenario. The project uses structures, functions and file handling together.</span></div></div>') + '</div>';
+    return '<div class="stack g32"><div class="stack g8"><span class="eyebrow">CSE 1112 · Fall 2026</span><h1 class="h1">Syllabus</h1><p class="lede">A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.</p></div>' +
+      sec('Counseling hours', '<div class="cn-grid">' + counselRows() + '</div>') +
+      sec('Prerequisites', tbl('<th>Course</th><th>Why it matters</th>', '<tr><td class="c-ty">Introduction to Computer Systems (ICS)</td><td class="c-dt">Lecture 1 builds on input and output, variables, operators and selection statements from ICS.</td></tr>')) +
+      sec('Course outcomes', '<div class="co-hint">' + COS.map(function (c) { return '<div><b>' + c[0] + '</b><span>' + esc(c[1]) + '</span></div>'; }).join('') + '</div>') +
+      sec('Course plan', lecTable(true)) +
+      sec('Assessment &amp; Evaluation Details', assessTiles()) +
+      sec('Grading scale', '<div class="card gs">' + GRADES.map(function (g) { return '<div class="gs-i' + (g[1] === 'F' ? ' f' : '') + (['A', 'A-'].indexOf(g[1]) > -1 ? ' gold' : ['B+', 'B'].indexOf(g[1]) > -1 ? ' hi' : ['B-', 'C+', 'C'].indexOf(g[1]) > -1 ? ' yel' : '') + '"><b>' + g[1] + '</b><span class="gs-p">' + g[2] + '</span><span class="gs-r">' + g[0].replace(' to ', '–') + '</span></div>'; }).join('') + '</div>') +
+      sec('Policies', tbl('<th>Policy</th><th>Details</th>', POLICIES.map(function (p) { return '<tr><td class="c-ty">' + esc(p[0]) + '</td><td class="c-dt">' + esc(p[1]) + '</td></tr>'; }).join(''))) +
+      sec('Tools', tbl('<th>Tool</th><th>Use</th>', TOOLS.map(function (t) { return '<tr><td class="c-ty">' + esc(t[0]) + '</td><td class="c-dt">' + esc(t[1]) + '</td></tr>'; }).join(''))) +
+      sec('Reference books', tbl('<th>#</th><th>Book</th><th>Author</th>', books)) + '</div>';
   }
 
   function details(n) {
     return esc(DETAILS[n]).replace(/(Class Test \d+( \([^)]*\))?)/g, '<strong>$1</strong>');
   }
-  function lectures() {
+  function lecTable(co) {
     var rows = L.map(function (l, i) {
-      var n = i + 1, st = status(n), exam = /Exam$/.test(l[0]);
-      return '<div class="trow cols-lec clickable' + (state.filter === 'deadlines' && !isDl(l[1]) ? ' dim' : '') + '" style="' + (n === CURRENT ? 'background:#fafafa' : '') + '" data-act="lec:' + n + '"><span class="num">' + pad(n) + '</span><span style="font-weight:' + (exam ? 700 : 500) + '">' + l[0] + '</span>' +
-        '<span style="color:#52525b;line-height:1.5">' + details(n) + '</span><span class="jstart">' + badge(st[0], st[1]) + '</span></div>';
+      var n = i + 1, st = status(n), exam = /Exam$/.test(l[0]), open = OPEN_LECTURES.indexOf(n) > -1;
+      return '<div class="trow cols-lec' + (co ? ' cols-co' : '') + (open ? ' clickable' : '') + (state.filter === 'deadlines' && !isDl(l[1]) ? ' dim' : '') + '" style="' + (n === CURRENT ? 'background:#fafafa' : '') + '"' + (open ? ' data-act="lec:' + n + '"' : '') + '><span class="num">' + pad(n) + '</span><span style="font-weight:' + (exam ? 700 : 500) + '">' + l[0] + '</span>' +
+        '<span style="color:#52525b;line-height:1.5">' + details(n) + '</span>' + (co ? '<span class="co-tags">' + LEC_CO[i].map(function (c) { return '<b>' + c + '</b>'; }).join('') + '</span>' : '') + '<span class="jstart">' + badge(st[0], st[1]) + '</span></div>';
     }).join('');
+    return '<div class="card sx"><div style="min-width:600px"><div class="thead cols-lec' + (co ? ' cols-co' : '') + '"><span>Lecture</span><span>Topic</span><span>Details</span>' + (co ? '<span>CO</span>' : '') + '<span>Status</span></div>' + rows + '</div></div>';
+  }
+  function lectures() {
     var f = [['all', 'All'], ['deadlines', 'Deadlines']].map(function (x) { return '<button class="reset' + (state.filter === x[0] ? ' on' : '') + '" data-act="filter:' + x[0] + '">' + x[1] + '</button>'; }).join('');
     return '<div class="stack g24"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Lectures</h1><p class="sub">12 lectures. Click one to open its page.</p></div><div class="seg">' + f + '</div></div>' +
-      '<div class="card sx"><div style="min-width:600px"><div class="thead cols-lec"><span>Lecture</span><span>Topic</span><span>Details</span><span>Status</span></div>' + rows + '</div></div></div>';
+      lecTable() + '</div>';
   }
 
   var LECDATA = {
@@ -485,7 +507,7 @@
       var bars = COUNSELING.filter(function (c) { return c.day === d; }).map(function (c) {
         var l = Math.max(0, hm(c.start) - COUNSEL_START), w = Math.min(span, hm(c.end) - COUNSEL_START) - l;
         var cls = c.kind === 'class', tip = (cls ? 'Class · ' : 'Counseling · ') + d + ' ' + clock(hm(c.start)) + ' – ' + clock(hm(c.end)) + (c.room ? ' · Room ' + c.room : '') + ' · ' + c.with;
-        return '<span class="cs-slot' + (cls ? ' cs-class' : '') + '" title="' + esc(tip) + '" style="left:' + (l / span * 100) + '%;width:' + (w / span * 100) + '%"><b>' + clock(hm(c.start)).replace(/ [AP]M/, '') + '–' + clock(hm(c.end)).replace(/ [AP]M/, '') + '</b><i>' + (cls ? esc(c.with) : esc(c.with.split(' ')[0])) + (c.room ? ' · ' + esc(c.room) : '') + '</i></span>';
+        return '<span class="cs-slot' + (cls ? ' cs-class' : '') + '" title="' + esc(tip) + '" style="left:' + (l / span * 100) + '%;width:' + (w / span * 100) + '%"><b>' + clock(hm(c.start)).replace(/ [AP]M/, '') + '–' + clock(hm(c.end)).replace(/ [AP]M/, '') + '</b><i>' + (cls ? esc(c.with) + (c.room ? ' · ' + esc(c.room) : '') : (c.room ? 'Room #' + esc(c.room) : esc(c.with.split(' ')[0]))) + '</i></span>';
       }).join('');
       return '<div class="cs-row"><span class="cs-day">' + d + '</span><div class="cs-track">' + bars + '</div></div>';
     }).join('');
@@ -520,11 +542,25 @@
 
   var VIEW = { home: home, info: info, lectures: lectures, lecture: lecture, materials: materials, team: team, project: project };
 
+  function modal() {
+    if (state.modal === null) return '';
+    var p = PARTS[state.modal], i = state.modal;
+    return '<div class="mdl-scrim" data-act="scrim"><div class="mdl" role="dialog" aria-modal="true" aria-label="' + esc(p[0]) + '" style="--c:' + SHADES[i] + '">' +
+      '<button class="reset mdl-x" data-act="closeModal" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
+      '<span class="ev-k">' + p[1] + ' marks · ' + esc(WHEN[i]) + '</span><h3 class="mdl-t">' + esc(p[0]) + '</h3><p class="mdl-s">' + esc(p[2]) + '</p>' +
+      '<ul>' + p[3].map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul></div></div>';
+  }
+
   function render() {
-    document.body.style.overflow = state.drawer ? 'hidden' : '';
+    document.body.style.overflow = state.drawer || state.modal !== null ? 'hidden' : '';
     root.innerHTML = '<div class="shell"><div class="scrim' + (state.drawer ? ' on' : '') + '" data-act="closeDrawer"></div>' + sidebar() +
       '<div class="frame">' + header() + '<main>' + VIEW[state.page]() + '</main>' +
-      '<footer class="foot"><div><span>Structured Programming Language · CSE 1112 · United International University</span></div></footer></div></div>';
+      '<footer class="foot"><div><span>Structured Programming Language · CSE 1112 · United International University</span></div></footer></div></div>' + modal();
+    root.querySelectorAll('[data-act^="lec:"]').forEach(function (el) {
+      if (OPEN_LECTURES.indexOf(parseInt(el.getAttribute('data-act').slice(4), 10)) > -1) return;
+      el.removeAttribute('data-act'); el.setAttribute('data-locked', ''); el.setAttribute('aria-disabled', 'true');
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    });
     document.title = (state.page === 'lecture' ? 'Lecture ' + pad(state.lec) : PAGES[state.page][1]) + ' | SPL';
   }
 
@@ -545,6 +581,9 @@
       else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} }
       render();
     }
+    else if (k === 'modal') { state.modal = parseInt(v, 10); render(); }
+    else if (k === 'scrim') { if (e.target === el) { state.modal = null; render(); } }
+    else if (k === 'closeModal') { state.modal = null; render(); }
     else if (k === 'closeDrawer') { state.drawer = false; render(); }
     else if (k === 'toggleLecs') { state.lecList = !state.lecList; render(); }
   });
@@ -562,7 +601,7 @@
     var card = e.target.closest('.ch-card');
     if (card && !(e.relatedTarget && card.contains(e.relatedTarget))) chartHl(card, null);
   });
-  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
+  window.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('at')) { e.preventDefault(); e.target.click(); return; }if (e.key === 'Escape' && state.modal !== null) { state.modal = null; render(); } else if (e.key === 'Escape' && state.drawer) { state.drawer = false; render(); } });
   window.addEventListener('resize', function () { if (state.drawer && !isMobile()) { state.drawer = false; render(); } });
   window.addEventListener('popstate', function () { parseHash(); render(); });
   parseHash();

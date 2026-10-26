@@ -12,7 +12,7 @@
     {
       title: 'Structured Programming Language', href: 'spl/', status: 'current',
       meta: 'CSE 1112 · Dept. of CSE · Laboratory',
-      desc: 'A 12-session lab in structured C programming: functions, loops, arrays, strings, structures and pointers, finishing with a team project.',
+      desc: 'A 12-session lab in structured C programming. You move from basics, functions and loops through arrays, strings, structures and pointers, and finish with a team project.',
       topics: ['Basics', 'Function & Loop', 'Array', 'String', 'Structure', 'Pointer', 'Project'],
       facts: [['Lectures', '12'], ['Assessment', '100 marks'], ['Book', 'Programming in ANSI C'], ['Format', 'Laboratory']],
       teacher: 'Hamudi Hasan Sonet', initials: 'HHS',
