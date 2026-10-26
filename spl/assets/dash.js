@@ -169,7 +169,7 @@
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="reset sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span class="chev" style="transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Assignments</div><button class="reset link-item' + (state.page === 'project' ? ' on' : '') + '" data-act="go:project">Project</button></div>' +
-      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="' + link('problem-sets') + '"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
+      '<div class="stack g2"><div class="sec-label">Resources</div><a class="link-item" href="https://drive.google.com/drive/folders/1tE0oCDc2jl17sWwwA08xo1x9ykkj9sIu?usp=drive_link" target="_blank" rel="noopener"><span>Problem sets</span></a><a class="link-item" href="' + link('code') + '"><span>Code</span></a></div>' +
       '<button class="reset who" data-act="go:team"><span class="avatar hhs">HHS</span><span class="stack g2" style="min-width:0"><span class="n1">Hamudi Hasan Sonet</span><span class="n2">Course teacher</span></span></button>' +
       '</aside>';
   }
@@ -195,7 +195,7 @@
 
   var HOME_RESOURCES = [
     ['DOC', 'Syllabus', 'Course plan, marks and outcomes', '#info'],
-    ['SET', 'Problem sets', 'Topic-wise C problems, with PDF', 'problem-sets'],
+    ['SET', 'Problem sets', 'Topic-wise C problems, with PDF', 'https://drive.google.com/drive/folders/1tE0oCDc2jl17sWwwA08xo1x9ykkj9sIu?usp=drive_link'],
     ['C', 'Code', 'Example programs, one folder per lecture', 'code'],
     ['BOOK', 'Programming in ANSI C', 'E. Balagurusamy · 5th edition or later', ''],
     ['BOOK', 'Teach Yourself C', 'Herbert Schildt', ''],

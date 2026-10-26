@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Code
-nav_order: 4
+nav_order: 6
 description: Example code shared in class, one folder per lecture.
 ---
 
@@ -9,9 +9,9 @@ description: Example code shared in class, one folder per lecture.
 
 Example code from class is stored in the course repository, one folder per lecture.
 
-- [Browse all code on GitHub]({{ site.github_url }}/code)
-- [Lecture 1: Basics]({{ site.github_url }}/code/lecture-01)
-- [Lecture 2: Function & Loop]({{ site.github_url }}/code/lecture-02)
+- [Browse all code](code/)
+- [Lecture 1: Basics](code/lecture-01/)
+- [Lecture 2: Function & Loop](code/lecture-02/)
 
 ## Compile and run
 
@@ -22,4 +22,4 @@ gcc -Wall -o sum_two sum_two.c
 
 ## Share your code
 
-Send your own code or fixes as a pull request. Add the file in the folder of the matching lecture. See the [code README]({{ site.github_url }}/code#contributing-code) for the steps.
+Send your own code or fixes as a pull request. Add the file in the folder of the matching lecture. See the [code README](code/README.md) for the steps.

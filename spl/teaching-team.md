@@ -1,27 +1,32 @@
 ---
 layout: page
-title: Teaching Team
-description: A listing of all the course teaching team members.
+title: Counseling
+description: Course teacher, class schedule and counseling hours.
 nav_order: 10
 ---
 
-# Teaching Team
+# Counseling
 
-Staff information is stored in the `_staffers` directory and rendered according to the layout file, `_layouts/staffer.html`.
+## Course teacher
 
-## Instructors
+**Hamudi Hasan Sonet**, Senior Programmer, United International University
 
-{% assign instructors = site.staffers | where: 'role', 'Instructor' %}
-{% for staffer in instructors %}
-{{ staffer }}
-{% endfor %}
+Email: [sonet@admin.uiu.ac.bd](mailto:sonet@admin.uiu.ac.bd)
 
-{% assign teaching_assistants = site.staffers | where: 'role', 'Teaching Assistant' %}
-{% assign num_teaching_assistants = teaching_assistants | size %}
-{% if num_teaching_assistants != 0 %}
-## Teaching Assistants
+## Counseling hours
 
-{% for staffer in teaching_assistants %}
-{{ staffer }}
-{% endfor %}
-{% endif %}
+| Day | Time | Room |
+|---|---|---|
+| Sunday | 10:00 AM – 12:30 PM | 525 |
+| Tuesday | 8:30 – 11:00 AM | 525 |
+
+## Class schedule
+
+| Day | Time | Section | Room |
+|---|---|---|---|
+| Monday | 8:30 – 11:00 AM | CSE 1112 (F) | 522 |
+| Tuesday | 2:00 – 4:30 PM | CSE 1112 (O) | 523 |
+
+## Teaching assistants
+
+To be announced.
