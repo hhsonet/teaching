@@ -475,3 +475,13 @@ h1,h2,h3,h4,p{margin:0}
 .gs-i{align-items:center;text-align:center}
 [data-locked]{cursor:default!important}
 [data-locked]:hover{background:inherit}
+
+/* mark distribution: grow-in on load */
+@keyframes ch-grow{from{transform:scaleX(0)}}
+@keyframes ch-rise{from{opacity:0;transform:translateY(6px)}}
+.ch-stack i{transform-origin:left center;animation:ch-grow .8s cubic-bezier(.2,.7,.2,1) backwards}
+.ch-bar b{transform-origin:left center;animation:ch-grow .9s cubic-bezier(.2,.7,.2,1) backwards}
+.ch-row{animation:ch-rise .5s ease backwards}
+.ch-stack i:nth-child(1){animation-delay:.05s}.ch-stack i:nth-child(2){animation-delay:.12s}.ch-stack i:nth-child(3){animation-delay:.19s}.ch-stack i:nth-child(4){animation-delay:.26s}.ch-stack i:nth-child(5){animation-delay:.33s}.ch-stack i:nth-child(6){animation-delay:.4s}.ch-stack i:nth-child(7){animation-delay:.47s}
+.ch-row:nth-child(1),.ch-row:nth-child(1) .ch-bar b{animation-delay:.2s}.ch-row:nth-child(2),.ch-row:nth-child(2) .ch-bar b{animation-delay:.28s}.ch-row:nth-child(3),.ch-row:nth-child(3) .ch-bar b{animation-delay:.36s}.ch-row:nth-child(4),.ch-row:nth-child(4) .ch-bar b{animation-delay:.44s}.ch-row:nth-child(5),.ch-row:nth-child(5) .ch-bar b{animation-delay:.52s}.ch-row:nth-child(6),.ch-row:nth-child(6) .ch-bar b{animation-delay:.6s}.ch-row:nth-child(7),.ch-row:nth-child(7) .ch-bar b{animation-delay:.68s}
+@media (prefers-reduced-motion:reduce){.ch-stack i,.ch-bar b,.ch-row{animation:none}}

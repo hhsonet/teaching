@@ -341,32 +341,65 @@
 
   var LECDATA = {
     1: {
-      outcome: 'After this class you can write C programs that read input, calculate with operators and make decisions with selection statements.',
+      outcome: 'After this class you can write C programs with the basic structure, read and print values, calculate with operators, make decisions with selection statements and repeat work with loops.',
       before: [
-        'Revise from ICS: variables, data types and operators.',
+        'Revise from ICS: variables, data types, operators and loops.',
         'Set up a C compiler (GCC) and a code editor. Make sure you can compile and run hello world.',
         'Warm-up: what does printf("%d", 7 / 2); print? (Answer: 3)'
       ],
       steps: [
-        { t: 'Input and output', d: 'printf prints values and scanf reads them. Add two numbers:',
-          code: ['#include <stdio.h>', '', 'int main(void) {', '    int a, b;', '    scanf("%d %d", &a, &b);', '    printf("%d\\n", a + b);', '    return 0;', '}'], out: 'Input 3 4, output 7' },
-        { t: 'Variables and operators', d: 'Declare a variable with a type, then use arithmetic and relational operators. Integer division drops the fraction and % gives the remainder:',
-          code: ['int a = 7, b = 2;', 'printf("%d %d\\n", a / b, a % b);'], out: 'Output 3 1' },
-        { t: 'Selection statements', d: 'if / else if / else and switch choose which code runs. Even or odd:',
-          code: ['int n;', 'scanf("%d", &n);', 'if (n % 2 == 0)', '    printf("Even\\n");', 'else', '    printf("Odd\\n");'], out: 'Input 7, output Odd' },
+        { t: 'Program structure', d: 'Every C program starts at main. Compile and run with gcc main.c -o main, then ./main.',
+          code: ['#include <stdio.h>', '', 'int main(void)', '{', '    printf("Hello, World!\\n");', '    return 0;', '}'], out: 'Output Hello, World!' },
+        { t: 'Variables and data types', d: 'Each type has a format specifier: int uses %d, float uses %f, double uses %lf in scanf and %f in printf, char uses %c.',
+          code: ['int age = 20;', 'float price = 99.5f;', 'double pi = 3.14159;', 'char grade = \'A\';'] },
+        { t: 'Input and output', d: 'printf prints values and scanf reads them. scanf needs the address of each variable, so put & before the variable name.',
+          code: ['int age;', 'float height;', '', 'printf("Enter age and height: ");', 'scanf("%d %f", &age, &height);', 'printf("Age: %d, height: %.2f\\n", age, height);'], out: 'Input 20 1.75, output Age: 20, height: 1.75' },
+        { t: 'Operators', d: 'Arithmetic: + - * / %. Relational: == != < > <= >=. Logical: && || !. Assignment: = += -=. Increment: ++ --. In C, true is 1 and false is 0. Integer division truncates: 7 / 2 gives 3.',
+          code: ['int x = 7;', 'x += 2;', 'printf("%d %d\\n", 7 % 3, 5 > 3);   // 1 1', 'printf("%d\\n", (x > 0) && (x < 10));   // 1'], out: 'Output 1 1, then 1' },
+        { t: 'Selection: if', d: 'Use if, else if and else for ranges:',
+          code: ['if (marks >= 80) {', '    printf("A+\\n");', '} else if (marks >= 60) {', '    printf("A\\n");', '} else {', '    printf("Fail\\n");', '}'], out: 'Input 65, output A' },
+        { t: 'Selection: switch', d: 'Use switch when one value is compared with several constants. Each case needs a break, or execution falls through to the next case:',
+          code: ['switch (choice) {', '    case 1: printf("Add\\n"); break;', '    case 2: printf("View\\n"); break;', '    default: printf("Invalid choice\\n");', '}'], out: 'Input 2, output View' },
+        { t: 'Loops', d: 'Use for when the number of repetitions is known, while when a condition controls the loop, and do-while when the body must run at least once.',
+          code: ['for (int i = 1; i <= 5; i++) {', '    printf("%d ", i);', '}', '', 'int n = 3;', 'while (n > 0) {', '    printf("%d\\n", n);', '    n--;', '}', '', 'int x;', 'do {', '    scanf("%d", &x);', '} while (x < 0);'], out: 'Output 1 2 3 4 5, then 3 2 1' },
+        { t: 'Type casting', d: 'When two integers are divided, C truncates the result. A cast converts one operand to another type first. Without the cast, total / count gives 3.',
+          code: ['int total = 7, count = 2;', 'float average = (float)total / count;   // 3.5'], out: 'average is 3.5' },
+        { t: 'The char type', d: 'A char stores one character as a small integer using the ASCII code. For example, \'A\' is 65, \'a\' is 97 and \'0\' is 48. When reading a char after a number with scanf, write scanf(" %c", &c); with a leading space to skip the newline left in the input.',
+          code: ['char c = \'A\';', 'printf("%c %d\\n", c, c);   // prints: A 65'], out: 'Output A 65' },
+        { t: 'Math functions and random numbers', d: 'Include <math.h> for mathematical functions and compile with gcc main.c -o main -lm. Include <stdlib.h> and <time.h> for random numbers. Seed the generator once, or the same sequence repeats on every run. rand() % n gives a value from 0 to n - 1. Add an offset to move the range.',
+          code: ['#include <math.h>', '#include <stdlib.h>', '#include <time.h>', '', 'double r = sqrt(16.0);      // 4.0', 'double p = pow(2.0, 3.0);   // 8.0', '', 'srand(time(NULL));', 'int dice = rand() % 6 + 1;   // a number from 1 to 6'] },
+        { t: 'Nested conditions', d: 'A condition can sit inside another condition. Keep nesting shallow. Where possible, combine conditions with && instead.',
+          code: ['if (age >= 18) {', '    if (has_id) {', '        printf("Entry allowed\\n");', '    } else {', '        printf("Bring an ID\\n");', '    }', '} else {', '    printf("Entry not allowed\\n");', '}'] },
         { t: 'Exercise', d: 'Solve problems 1 to 3 from the problem set, in order.' }
       ],
       mistakes: [
         'Using = instead of == in a condition.',
+        'Forgetting break in a switch case, so execution falls through.',
         'Forgetting & in scanf("%d", &n).',
         'Integer division: 7 / 2 is 3, not 3.5.'
       ],
       problems: [
-        { level: 'Easy', when: 'In class', t: 'Sum of two numbers', d: 'Read two integers and print their sum.', ex: 'Input 3 4, output 7' },
-        { level: 'Easy', when: 'In class', t: 'Even or odd', d: 'Read an integer and print Even or Odd.', ex: 'Input 7, output Odd' },
-        { level: 'Easy', when: 'In class', t: 'Largest of three', d: 'Read three integers and print the largest.', ex: 'Input 4 19 7, output 19' },
-        { level: 'Medium', when: 'After class', t: 'Seconds to time', d: 'Read a number of seconds and print the hours, minutes and seconds.', ex: 'Input 3725, output 1 2 5' },
-        { level: 'Medium', when: 'After class', t: 'Grade', d: 'Read a score from 0 to 100 and print the grade: 80 and above A+, 70-79 A, 60-69 B, 50-59 C, 40-49 D, below 40 F.', ex: 'Input 73, output A' }
+        { topic: 'Input and output', level: 'Easy', when: 'In class', t: 'Sum of two numbers', d: 'Read two integers and print their sum.', ex: 'Input 3 4, output 7' },
+        { topic: 'Selection', level: 'Easy', when: 'In class', t: 'Even or odd', d: 'Read an integer and print Even or Odd.', ex: 'Input 7, output Odd' },
+        { topic: 'Selection', level: 'Easy', when: 'In class', t: 'Largest of three', d: 'Read three integers and print the largest.', ex: 'Input 4 19 7, output 19' },
+        { topic: 'Operators', level: 'Medium', when: 'After class', t: 'Seconds to time', d: 'Read a number of seconds and print the hours, minutes and seconds.', ex: 'Input 3725, output 1 2 5' },
+        { topic: 'Selection', level: 'Medium', when: 'After class', t: 'Grade', d: 'Read a score from 0 to 100 and print the grade: 80 and above A+, 70-79 A, 60-69 B, 50-59 C, 40-49 D, below 40 F.', ex: 'Input 73, output A' },
+        { topic: 'Input and output', level: 'Medium', when: 'After class', t: 'Rectangle report', d: 'Read the length and width as decimals. Print the area and the perimeter with 2 decimal places.', ex: 'Input 4.5 2, output Area: 9.00 Perimeter: 13.00' },
+        { topic: 'Input and output', level: 'Hard', when: 'After class', t: 'Bill split', d: 'Read a bill amount, a tip percentage and the number of people. Print the tip, the total and each person’s share, all with 2 decimal places.', ex: 'Input 120 10 4, output Tip: 12.00 Total: 132.00 Each: 33.00' },
+        { topic: 'Operators', level: 'Medium', when: 'After class', t: 'Swap without a third variable', d: 'Read two integers and swap them using only arithmetic operators, then print them.', ex: 'Input 5 9, output 9 5' },
+        { topic: 'Operators', level: 'Hard', when: 'After class', t: 'Three-digit analyser', d: 'Read a three-digit number. Using only / and %, print the sum of its digits and the number with its digits reversed. No loops.', ex: 'Input 482, output 14 284' },
+        { topic: 'Selection', level: 'Medium', when: 'After class', t: 'Leap year', d: 'Read a year and print whether it is a leap year. A year is a leap year if it is divisible by 4, except years divisible by 100 that are not divisible by 400.', ex: 'Input 2024, output Leap year. Input 1900, output Not a leap year' },
+        { topic: 'Selection', level: 'Hard', when: 'After class', t: 'Triangle type', d: 'Read three side lengths. Print Invalid if they cannot form a triangle. Otherwise print Equilateral, Isosceles or Scalene.', ex: 'Input 3 4 5, output Scalene. Input 2 2 5, output Invalid' },
+        { topic: 'Switch', level: 'Medium', when: 'After class', t: 'Calculator', d: 'Read two numbers and an operator (+ - * /) and print the result using switch. Print an error message for division by zero or an unknown operator.', ex: 'Input 8 / 2, output 4. Input 8 / 0, output Cannot divide by zero' },
+        { topic: 'Switch', level: 'Hard', when: 'After class', t: 'Days in a month', d: 'Read a month number and a year. Print the number of days in that month, using switch and handling leap years for February.', ex: 'Input 2 2024, output 29. Input 4 2023, output 30' },
+        { topic: 'Loops', level: 'Medium', when: 'After class', t: 'Digits sum and reverse', d: 'Read a positive integer. Using a loop, print the sum of its digits and the number with its digits reversed.', ex: 'Input 1234, output 10 4321' },
+        { topic: 'Loops', level: 'Hard', when: 'After class', t: 'Primes up to n', d: 'Read n and print every prime number from 2 up to n, separated by spaces.', ex: 'Input 20, output 2 3 5 7 11 13 17 19' },
+        { topic: 'Type casting and char', level: 'Medium', when: 'After class', t: 'Average of three', d: 'Read three integers and print their average with 2 decimal places. Use a cast so the division is not truncated.', ex: 'Input 7 8 10, output 8.33' },
+        { topic: 'Type casting and char', level: 'Hard', when: 'After class', t: 'Caesar shift', d: 'Read a lowercase letter and a shift k. Print the letter shifted forward by k places, wrapping from z back to a.', ex: 'Input y 3, output b' },
+        { topic: 'Math and random', level: 'Medium', when: 'After class', t: 'Hypotenuse', d: 'Read the two legs of a right triangle and print the hypotenuse with 2 decimal places using sqrt and pow.', ex: 'Input 3 4, output 5.00' },
+        { topic: 'Math and random', level: 'Hard', when: 'After class', t: 'Two dice', d: 'Roll two dice with rand() until their sum is 7. Print each roll and how many rolls it took. Seed the generator with srand(time(NULL)).', ex: 'Output varies, for example 3 + 5, 6 + 2, 4 + 3, Rolls: 3' },
+        { topic: 'Nested conditions', level: 'Medium', when: 'After class', t: 'Ticket price', d: 'Read an age and whether the person is a student (1 or 0). The base price is 100. Under 5 is free, ages 5 to 17 pay 50, and ages 18 and over pay 100 with a 20% discount for students.', ex: 'Input 20 1, output 80' },
+        { topic: 'Nested conditions', level: 'Hard', when: 'After class', t: 'Quadratic roots', d: 'Read a, b and c of a quadratic equation. Print the roots if they are real, or say there are no real roots. Handle a = 0 as a linear equation.', ex: 'Input 1 -3 2, output 1 2. Input 1 0 1, output No real roots' }
       ],
       resources: [
         { t: 'C reference', d: 'Language and library reference', href: 'https://en.cppreference.com/w/c' },
@@ -377,13 +410,14 @@
         { t: 'Textbook chapter', d: 'To be announced' }
       ],
       after: [
-        'Finish problems 1 to 3 from class.',
-        'Solve problems 4 and 5 on your own.',
+        'Read two integers and print their sum, difference, product and quotient.',
+        'Read a number and print whether it is even or odd.',
+        'Read a mark and print its letter grade using else if.',
         'Solutions are released after the deadline (to be announced).'
       ],
       assess: [
         'Attendance: full marks for attending 10 or more classes. 2 absences are ignored.',
-        'Class performance: your work in class counts toward the 30 marks.',
+        'Class performance: your work in class counts toward the 25 marks.',
         'Next class: Function & Loop.'
       ]
     }
@@ -393,15 +427,50 @@
 
   function problemText(d, i) {
     var x = d.problems[i];
-    return 'Problem ' + (i + 1) + ' (' + x.level + '): ' + x.t + '\n' + x.d + '\nExample: ' + x.ex;
+    return 'Problem ' + (i + 1) + ' (' + x.level + (x.topic ? ', ' + x.topic : '') + '): ' + x.t + '\n' + x.d + '\nExample: ' + x.ex;
   }
   function allProblemsText(n) {
     var d = LECDATA[n];
     return 'Structured Programming Language, Lecture ' + pad(n) + ' problem set\n\n' + d.problems.map(function (x, i) { return problemText(d, i); }).join('\n\n') + '\n';
   }
 
+  // Small C highlighter. Tokens are escaped one by one, so the result is safe HTML.
+  var C_KW = /^(int|float|double|char|void|long|short|unsigned|signed|const|static|struct|typedef|enum|if|else|switch|case|default|break|continue|for|while|do|return|sizeof)$/;
+  function hlC(src) {
+    var re = /(\/\/[^\n]*)|("(?:\\.|[^"\\])*")|('(?:\\.|[^'\\])*')|(#\s*\w+)|(<[a-z_.]+\.h>)|(\b\d+(?:\.\d+)?f?\b)|([A-Za-z_]\w*)(\s*\()?/g;
+    var out = '', last = 0, m;
+    while ((m = re.exec(src))) {
+      out += esc(src.slice(last, m.index)); last = re.lastIndex;
+      var t = m[0];
+      if (m[1]) out += '<span class="c-c">' + esc(t) + '</span>';
+      else if (m[2] || m[3]) out += '<span class="c-s">' + esc(t) + '</span>';
+      else if (m[4] || m[5]) out += '<span class="c-p">' + esc(t) + '</span>';
+      else if (m[6]) out += '<span class="c-n">' + esc(t) + '</span>';
+      else if (m[7]) {
+        if (C_KW.test(m[7])) out += '<span class="c-k">' + esc(t) + '</span>';
+        else if (m[8]) out += '<span class="c-f">' + esc(m[7]) + '</span>' + esc(m[8]);
+        else out += esc(t);
+      }
+    }
+    return out + esc(src.slice(last));
+  }
   function codeBlock(lines, out) {
-    return '<pre class="code"><code>' + esc(lines.join('\n')) + '</code></pre>' + (out ? '<span class="code-out">' + esc(out) + '</span>' : '');
+    return '<div class="codebox"><div class="cb-bar"><span>C</span><button class="reset cb-copy" data-act="copycode">Copy</button></div><pre class="code"><code>' + hlC(lines.join('\n')) + '</code></pre>' +
+      (out ? '<div class="cb-out"><span class="cb-lab">Output</span><span class="cb-val">' + esc(out) + '</span></div>' : '') + '</div>';
+  }
+  // Progress for a lecture page: ids of finished checklist items, kept in this browser only.
+  function loadDone(n) { try { return JSON.parse(localStorage.getItem('spl-done-' + n) || '[]'); } catch (e) { return []; } }
+  function saveDone(n, a) { try { localStorage.setItem('spl-done-' + n, JSON.stringify(a)); } catch (e) {} }
+  function chkList(id, title, desc, items, done, warn) {
+    return '<section class="stack g12 anchor" id="sec-' + id + '"><div class="stack g4"><h2 class="h2">' + title + '</h2>' + (desc ? '<span class="muted" style="font-size:13px">' + desc + '</span>' : '') + '</div><ul class="chk">' +
+      items.map(function (x, i) {
+        var key = id + i, on = done.indexOf(key) > -1;
+        return '<li><button class="reset chk-item' + (on ? ' done' : '') + '" data-act="chk:' + key + '" aria-pressed="' + on + '"><span class="chk-box">' + (on ? '✓' : '') + '</span><span>' + esc(x) + '</span></button></li>';
+      }).join('') + '</ul></section>';
+  }
+  function warnList(id, title, desc, items) {
+    return '<section class="stack g12 anchor" id="sec-' + id + '"><div class="stack g4"><h2 class="h2">' + title + '</h2>' + (desc ? '<span class="muted" style="font-size:13px">' + desc + '</span>' : '') + '</div><div class="warns">' +
+      items.map(function (x) { return '<div class="warn"><span class="warn-i">!</span><span>' + esc(x) + '</span></div>'; }).join('') + '</div></section>';
   }
   function listCard(title, desc, items) {
     return '<section class="stack g12"><div class="stack g4"><h2 class="h2">' + title + '</h2>' + (desc ? '<span class="muted" style="font-size:13px">' + desc + '</span>' : '') + '</div><ul class="bullets">' +
@@ -416,7 +485,7 @@
   }
   function problemSetCard(n, d) {
     var rows = d.problems.map(function (x, i) {
-      return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-t">' + esc(x.t) + '</td><td class="c-d">' + esc(x.d) + '</td><td class="c-ex">' + esc(x.ex) + '</td>' +
+      return '<tr><td class="c-n">' + (i + 1) + '</td><td class="c-t">' + esc(x.t) + (x.topic ? '<span class="c-tp">' + esc(x.topic) + '</span>' : '') + '</td><td class="c-d">' + esc(x.d) + '</td><td class="c-ex">' + esc(x.ex) + '</td>' +
         '<td>' + badge(x.level, LEVEL_V[x.level]) + '</td><td class="c-w">' + esc(x.when) + '</td><td><button type="button" class="reset btn btn-out sm" data-act="copy:' + n + ':' + i + '">Copy</button></td></tr>';
     }).join('');
     return '<section class="stack g12"><div class="between wrap" style="align-items:flex-end;gap:12px"><div class="stack g4"><h2 class="h2">Problem set</h2><span class="muted" style="font-size:13px">' + d.problems.length + ' problems. Share with classmates and the teaching team. <a href="' + link('problem-sets') + '">All problem sets →</a></span></div>' +
@@ -424,20 +493,26 @@
       '<div class="card prob-card"><div class="prob-wrap"><table class="prob-table"><thead><tr><th>#</th><th>Problem</th><th>Description</th><th>Example</th><th>Level</th><th>When</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div><span class="toast" id="toast" role="status"></span></div></section>';
   }
   function lectureTemplate(n, d) {
-    var h = L[n - 1][0], st = status(n), u = UNIT_OF[h];
+    var h = L[n - 1][0], st = status(n), u = UNIT_OF[h], done = loadDone(n);
     var steps = d.steps.map(function (x, i) {
-      return '<div class="step"><span class="step-n">' + (i + 1) + '</span><div class="stack g6" style="min-width:0"><span class="t">' + esc(x.t) + '</span><span class="d">' + esc(x.d) + '</span>' + (x.code ? codeBlock(x.code, x.out) : '') + '</div></div>';
+      var key = 's' + i, on = done.indexOf(key) > -1;
+      return '<div class="step' + (on ? ' done' : '') + '"><button class="reset step-n" data-act="chk:' + key + '" data-n="' + (i + 1) + '" aria-pressed="' + on + '" aria-label="Mark step ' + (i + 1) + ' as done" title="Mark as done">' + (on ? '✓' : (i + 1)) + '</button><div class="stack g6" style="min-width:0"><span class="t">' + esc(x.t) + '</span><span class="d">' + esc(x.d) + '</span>' + (x.code ? codeBlock(x.code, x.out) : '') + '</div></div>';
     }).join('');
     var unit = u !== undefined ? 'Unit ' + (u + 1) + ' of 6 · ' + TOPICS[u][0] : '';
-    return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
-      '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 12</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + esc(unit ? unit + ' · ' + DETAILS[n] : DETAILS[n]) + '</p></div>' +
-      '<div class="callout"><span class="k">Outcome</span><p>' + esc(d.outcome) + '</p></div>' +
-      listCard('Before class', 'About 5 minutes of work.', d.before) +
-      '<section class="stack g12"><h2 class="h2">In class</h2><div class="card hid"><div class="steps">' + steps + '</div></div></section>' +
-      problemSetCard(n, d) +
-      listCard('Common mistakes', 'Watch for these.', d.mistakes) +
-      resourcesCard(d.resources) +
-      listCard('After class', '', d.after) +
+    var nav = [['outcome', 'Outcome'], ['before', 'Before class'], ['class', 'In class'], ['practice', 'Practice'], ['mistakes', 'Mistakes'], ['resources', 'Resources'], ['after', 'After class']].map(function (x) {
+      return '<button class="reset" data-act="jump:' + x[0] + '">' + x[1] + '</button>';
+    }).join('');
+    return '<div class="stack g32 lec-page" data-lec="' + n + '"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
+      '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 12</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + esc(unit ? unit + ' · ' + DETAILS[n] : DETAILS[n]) + '</p>' +
+      '<div class="lec-meta"><span>' + d.steps.length + ' steps</span><span>' + d.problems.length + ' practice problems</span><span>' + d.before.length + ' warm-up tasks</span></div></div>' +
+      '<nav class="lec-nav" aria-label="On this page">' + nav + '</nav>' +
+      '<div class="callout anchor" id="sec-outcome"><span class="k">What you will be able to do</span><p>' + esc(d.outcome) + '</p></div>' +
+      chkList('before', 'Before class', 'About 5 minutes of work.', d.before, done) +
+      '<section class="stack g12 anchor" id="sec-class"><h2 class="h2">In class</h2><div class="card hid"><div class="steps">' + steps + '</div></div></section>' +
+      '<div class="anchor" id="sec-practice">' + problemSetCard(n, d) + '</div>' +
+      warnList('mistakes', 'Common mistakes', 'Watch for these.', d.mistakes) +
+      '<div class="anchor" id="sec-resources">' + resourcesCard(d.resources) + '</div>' +
+      chkList('after', 'After class', '', d.after, done) +
       listCard('Assessment', '', d.assess) + prevNext(n) + '</div>';
   }
 
@@ -655,6 +730,16 @@
       else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} }
       render();
     }
+    else if (k === 'chk') {
+      var page = el.closest('.lec-page'), ln = page ? parseInt(page.getAttribute('data-lec'), 10) : state.lec, arr = loadDone(ln), at = arr.indexOf(v), on = at < 0;
+      if (on) arr.push(v); else arr.splice(at, 1);
+      saveDone(ln, arr);
+      el.classList.toggle('done', on); el.setAttribute('aria-pressed', on);
+      var stepEl = el.closest('.step'); if (stepEl) { stepEl.classList.toggle('done', on); el.textContent = on ? '✓' : el.getAttribute('data-n'); }
+      var box = el.querySelector('.chk-box'); if (box) box.textContent = on ? '✓' : '';
+    }
+    else if (k === 'jump') { var tg = document.getElementById('sec-' + v); if (tg) tg.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+    else if (k === 'copycode') { var cb = el.closest('.codebox'); copyText(cb.querySelector('code').textContent, 'Code copied'); }
     else if (k === 'modal') { state.modal = parseInt(v, 10); render(); }
     else if (k === 'scrim') { if (e.target === el) { state.modal = null; render(); } }
     else if (k === 'closeModal') { state.modal = null; render(); }
