@@ -118,6 +118,7 @@
     info: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
     lectures: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>',
     materials: '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path>',
+    project: '<path d="M12 2 2 7l10 5 10-5-10-5z"></path><path d="m2 17 10 5 10-5"></path><path d="m2 12 10 5 10-5"></path>',
     team: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>'
   };
   var icon = function (k) { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICON[k] + '</svg>'; };
@@ -157,7 +158,7 @@
   // ---- shell ----
   function sidebar() {
     var navKey = state.page === 'lecture' ? 'lectures' : state.page;
-    var nav = ['home', 'info', 'lectures', 'materials', 'team'].map(function (k) {
+    var nav = ['home', 'info', 'lectures', 'materials', 'project', 'team'].map(function (k) {
       return '<button class="reset nav-item' + (navKey === k ? ' on' : '') + '" data-act="go:' + k + '">' + icon(k) + '<span>' + PAGES[k][1] + '</span></button>';
     }).join('');
     var lecs = state.lecList ? L.map(function (l, i) {
@@ -539,12 +540,79 @@
   }
 
   function stat(k, v, s) { return '<div><span class="k">' + k + '</span><span class="big">' + v + '</span><span class="k" style="font-weight:400">' + s + '</span></div>'; }
+  // Project guidelines. Edit the text here; the project page and its marks table are built from these lists.
+  var PROJECT = {
+    intro: 'Teams of three students design and build a C program that addresses a practical, real-world scenario. The project integrates structures, functions and file handling in a single application.',
+    facts: [
+      ['Team size', 'Three students per team. Submit one set of files listing all three names.'],
+      ['Scenario', 'A practical problem that involves records to be stored, searched and updated.'],
+      ['Schedule', 'Team formation and scenario approval by class 5, before the midterm. Design in week 10. Implementation, submission and demonstration in week 11.']
+    ],
+    scenarios: [
+      ['Hostel room allocation', 'Rooms, residents, bed assignments and vacancy reports, with allocations saved to a file'],
+      ['Campus lost and found', 'Reported items, finder and owner details, claim status, and search by category or date'],
+      ['Community tool library', 'Neighbours borrow tools such as drills and ladders, with due dates, late fees and damage notes'],
+      ['Farm harvest and market tracker', 'Crop records, yield per plot, selling prices by week, and profit or loss per crop'],
+      ['Prepaid electricity meter billing', 'Customer accounts, meter readings, units consumed, bill calculation and payment history'],
+      ['Courier parcel tracker', 'Parcels, sender and receiver records, status updates along the route, and delivery reports'],
+      ['Canteen meal-plan ledger', 'Prepaid student balances, meal purchases, top-ups and a monthly spending summary']
+    ],
+    scenarioNote: 'Teams may propose an alternative scenario. It must be approved before development begins.',
+    requirements: [
+      ['Structures', 'At least two struct types, one nested within the other, and an array of structs to hold the records.'],
+      ['Functions', 'At least eight functions, each with a single responsibility. Use parameters and return values, and include at least one function that modifies data through a pointer parameter.'],
+      ['File handling', 'Read and write at least one file using fopen, fclose, and either fprintf and fscanf or fwrite and fread. Stored data must persist between program executions.'],
+      ['Menu-driven interface', 'A main menu, presented in a loop, with options such as add, view, update, delete, search and save.'],
+      ['Input validation and error handling', 'Invalid input is rejected, and file-open failures are reported without terminating the program unexpectedly.']
+    ],
+    modules: 'Organise the implementation into modules, for example a main program file, a records module and a file-handling module, each with a corresponding header file.',
+    roles: [
+      ['Member 1', 'Data structures', 'Defines the structs and implements the add, update and delete functions.'],
+      ['Member 2', 'File handling', 'Implements the load and save functions and prepares the sample data file.'],
+      ['Member 3', 'Interface and testing', 'Implements the menu, designs the test cases and leads the report.']
+    ],
+    rolesNote: 'Each member is assigned a primary responsibility, which also supports CO4. All members review the final code together before submission.',
+    deliverables: [
+      'Source code (.c and .h files), with a header comment and a comment for every function',
+      'A sample data file, with representative test input and the expected output',
+      'A project report of 2 to 4 pages, covering the scenario, the structures and functions, compilation and execution instructions, and a table of individual contributions',
+      'A demonstration in week 11, in which each member explains their own component'
+    ],
+    rubric: [
+      ['Working menu and features', 3], ['Correct use of structures', 3], ['Modular functions', 3], ['File handling and data persistence', 3],
+      ['Code style, comments and input validation', 1], ['Report', 2], ['Viva: individual explanation of each member\u2019s component', 5]
+    ],
+    rules: [
+      'All code must be the team\u2019s own work. Copied code, whether from other teams or external sources, receives zero marks.',
+      'Each member must be able to explain and modify their own component during the viva. Individual viva marks depend on this.'
+    ]
+  };
+
   function project() {
-    var st = status(11);
-    return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Assignment · 10 marks</span><h1 class="h1">Project</h1><p class="lede">A team project that applies structures, functions and file handling together in one modular C program.</p></div>' +
-      '<div class="stats">' + stat('Marks', '10', 'of 100') + stat('Team size', '3', 'students') + stat('Lecture', 'L11', 'team project') + stat('Outcome', 'CO4', 'work in a team') + '</div>' +
-      '<section class="stack g16"><h2 class="h2">Requirements</h2><ul class="bullets" style="gap:8px"><li>Teams of 3 students build a C program that solves a real-world scenario.</li><li>The project uses structures, functions and file handling together.</li><li>Organize the project using abstraction through structures.</li></ul></section>' +
-      '<section class="soft between wrap" style="gap:16px"><div class="stack g4"><span style="font-size:14px;font-weight:500">Team project · Lecture 11</span><span class="muted" style="font-size:13px">A modular program using structures and functions, file.</span></div><div class="row g8">' + badge(st[0], st[1]) + '<button class="reset btn btn-dark" data-act="lec:11">Lecture 11 →</button></div></section></div>';
+    var P = PROJECT, st = status(11), total = P.rubric.reduce(function (t, r) { return t + r[1]; }, 0);
+    var sec = function (t, body) { return '<section class="stack g16"><h2 class="h2">' + t + '</h2>' + body + '</section>'; };
+    var facts = P.facts.map(function (f) { return '<div class="card pj-card"><span class="k">' + esc(f[0]) + '</span><span class="pj-t">' + esc(f[1]) + '</span></div>'; }).join('');
+    var scen = P.scenarios.map(function (c, i) { return '<div class="card pj-card"><span class="pj-n mono">' + pad(i + 1) + '</span><b class="pj-h">' + esc(c[0]) + '</b><span class="pj-t">' + esc(c[1]) + '</span></div>'; }).join('');
+    var reqs = P.requirements.map(function (r, i) { return '<li><span class="pj-no mono">' + (i + 1) + '</span><span class="stack g3" style="min-width:0"><b>' + esc(r[0]) + '</b><span class="pj-t">' + esc(r[1]) + '</span></span></li>'; }).join('');
+    var roles = P.roles.map(function (r, i) { return '<div class="card pj-card" style="--c:' + SHADES[i * 2] + '"><span class="k">' + esc(r[0]) + '</span><b class="pj-h">' + esc(r[1]) + '</b><span class="pj-t">' + esc(r[2]) + '</span></div>'; }).join('');
+    var R = 42, C = 2 * Math.PI * R, acc = 0;
+    var arcs = P.rubric.map(function (r, i) {
+      var len = r[1] / total * C, el = '<circle data-i="' + i + '" data-m="' + r[1] + '" data-n="' + esc(r[0].split(':')[0]) + '" cx="60" cy="60" r="' + R + '" fill="none" stroke="' + SHADES[i % 7] + '" stroke-width="14" stroke-dasharray="' + Math.max(0, len - 2).toFixed(2) + ' ' + (C - Math.max(0, len - 2)).toFixed(2) + '" stroke-dashoffset="' + (-acc).toFixed(2) + '"><title>' + esc(r[0]) + ' · ' + r[1] + '</title></circle>';
+      acc += len; return el;
+    }).join('');
+    var donut = '<div class="pj-donut"><svg viewBox="0 0 120 120" role="img" aria-label="Mark distribution"><g transform="rotate(-90 60 60)">' + arcs + '</g></svg><div class="pj-donut-c" data-m="' + total + '" data-n="marks"><b>' + total + '</b><span>marks</span></div></div>';
+    var legend = '<ul class="pj-leg">' + P.rubric.map(function (r, i) { return '<li data-i="' + i + '" data-m="' + r[1] + '" data-n="' + esc(r[0].split(':')[0]) + '"><i style="background:' + SHADES[i % 7] + '"></i><span>' + esc(r[0]) + '</span><b class="mono">' + r[1] + '</b></li>'; }).join('') + '</ul>';
+    var rubric = donut + legend;
+    return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Assignment · ' + total + ' marks</span><h1 class="h1">Project</h1><p class="lede">' + esc(P.intro) + '</p></div>' +
+      '<div class="stats">' + stat('Marks', String(total), 'including a 5-mark viva') + stat('Team size', '3', 'students') + stat('Approval', 'Class 5', 'team and scenario') + stat('Submit', 'Week 11', 'demo and viva') + '</div>' +
+      sec('Overview', '<div class="pj-grid">' + facts + '</div>') +
+      sec('Scenario options', '<div class="pj-grid">' + scen + '</div><p class="muted" style="font-size:13px;margin:0">' + esc(P.scenarioNote) + '</p>') +
+      sec('Technical requirements', '<div class="card"><ol class="pj-req">' + reqs + '</ol></div><p class="muted" style="font-size:13px;margin:0">' + esc(P.modules) + '</p>') +
+      sec('Team roles', '<div class="pj-grid">' + roles + '</div><p class="muted" style="font-size:13px;margin:0">' + esc(P.rolesNote) + '</p>') +
+      sec('Deliverables', '<ul class="bullets" style="gap:8px">' + P.deliverables.map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul>') +
+      sec('Assessment (' + total + ' marks)', '<div class="card pj-score">' + rubric + '</div>') +
+      sec('Rules', '<ul class="bullets" style="gap:8px">' + P.rules.map(function (d) { return '<li>' + esc(d) + '</li>'; }).join('') + '</ul>') +
+      '<section class="soft between wrap" style="gap:16px"><div class="stack g4"><span style="font-size:14px;font-weight:500">Team project · Lecture 11</span><span class="muted" style="font-size:13px">A modular program using structures, functions and file handling.</span></div><div class="row g8">' + badge(st[0], st[1]) + '</div></section></div>';
   }
 
   var VIEW = { home: home, info: info, lectures: lectures, lecture: lecture, materials: materials, team: team, project: project };
@@ -593,6 +661,23 @@
     else if (k === 'closeModal') { state.modal = null; render(); }
     else if (k === 'closeDrawer') { state.drawer = false; render(); }
     else if (k === 'toggleLecs') { state.lecList = !state.lecList; render(); }
+  });
+  // Project marks donut: hover an arc or a legend row to enlarge it and show its marks in the centre.
+  function donutHl(card, el) {
+    var c = card.querySelector('.pj-donut-c'), src = el || c;
+    card.classList.toggle('hl', !!el);
+    card.querySelectorAll('[data-i]').forEach(function (x) { x.classList.toggle('is-hl', !!el && x.getAttribute('data-i') === el.getAttribute('data-i')); });
+    c.querySelector('b').textContent = src.getAttribute('data-m');
+    c.querySelector('span').textContent = el ? el.getAttribute('data-n') : 'marks';
+    c.classList.toggle('on', !!el);
+  }
+  root.addEventListener('mouseover', function (e) {
+    var card = e.target.closest('.pj-score'); if (!card) return;
+    donutHl(card, e.target.closest('[data-i]'));
+  });
+  root.addEventListener('mouseout', function (e) {
+    var card = e.target.closest('.pj-score');
+    if (card && !(e.relatedTarget && card.contains(e.relatedTarget))) donutHl(card, null);
   });
   // Assessment chart: hover a segment or row to highlight it and dim the rest.
   function chartHl(card, idx) {
