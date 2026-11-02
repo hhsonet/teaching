@@ -12,7 +12,7 @@ description: The 12 lectures of the course, with topics and deadlines.
 | Lecture | Unit | Details | Deadline |
 |---|---|---|---|
 | 01 | Basics | Review of ICS: input and output, variables, operators, selection statements, loop | |
-| 02 | Function & Loop | Functions with parameters and return values; for, while and do-while loops | |
+| 02 | Function & Loop | Functions: declaration, definition and call; parameters and return values; call by value; local, global and static variables; for, while and do-while loops | |
 | 03 | Array | One- and two-dimensional arrays; passing arrays to functions | Class Test 01 (lectures 1 and 2) |
 | 04 | String | Character arrays; string library functions such as strlen, strcpy and strcmp | |
 | 05 | Review | Practice problems from lectures 1 to 4 | |

@@ -36,7 +36,7 @@ A 12-session lab in structured C programming. You move from basics, functions an
 | Lecture | Topic | Details | CO |
 |---|---|---|---|
 | 1 | Basics | Review of ICS: input and output, variables, operators, selection statements, loop | CO1, CO2 |
-| 2 | Function & Loop | Functions with parameters and return values; for, while and do-while loops | CO1, CO2 |
+| 2 | Function & Loop | Functions: declaration, definition and call; parameters and return values; call by value; local, global and static variables; for, while and do-while loops | CO1, CO2 |
 | 3 | Array | One- and two-dimensional arrays; passing arrays to functions. **Class Test 01** (lectures 1 and 2) | CO2, CO3 |
 | 4 | String | Character arrays; string library functions such as strlen, strcpy and strcmp | CO2, CO3 |
 | 5 | Review | Practice problems from lectures 1 to 4 | CO1, CO2 |
