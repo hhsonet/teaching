@@ -70,7 +70,7 @@
   };
   var DETAILS = {
     1: 'Review of ICS: input and output, variables, operators, selection statements, loop',
-    2: 'Functions with parameters and return values; for, while and do-while loops',
+    2: 'Functions: declaration, definition and call; parameters and return values; call by value; local, global and static variables; for, while and do-while loops',
     3: 'One- and two-dimensional arrays; passing arrays to functions. Class Test 01 (lectures 1 and 2)',
     4: 'Character arrays; string library functions such as strlen, strcpy and strcmp',
     5: 'Practice problems from lectures 1 to 4',
