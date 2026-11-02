@@ -124,7 +124,7 @@
 
   var SIDE_KEY = 'spl-v6-sidebar';
   // Lectures with a page ready. Add a number here to make it clickable everywhere.
-  var OPEN_LECTURES = [1];
+  var OPEN_LECTURES = [1, 2];
   var state = { page: 'home', lec: null, open: [0], filter: 'all', sidebar: true, drawer: false, lecList: true, modal: null };
   try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) {}
 
@@ -419,6 +419,61 @@
         'Attendance: full marks for attending 10 or more classes. 2 absences are ignored.',
         'Class performance: your work in class counts toward the 25 marks.',
         'Next class: Function & Loop.'
+      ]
+    },
+    2: {
+      outcome: 'After this class you can split a program into functions, pass values in with parameters, return a result, and call your functions from main.',
+      before: [
+        'Revise Lecture 1: variables, operators and if/else.',
+        'Check that you can compile and run a program with gcc.',
+        'Warm-up: what does printf("%d", 10 / 4); print? (Answer: 2)'
+      ],
+      steps: [
+        { t: 'Why functions', d: 'A function gives a name to a piece of work so you can reuse it and test it alone. Write a prototype before main, then the definition after.',
+          code: ['#include <stdio.h>', '', 'int square(int x);   // prototype', '', 'int main(void)', '{', '    printf("%d\n", square(5));', '    return 0;', '}', '', 'int square(int x)', '{', '    return x * x;', '}'], out: 'Output 25' },
+        { t: 'Parts of a function', d: 'A function has a return type, a name, a parameter list and a body. The return statement sends one value back to the caller.',
+          code: ['int max(int a, int b)', '{', '    return a > b ? a : b;', '}'], out: 'max(3, 8) gives 8' },
+        { t: 'Calling a function', d: 'Pass arguments in the same order as the parameters. Use the returned value in an expression or store it in a variable.',
+          code: ['int big = max(3, 8);', 'printf("%d\n", max(big, 5));'], out: 'Output 8' },
+        { t: 'void functions', d: 'A function that returns nothing uses void. It is called for what it does, such as printing.',
+          code: ['void greet(void)', '{', '    printf("Hello\n");', '}', '', 'greet();'], out: 'Output Hello' },
+        { t: 'Pass by value', d: 'Parameters are copies of the arguments. Changing a parameter inside a function does not change the variable in the caller.',
+          code: ['void addOne(int n)', '{', '    n = n + 1;', '}', '', 'int x = 5;', 'addOne(x);', 'printf("%d\n", x);   // still 5'], out: 'Output 5' },
+        { t: 'Local variables and scope', d: 'A variable declared inside a function exists only there. Two functions can each have a variable with the same name without clashing.',
+          code: ['int twice(int n)', '{', '    int result = n * 2;   // local to twice', '    return result;', '}'] },
+        { t: 'Functions calling functions', d: 'A function can call another one. Build bigger functions from small ones.',
+          code: ['int square(int x) { return x * x; }', '', 'int sumOfSquares(int a, int b)', '{', '    return square(a) + square(b);', '}'], out: 'sumOfSquares(3, 4) gives 25' },
+        { t: 'Exercise', d: 'Solve the function problems from the problem set, in order.' }
+      ],
+      mistakes: [
+        'Calling a function before it is declared, with no prototype.',
+        'Forgetting a return statement in a function that returns a value.',
+        'Passing arguments in the wrong order or the wrong number.',
+        'Expecting a function to change the variable in the caller (C passes copies).',
+        'Putting a semicolon after the function header when writing the definition.'
+      ],
+      problems: [
+        { topic: 'Functions', level: 'Easy', when: 'In class', t: 'Square', d: 'Write int square(int x). Read a number and print its square.', ex: 'Input 6, output 36' },
+        { topic: 'Functions', level: 'Easy', when: 'In class', t: 'Maximum of two', d: 'Write int max(int a, int b) and use it to print the larger of two numbers.', ex: 'Input 3 8, output 8' },
+        { topic: 'Functions', level: 'Medium', when: 'In class', t: 'Even or odd function', d: 'Write int isEven(int n) that returns 1 for an even number and 0 otherwise. Print Even or Odd.', ex: 'Input 7, output Odd' },
+        { topic: 'Functions', level: 'Medium', when: 'After class', t: 'Largest of three', d: 'Write a function that returns the largest of three numbers by calling max twice.', ex: 'Input 4 19 7, output 19' },
+        { topic: 'Functions', level: 'Medium', when: 'After class', t: 'Temperature converter', d: 'Write double toFahrenheit(double c). Read Celsius and print Fahrenheit with 2 decimal places.', ex: 'Input 100, output 212.00' },
+        { topic: 'Functions', level: 'Hard', when: 'After class', t: 'Prime check', d: 'Write int isPrime(int n) that returns 1 for a prime and 0 otherwise. Print Prime or Not prime.', ex: 'Input 17, output Prime' }
+      ],
+      resources: [
+        { t: 'Code for this lecture', d: 'max.c', href: 'https://github.com/hhsonet/teaching/tree/main/spl/code/lecture-02' },
+        { t: 'C reference', d: 'Language and library reference', href: 'https://en.cppreference.com/w/c' },
+        { t: 'Lecture slides', d: 'To be announced' }
+      ],
+      after: [
+        'Write a function that returns the area of a circle for a given radius.',
+        'Write a function that returns 1 if a year is a leap year.',
+        'Finish the problems you did not complete in class.'
+      ],
+      assess: [
+        'Attendance: full marks for attending 10 or more classes. 2 absences are ignored.',
+        'Class Test 01 covers lectures 1 and 2.',
+        'Next class: Array.'
       ]
     }
   };
