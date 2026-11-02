@@ -422,53 +422,62 @@
       ]
     },
     2: {
-      outcome: 'After this class you can split a program into functions, pass values in with parameters, return a result, and call your functions from main.',
+      outcome: 'After this class you can write functions with parameters and return values, declare them with prototypes, explain pass by value, use local, global and static variables, and pass arrays to functions.',
       before: [
-        'Revise Lecture 1: variables, operators and if/else.',
+        'Revise Lecture 1: variables, operators, selection and loops.',
         'Check that you can compile and run a program with gcc.',
-        'Warm-up: what does printf("%d", 10 / 4); print? (Answer: 2)'
+        'Warm-up: what does printf("%d", 10 / 4); print? (Answer: 2)',
+        'Picture a vending machine: coins in, snack out. A function works the same way: arguments in, return value out.'
       ],
       steps: [
-        { t: 'Why functions', d: 'A function gives a name to a piece of work so you can reuse it and test it alone. Write a prototype before main, then the definition after.',
-          code: ['#include <stdio.h>', '', 'int square(int x);   // prototype', '', 'int main(void)', '{', '    printf("%d\n", square(5));', '    return 0;', '}', '', 'int square(int x)', '{', '    return x * x;', '}'], out: 'Output 25' },
-        { t: 'Parts of a function', d: 'A function has a return type, a name, a parameter list and a body. The return statement sends one value back to the caller.',
-          code: ['int max(int a, int b)', '{', '    return a > b ? a : b;', '}'], out: 'max(3, 8) gives 8' },
-        { t: 'Calling a function', d: 'Pass arguments in the same order as the parameters. Use the returned value in an expression or store it in a variable.',
-          code: ['int big = max(3, 8);', 'printf("%d\n", max(big, 5));'], out: 'Output 8' },
-        { t: 'void functions', d: 'A function that returns nothing uses void. It is called for what it does, such as printing.',
-          code: ['void greet(void)', '{', '    printf("Hello\n");', '}', '', 'greet();'], out: 'Output Hello' },
-        { t: 'Pass by value', d: 'Parameters are copies of the arguments. Changing a parameter inside a function does not change the variable in the caller.',
-          code: ['void addOne(int n)', '{', '    n = n + 1;', '}', '', 'int x = 5;', 'addOne(x);', 'printf("%d\n", x);   // still 5'], out: 'Output 5' },
-        { t: 'Local variables and scope', d: 'A variable declared inside a function exists only there. Two functions can each have a variable with the same name without clashing.',
-          code: ['int twice(int n)', '{', '    int result = n * 2;   // local to twice', '    return result;', '}'] },
-        { t: 'Functions calling functions', d: 'A function can call another one. Build bigger functions from small ones.',
-          code: ['int square(int x) { return x * x; }', '', 'int sumOfSquares(int a, int b)', '{', '    return square(a) + square(b);', '}'], out: 'sumOfSquares(3, 4) gives 25' },
-        { t: 'Exercise', d: 'Solve the function problems from the problem set, in order.' }
+        { t: 'The big idea: a vending machine', d: 'You put in coins and press a button (the arguments). The machine works out of sight (the body). A snack drops out (the return value). You only need to know what a function needs and what it gives back.',
+          code: ['int snack = vend(50, 3);   // coins in, button pressed, snack out'] },
+        { t: 'Why use functions', d: 'A function is a named, reusable block of code that does one job. Reusability: write once, call many times. Modularity: small pieces are easier to read and debug. Less repetition: one fix covers every call. Teamwork: different people write different functions.' },
+        { t: 'Library and user-defined functions', d: 'Library functions come with C through a header: printf and scanf (stdio.h), sqrt (math.h), strlen (string.h). User-defined functions are the ones you write, such as add, factorial and isPrime.' },
+        { t: 'Anatomy of a function', d: 'Every function has a declaration (prototype), a definition and a call. The prototype tells the compiler the name, parameter types and return type before the function is used, and ends with a semicolon.',
+          code: ['#include <stdio.h>', '', 'int sum(int a, int b);          // 1. declaration (prototype)', '', 'int main(void) {', '    int s = sum(5, 3);          // 3. call', '    printf("Sum = %d\\n", s);', '    return 0;', '}', '', 'int sum(int a, int b) {         // 2. definition', '    return a + b;', '}'], out: 'Output Sum = 8' },
+        { t: 'Parameters, arguments and return', d: 'Parameters (formal) are the variables in the definition: a and b. Arguments (actual) are the values passed in the call: 5 and 3. The return statement sends a value back and ends the function at once. A void return type means nothing is returned.' },
+        { t: 'Four types of user-defined functions', d: 'Functions differ by whether they take arguments and whether they return a value. Type 4 is the most useful: it does not depend on global data and its result can be reused in expressions.',
+          code: ['void greet(void);              // 1: no arguments, no return', 'void printSquare(int n);       // 2: arguments, no return', 'int readNumber(void);          // 3: no arguments, return', 'int max(int a, int b);         // 4: arguments and return', '', 'int max(int a, int b) {', '    return (a > b) ? a : b;', '}'] },
+        { t: 'Passing arguments: by value', d: 'C passes arguments by value. The function receives a copy, so changing a parameter never changes the variable in the caller. Functions cannot accidentally damage your data.',
+          code: ['void doubleIt(int x) {', '    x = x * 2;', '    printf("inside: %d\\n", x);', '}', '', 'int main(void) {', '    int n = 5;', '    doubleIt(n);                  // prints inside: 10', '    printf("outside: %d\\n", n);   // prints outside: 5', '    return 0;', '}'], out: 'Output inside: 10, then outside: 5' },
+        { t: 'Scope and storage classes', d: 'Scope is where a name is visible. A local variable (auto) lives inside one function, starts with a garbage value and ends when the function returns. A global variable is declared outside all functions, lives for the whole program and starts at 0. A static local variable is visible only in its function, but keeps its value between calls and starts at 0. Prefer locals and parameters, because globals make functions harder to test.',
+          code: ['void counter(void) {', '    static int count = 0;   // initialised once', '    count++;', '    printf("%d ", count);', '}', '// calling counter() three times prints: 1 2 3'], out: 'Three calls print 1 2 3' },
+        { t: 'Functions with arrays', d: 'An array is not copied when passed. The function works on the original array, so it can read it and also change it. Always pass the size as a second argument, because the function cannot work out the length itself.',
+          code: ['int sumArray(int arr[], int n);        // reads the array', 'int maxArray(int arr[], int n);        // reads the array', 'void doubleAll(int arr[], int n);      // changes the array', 'void printArray(int arr[], int n);', '', 'int main(void) {', '    int marks[5] = {10, 20, 30, 40, 50};', '', '    printf("Sum = %d\\n", sumArray(marks, 5));   // 150', '    printf("Max = %d\\n", maxArray(marks, 5));   // 50', '', '    doubleAll(marks, 5);', '    printArray(marks, 5);                        // 20 40 60 80 100', '    return 0;', '}'], out: 'Sum = 150, Max = 50, then 20 40 60 80 100' },
+        { t: 'Array function bodies', d: 'Write arr[] in the parameter list and pass just the name marks in the call, with no brackets. Unlike a single int, changes to array elements inside the function stay after it returns. Pass the real size, or the loop may read past the end of the array.',
+          code: ['int sumArray(int arr[], int n) {', '    int total = 0;', '    for (int i = 0; i < n; i++) total += arr[i];', '    return total;', '}', '', 'int maxArray(int arr[], int n) {', '    int m = arr[0];', '    for (int i = 1; i < n; i++)', '        if (arr[i] > m) m = arr[i];', '    return m;', '}', '', 'void doubleAll(int arr[], int n) {', '    for (int i = 0; i < n; i++) arr[i] = arr[i] * 2;', '}', '', 'void printArray(int arr[], int n) {', '    for (int i = 0; i < n; i++) printf("%d ", arr[i]);', '    printf("\\n");', '}'] },
+        { t: 'Quick check: predict the output', d: 'Cover the answers, work out what each program prints, then check. Puzzle A prints 5, because x is a copy and the original is untouched. Puzzle B prints 1 2 3, because static keeps t alive between calls.',
+          code: ['// Puzzle A', 'void change(int x) { x = 99; }', '', 'int main(void) {', '    int n = 5;', '    change(n);', '    printf("%d", n);', '}', '', '// Puzzle B', 'void tick(void) {', '    static int t = 0;', '    t++;', '    printf("%d ", t);', '}', '', 'int main(void) {', '    tick(); tick(); tick();', '}'], out: 'Puzzle A prints 5. Puzzle B prints 1 2 3' },
+        { t: 'Exercise', d: 'Solve problems 1 to 3 from the problem set, in order.' }
       ],
       mistakes: [
-        'Calling a function before it is declared, with no prototype.',
-        'Forgetting a return statement in a function that returns a value.',
-        'Passing arguments in the wrong order or the wrong number.',
-        'Expecting a function to change the variable in the caller (C passes copies).',
-        'Putting a semicolon after the function header when writing the definition.'
+        'Missing prototype when main() appears before the function definition.',
+        'Forgetting return in a function that is not void.',
+        'Putting a semicolon after the function header in the definition: int sum(int a, int b); { ... }',
+        'Expecting a parameter to change the variable in the caller. It is only a copy.',
+        'Passing an array without its size, so the loop reads past the end.'
       ],
       problems: [
         { topic: 'Functions', level: 'Easy', when: 'In class', t: 'Square', d: 'Write int square(int x). Read a number and print its square.', ex: 'Input 6, output 36' },
         { topic: 'Functions', level: 'Easy', when: 'In class', t: 'Maximum of two', d: 'Write int max(int a, int b) and use it to print the larger of two numbers.', ex: 'Input 3 8, output 8' },
-        { topic: 'Functions', level: 'Medium', when: 'In class', t: 'Even or odd function', d: 'Write int isEven(int n) that returns 1 for an even number and 0 otherwise. Print Even or Odd.', ex: 'Input 7, output Odd' },
-        { topic: 'Functions', level: 'Medium', when: 'After class', t: 'Largest of three', d: 'Write a function that returns the largest of three numbers by calling max twice.', ex: 'Input 4 19 7, output 19' },
-        { topic: 'Functions', level: 'Medium', when: 'After class', t: 'Temperature converter', d: 'Write double toFahrenheit(double c). Read Celsius and print Fahrenheit with 2 decimal places.', ex: 'Input 100, output 212.00' },
-        { topic: 'Functions', level: 'Hard', when: 'After class', t: 'Prime check', d: 'Write int isPrime(int n) that returns 1 for a prime and 0 otherwise. Print Prime or Not prime.', ex: 'Input 17, output Prime' }
+        { topic: 'Functions', level: 'Medium', when: 'In class', t: 'Prime check', d: 'Write isPrime(int n) that returns 1 if n is prime, else 0. Print Prime or Not prime.', ex: 'Input 17, output Prime' },
+        { topic: 'Functions', level: 'Medium', when: 'After class', t: 'Power', d: 'Write power(int base, int exp) using a loop. Read base and exp and print the result.', ex: 'Input 2 5, output 32' },
+        { topic: 'Scope', level: 'Medium', when: 'After class', t: 'Call counter', d: 'Write a function with a static local variable that prints how many times it has been called. Call it 5 times.', ex: 'Output 1 2 3 4 5' },
+        { topic: 'Arrays', level: 'Medium', when: 'After class', t: 'Largest element', d: 'Write maxArray(int arr[], int n) that returns the largest element. Read n and the elements, then print the result.', ex: 'Input 5 and 10 40 20 50 30, output 50' },
+        { topic: 'Arrays', level: 'Medium', when: 'After class', t: 'Average of an array', d: 'Write average(int arr[], int n) that returns the average of an array as a decimal. Print it with 2 decimal places.', ex: 'Input 4 and 7 8 10 11, output 9.00' },
+        { topic: 'Arrays', level: 'Hard', when: 'After class', t: 'Reverse in place', d: 'Write void reverse(int arr[], int n) that reverses the array in place. Print the array afterwards.', ex: 'Input 5 and 1 2 3 4 5, output 5 4 3 2 1' }
       ],
       resources: [
-        { t: 'Code for this lecture', d: 'max.c', href: 'https://github.com/hhsonet/teaching/tree/main/spl/code/lecture-02' },
+        { t: 'Code for this lecture', d: 'max.c and more', href: 'https://github.com/hhsonet/teaching/tree/main/spl/code/lecture-02' },
         { t: 'C reference', d: 'Language and library reference', href: 'https://en.cppreference.com/w/c' },
         { t: 'Lecture slides', d: 'To be announced' }
       ],
       after: [
         'Write a function that returns the area of a circle for a given radius.',
         'Write a function that returns 1 if a year is a leap year.',
-        'Finish the problems you did not complete in class.'
+        'Finish the problems you did not complete in class.',
+        'Next to learn: recursion and pointers.'
       ],
       assess: [
         'Attendance: full marks for attending 10 or more classes. 2 absences are ignored.',
