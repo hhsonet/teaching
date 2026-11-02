@@ -469,6 +469,8 @@
         { topic: 'Arrays', level: 'Hard', when: 'After class', t: 'Reverse in place', d: 'Write void reverse(int arr[], int n) that reverses the array in place. Print the array afterwards.', ex: 'Input 5 and 1 2 3 4 5, output 5 4 3 2 1' }
       ],
       resources: [
+        { t: 'Class note: Functions in C', d: 'PDF, 5 pages', href: 'assets/notes/lecture-02-functions.pdf' },
+        { t: 'Video: functions in C', d: 'YouTube', href: 'https://www.youtube.com/watch?v=58uasoPcf8c' },
         { t: 'Code for this lecture', d: 'max.c and more', href: 'https://github.com/hhsonet/teaching/tree/main/spl/code/lecture-02' },
         { t: 'C reference', d: 'Language and library reference', href: 'https://en.cppreference.com/w/c' },
         { t: 'Lecture slides', d: 'To be announced' }
