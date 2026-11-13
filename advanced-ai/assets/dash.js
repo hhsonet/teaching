@@ -40,6 +40,7 @@
     ['Break', '', '10 min'], ['Review of survey', '', '5 min'], ['Project & paper survey overview', '', '15 min'],
     ['How to read a paper', 'Walked through on a real paper', '—'], ['Code evaluation criteria', 'Debug and modify', '—']
   ];
+  var SURVEY_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdmGdJ_abwAW4lD142tdgEu7rGFBT3WT0U_kNnd8hG4NE6iiw/viewform?usp=sharing&ouid=105444061250487076997';
   var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'BD survey', exam: 'Exam', log: 'Class log', admin: 'Overview' };
   var DESC = {
     'Project selection': 'Pick a project area grounded in class topics. Ideas beyond the syllabus are welcome.',
@@ -118,7 +119,10 @@
   var clamp = function (n) { return Math.min(14, Math.max(1, n)); };
   var badge = function (t, v) { return '<span class="bd bd-' + v + '">' + esc(t) + '</span>'; };
   var link = function (path) { return BASE + '/' + path + '/'; };
-  var status = function (n) { return n < CURRENT ? ['Done', 'secondary'] : n === CURRENT ? ['This week', 'default'] : ['Upcoming', 'outline']; };
+  var status = function (n) {
+    var dates = { 1: '14 November, 2026', 2: '21 November, 2026', 3: '28 November, 2026' };
+    return dates[n] ? [dates[n], 'outline'] : n < CURRENT ? ['Done', 'secondary'] : n === CURRENT ? ['This week', 'default'] : ['Upcoming', 'outline'];
+  };
   var isDl = function (items) { return items.some(function (it) { return it[1] === 'due' || it[1] === 'exam'; }); };
   var arrowLink = function (href, label, ext) { return '<a class="noul" href="' + href + '"><span>' + label + '</span><span class="arr">' + (ext ? '↗' : '→') + '</span></a>'; };
   var goBtn = function (page, label) { return '<button class="reset" data-act="go:' + page + '"><span>' + label + '</span><span class="arr">→</span></button>'; };
@@ -232,7 +236,7 @@
       var n = c + i, now = n === c, last = n === Math.min(L.length, c + 3);
       var tags = l[1].map(function (it) { return badge(it[0], TV[it[1]]); }).join('');
       return '<button class="reset tl-item' + (now ? ' now' : '') + (last ? ' last' : '') + '" data-act="lec:' + n + '"><span class="tl-dot"></span>' +
-        '<span class="stack g4" style="min-width:0"><span class="tl-top"><span class="mono tl-n">L' + pad(n) + '</span><span class="tl-t">' + l[0] + '</span>' + (now ? '<span class="tag-now">This week</span>' : '') + '</span>' +
+        '<span class="stack g4" style="min-width:0"><span class="tl-top"><span class="mono tl-n">L' + pad(n) + '</span><span class="tl-t">' + l[0] + '</span>' + (now ? '<span class="tag-now">' + status(n)[0] + '</span>' : '') + '</span>' +
         (tags ? '<span class="badges">' + tags + '</span>' : '') + '</span></button>';
     }).join('');
     return '<div class="stack g40">' +
@@ -289,7 +293,7 @@
   function lecture() {
     var n = state.lec, h = L[n - 1][0], items = L[n - 1][1], u = UNIT_OF[h], st = status(n);
     var list = n === 1
-      ? AGENDA.map(function (a) { return { t: a[0], desc: a[1], label: a[2] === '—' ? 'Overview' : a[2], v: a[2] === '—' ? 'secondary' : 'outline' }; })
+      ? AGENDA.map(function (a) { return { t: a[0], desc: a[1], href: a[0] === 'Survey / exam' ? SURVEY_FORM_URL : '', label: a[2] === '—' ? 'Overview' : a[2], v: a[2] === '—' ? 'secondary' : 'outline' }; })
       : (u !== undefined ? [{ t: TOPICS[u][0], desc: u === 0 ? 'Book: Understanding Deep Learning, chapter 15.' : 'Readings on the course reading list.', label: TL.topic, v: 'outline' }] : [])
         .concat(items.map(function (it) { return { t: it[0].replace('Due · ', ''), desc: DESC[it[0]] || '', label: TL[it[1]], v: TV[it[1]] }; }));
     var nextDue = n < 14 ? L[n][1].filter(function (it) { return it[1] === 'due' || it[1] === 'exam'; }).map(function (it) { return it[0].replace('Due · ', ''); }) : [];
@@ -303,7 +307,7 @@
     var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length;
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
-      '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0"><span class="t">' + esc(x.t) + '</span><span class="d">' + esc(x.desc) + '</span></div></div>'; }).join('') + '</div></section>' +
+      '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span></div></div>'; }).join('') + '</div></section>' +
       '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div></section>' +
       '<section class="stack g12"><h2 class="h2">Prepare</h2><ul class="bullets">' + prep.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></section>' +
       '<div class="pn"><button class="reset" style="opacity:' + (n > 1 ? 1 : .35) + '" data-act="lec:' + clamp(n - 1) + '"><span class="l1">← Previous</span><span class="l2">' + (n > 1 ? pad(n - 1) + ' · ' + L[n - 2][0] : 'Start') + '</span></button>' +
