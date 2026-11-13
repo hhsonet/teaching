@@ -38,7 +38,7 @@
   var AGENDA = [
     ['Survey / exam', 'Level detection', '30–40 min'], ['Lecture plan & next chapter printout', '', '—'], ['Course overview', '', '20 min'],
     ['Break', '', '10 min'], ['Review of survey', '', '5 min'], ['Project & paper survey overview', '', '15 min'],
-    ['How to read a paper', 'Walked through on a real paper', '—'], ['Code evaluation criteria', 'Debug and modify', '—']
+    ['How to read a paper', 'S. Keshav (2007) · ACM SIGCOMM Computer Communication Review', '—', 'https://dl.acm.org/doi/epdf/10.1145/1273445.1273458'], ['Code evaluation criteria', 'Debug and modify', '—']
   ];
   var SURVEY_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdmGdJ_abwAW4lD142tdgEu7rGFBT3WT0U_kNnd8hG4NE6iiw/viewform?usp=sharing&ouid=105444061250487076997';
   var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'BD survey', exam: 'Exam', log: 'Class log', admin: 'Overview' };
@@ -293,7 +293,7 @@
   function lecture() {
     var n = state.lec, h = L[n - 1][0], items = L[n - 1][1], u = UNIT_OF[h], st = status(n);
     var list = n === 1
-      ? AGENDA.map(function (a) { return { t: a[0], desc: a[1], href: a[0] === 'Survey / exam' ? SURVEY_FORM_URL : '', label: a[2] === '—' ? 'Overview' : a[2], v: a[2] === '—' ? 'secondary' : 'outline' }; })
+      ? AGENDA.map(function (a) { return { t: a[0], desc: a[1], href: a[3] || (a[0] === 'Survey / exam' ? SURVEY_FORM_URL : ''), label: a[2] === '—' ? 'Overview' : a[2], v: a[2] === '—' ? 'secondary' : 'outline' }; })
       : (u !== undefined ? [{ t: TOPICS[u][0], desc: u === 0 ? 'Book: Understanding Deep Learning, chapter 15.' : 'Readings on the course reading list.', label: TL.topic, v: 'outline' }] : [])
         .concat(items.map(function (it) { return { t: it[0].replace('Due · ', ''), desc: DESC[it[0]] || '', label: TL[it[1]], v: TV[it[1]] }; }));
     var nextDue = n < 14 ? L[n][1].filter(function (it) { return it[1] === 'due' || it[1] === 'exam'; }).map(function (it) { return it[0].replace('Due · ', ''); }) : [];
