@@ -111,7 +111,7 @@
 
   var SIDE_KEY = 'aai-v6-sidebar';
   var state = { page: 'home', lec: null, open: [1], filter: 'all', spTab: 'All', pubTab: 'All', sidebar: true, drawer: false, lecList: true, modal: null };
-  try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) {}
+  try { if (localStorage.getItem(SIDE_KEY) === '0') state.sidebar = false; } catch (e) { }
 
   var isMobile = function () { return window.matchMedia('(max-width: 899px)').matches; };
   var pad = function (n) { return String(n).padStart(2, '0'); };
@@ -135,7 +135,7 @@
     render(); window.scrollTo(0, 0);
   }
   function parseHash() {
-    var m = location.hash.match(/^#\/lecture\/(\d+)/);
+    var m = location.hash.match(/^#\/lecture\/(\d+)$/);
     if (m) { state.page = 'lecture'; state.lec = clamp(parseInt(m[1], 10)); return; }
     m = location.hash.match(/^#\/([\w-]+)/);
     var k = m ? (ALIAS[m[1]] || m[1]) : 'home';
@@ -377,9 +377,37 @@
       '<section class="card between wrap" style="padding:20px 24px;gap:16px"><div class="stack g4"><span style="font-size:15px;font-weight:600">How to read a paper</span><span class="muted" style="font-size:13px">Covered in the first class, walked through on a real paper.</span></div><button class="reset btn btn-out" data-act="lec:1">Lecture 01 →</button></section></div>';
   }
 
+  var PAPER_FOLDERS = {
+    'GAN': 'https://drive.google.com/drive/folders/1qhox9pPzXsa0MQwbBiEbLg5vLD0kQQd3?usp=sharing',
+    'Attention & Transformers': 'https://drive.google.com/drive/folders/1GcrPH8MwF2e6xtPtBx92HS7gCLCGmGuC?usp=sharing',
+    'Diffusion models': 'https://drive.google.com/drive/folders/1EMj5jtjwg_fGYlgk8WyrFA2sLnnStXpu?usp=sharing',
+    'Retrieval-augmented generation': 'https://drive.google.com/drive/folders/1ABKZcJlU85CYmhBcY5s0HjDHt-fLmV1Y?usp=sharing',
+    'Large language models': 'https://drive.google.com/drive/folders/1W6sEqIr8NGCQlsrbrga69TolQq6CrBGW?usp=sharing'
+  };
+
   function reading() {
     var topics = TOPICS.map(function (t, i) {
-      return '<div class="topic-row"><div class="row" style="gap:14px;min-width:0"><span class="mono" style="flex:none;font-size:12px;font-weight:500;color:#a1a1aa">' + pad(i + 1) + '</span><span class="stack g3"><span style="font-size:15px;font-weight:500">' + t[0] + '</span><span class="mono muted" style="font-size:12px">Lectures ' + pad(t[1]) + '–' + pad(t[2]) + '</span></span></div><span class="todo">Papers to be added</span></div>';
+      var folderUrl = PAPER_FOLDERS[t[0]];
+
+      return '<div class="topic-row">' +
+        '<div class="row" style="gap:14px;min-width:0">' +
+        '<span class="mono" style="flex:none;font-size:12px;font-weight:500;color:#a1a1aa">' +
+        pad(i + 1) +
+        '</span>' +
+        '<span class="stack g3">' +
+        '<span style="font-size:15px;font-weight:500">' +
+        esc(t[0]) +
+        '</span>' +
+        '<span class="mono muted" style="font-size:12px">' +
+        'Lectures ' + pad(t[1]) + '–' + pad(t[2]) +
+        '</span>' +
+        '</span>' +
+        '</div>' +
+        '<a class="todo" href="' + esc(folderUrl) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        'View Papers ↗' +
+        '</a>' +
+        '</div>';
     }).join('');
     return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Resources</span><h1 class="h1">Reading list</h1><p class="lede">Curated papers, links only. Target 20–30 papers from CVPR and EMNLP, 2025–2026, matching class topics.</p></div>' +
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">' +
@@ -429,7 +457,7 @@
     else if (k === 'acc') { var n = parseInt(v, 10), p = state.open.indexOf(n); if (p > -1) state.open.splice(p, 1); else state.open.push(n); render(); }
     else if (k === 'toggleSide') {
       if (isMobile()) state.drawer = !state.drawer;
-      else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) {} }
+      else { state.sidebar = !state.sidebar; try { localStorage.setItem(SIDE_KEY, state.sidebar ? '1' : '0'); } catch (x) { } }
       render();
     }
     else if (k === 'modal') { state.modal = parseInt(v, 10); render(); }
