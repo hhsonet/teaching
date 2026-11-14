@@ -158,7 +158,7 @@
       '<div class="stack g2"><div class="sec-label">Course</div>' + nav + '</div>' +
       '<div class="stack g2"><button class="reset sec-label sec-toggle" data-act="toggleLecs"><span>Lectures</span><span class="chev" style="transform:' + (state.lecList ? 'rotate(180deg)' : 'none') + '">⌄</span></button>' + lecs + '</div>' +
       '<div class="stack g2"><div class="sec-label">Assignments</div>' + sub('project') + sub('survey') +
-      '<a class="link-item" href="' + link('team-review') + '"><span>Other team review</span></a><a class="link-item" href="' + link('bd-top50') + '"><span>BD / Top-50 activity</span></a></div>' +
+      '<a class="link-item" href="' + link('groups') + '"><span>Student groups</span></a><a class="link-item" href="' + link('team-review') + '"><span>Other team review</span></a><a class="link-item" href="' + link('bd-top50') + '"><span>BD / Top-50 activity</span></a></div>' +
       '<div class="stack g2"><div class="sec-label">Resources</div>' + sub('reading') + sub('pubs') +
       '<a class="link-item" href="' + link('announcements') + '"><span>Announcements</span></a><a class="link-item" href="https://udlbook.github.io/udlbook/"><span>UDL book</span><span class="arr">↗</span></a></div>' +
       '<button class="reset who" data-act="go:team"><span class="avatar">MJ</span><span class="stack g2" style="min-width:0"><span class="n1">Dr. A. S. M. Mahdee Jameel</span><span class="n2">Course teacher</span></span></button>' +
@@ -182,6 +182,7 @@
     ['PAPER', 'Publications', 'Recent papers by topic', '#go:pubs'],
     ['SURVEY', 'Paper survey', 'Pick a paper to survey', '#go:survey'],
     ['TEAM', 'Other team review', 'Review another team\u2019s project', 'team-review'],
+    ['GROUPS', 'Student groups', 'Groups formed from the initial class survey', 'groups'],
     ['BD', 'BD / Top-50 activity', 'Map the researchers in your field', 'bd-top50'],
     ['NEWS', 'Announcements', 'Course updates', 'announcements'],
     ['GIT', 'GitHub repository', 'Course source and files', GITHUB]
