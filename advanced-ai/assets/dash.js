@@ -474,7 +474,7 @@
         papers +
         '</div>';
     }).join('');
-    return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Resources</span><h1 class="h1">Reading list</h1><p class="lede">Curated papers, links only. Target 20–30 papers from CVPR and EMNLP, 2025–2026, matching class topics.</p></div>' +
+    return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Resources</span><h1 class="h1">Reading list</h1><p class="lede">Curated papers, links only. Target 40–50 papers from CVPR and EMNLP, 2025–2026, matching class topics.</p></div>' +
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">' +
       '<div class="card read-card"><b>Links only</b><span>Do not commit paper PDFs (copyright).</span></div>' +
       '<div class="card read-card"><b>Sources</b><span class="row wrap g6"><a href="https://arxiv.org/">arXiv</a><span class="dash">·</span><a href="https://aclanthology.org/">ACL Anthology</a><span class="dash">·</span><a href="https://openaccess.thecvf.com/">CVF Open Access</a></span></div>' +
