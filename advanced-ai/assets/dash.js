@@ -395,6 +395,17 @@
       ['Exploring Semantic Feature Discrimination for Perceptual Image Super-Resolution and Opinion-Unaware No-Reference Image Quality Assessment', 'https://drive.google.com/file/d/1IA5ZA8jnpRiXxw3RQGklJLejhMBsD54z/view?usp=sharing'],
       ['AvatarArtist: Open-Domain 4D Avatarization', 'https://drive.google.com/file/d/1w0XimsVd2Q_XrwjgE71CC-VwZxv74Vk5/view?usp=sharing'],
       ['The Image as Its Own Reward: Reinforcement Learning with Adversarial Reward for Image Generation', 'https://drive.google.com/file/d/1gf6y0Zo66MWSh_LqbRj2dysiyZBplrir/view?usp=sharing']
+    ],
+    'Attention & Transformers': [
+      ['MambaVision: A Hybrid Mamba-Transformer Vision Backbone', 'https://drive.google.com/file/d/1HuURVDluQhK6193zyh3Q419jKIQe_ZJX/view?usp=sharing'],
+      ['Transformers without Normalization', 'https://drive.google.com/file/d/1x4X4Il7diTRYRclATflfIgWghnbqwdxJ/view?usp=sharing'],
+      ['Flash3D: Super-scaling Point Transformers through Joint Hardware-Geometry Locality', 'https://drive.google.com/file/d/18W9c52jFNWaCY8dIHYel18zRw8II8d8M/view?usp=sharing'],
+      ['TAS-LoRA: Transformer Architecture Search with Mixture-of-LoRA Experts', 'https://drive.google.com/file/d/1GdqJA5uAmFBl61VCUIDEwC6wgNR4ttiE/view?usp=sharing'],
+      ['Core Context Aware Transformers for Long Context Language Modeling', 'https://drive.google.com/open?id=1c6dvx132h-z_1TCXl9m3oFiZKkRSuspP'],
+      ['Stronger Normalization-Free Transformers', 'https://drive.google.com/open?id=1VCBTvErkCflMqZuFHsXGqWk0nk3PcnPu'],
+      ['Affine-Scaled Attention: Towards Flexible and Stable Transformer Attention', 'https://drive.google.com/open?id=1Q_6LfntFPZ_5KLTrutWa-CBHtu3G_W3O'],
+      ['Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization Challenges', 'https://drive.google.com/file/d/1AQvnQhrCUS0t25E-xb1KGorEqTmahbDY/view?usp=sharing'],
+      ['Consensus Is All You Get: The Role of Attention in Transformers', 'https://drive.google.com/file/d/1eFDx98r43w86zB4E57Nm0qoDoGql04tY/view?usp=sharing']
     ]
   };
 
