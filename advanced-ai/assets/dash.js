@@ -406,6 +406,40 @@
       ['Affine-Scaled Attention: Towards Flexible and Stable Transformer Attention', 'https://drive.google.com/open?id=1Q_6LfntFPZ_5KLTrutWa-CBHtu3G_W3O'],
       ['Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization Challenges', 'https://drive.google.com/file/d/1AQvnQhrCUS0t25E-xb1KGorEqTmahbDY/view?usp=sharing'],
       ['Consensus Is All You Get: The Role of Attention in Transformers', 'https://drive.google.com/file/d/1eFDx98r43w86zB4E57Nm0qoDoGql04tY/view?usp=sharing']
+    ],
+    'Diffusion models': [
+      ['LaVin-DiT: Large Vision Diffusion Transformer', 'https://drive.google.com/file/d/1xRScbnPcQeIlx_IQyfYj833_poltlHUe/view?usp=sharing'],
+      ['Dual Diffusion for Unified Image Generation and Understanding', 'https://drive.google.com/file/d/1PpUhFdmmcxgHM3Opzub1Bys1l7WWPNOF/view?usp=sharing'],
+      ['EDiT: Efficient Diffusion Transformers with Linear Compressed Attention', 'https://drive.google.com/file/d/1lTKKdb84qfiItLrrwiGImzH7z1qfX1sD/view?usp=sharing'],
+      ['Accelerated Diffusion Models via Speculative Sampling', 'https://drive.google.com/file/d/1MFEtAUVnVNClHJDLK8teTcH47ycTIKpF/view?usp=sharing'],
+      ['Distributional Diffusion Models with Scoring Rules', 'https://drive.google.com/file/d/1cTp_Qg4CDAi_5wG7HijbBsbE9VqL4isR/view?usp=sharing'],
+      ['Guiding Token-Sparse Diffusion Models', 'https://drive.google.com/file/d/1N7cniG3rQSGYfjVVHnizziNeO73D_wpH/view?usp=sharing'],
+      ['DiP: Taming Diffusion Models in Pixel Space', 'https://drive.google.com/file/d/1Au4sLLOSu-82xrX8NyesdA3teFD4HZNT/view?usp=sharing'],
+      ['Trainable Log-linear Sparse Attention for Efficient Diffusion Transformers', 'https://drive.google.com/file/d/1hV81eK3hlac1DsYleTEIT-uSh0GfVVSi/view?usp=sharing'],
+      ['Scaling Diffusion Transformers Efficiently via μP', 'https://drive.google.com/file/d/1moQD8to--P9iqdSEu8AREZT5X0IGN8RA/view?usp=sharing'],
+      ['Diffusion Beats Autoregressive in Data-Constrained Settings', 'https://drive.google.com/file/d/1KOb2Ewa2qPTYW3UobkioCadxxty10A5P/view?usp=sharing']
+    ],
+    'Retrieval-augmented generation': [
+      ['RAG-Instruct: Boosting LLMs with Diverse Retrieval-Augmented Instructions', 'https://drive.google.com/file/d/1ScPOXYZcXAe6w31Avtyeu-ezjK3ZTpuL/view?usp=sharing'],
+      ['RAG+: Enhancing Retrieval-Augmented Generation with Application-Aware Reasoning', 'https://drive.google.com/file/d/15_O1it-hYd2eirmly6-XuwTLO1ebhi5k/view?usp=sharing'],
+      ['Retrieval-Augmented Generation with Estimation of Source Reliability', 'https://drive.google.com/file/d/1_Fvn8Bifhl0XReTrbtvmGFVXC6XqI-JU/view?usp=sharing'],
+      ['Improving Multilingual Retrieval-Augmented Language Models through Dialectic Reasoning Argumentations', 'https://drive.google.com/file/d/1Z7XLxkUqGd6O8Yo-Qq2Lk7eYK5fDge9d/view?usp=sharing'],
+      ['SARA: Selective and Adaptive Retrieval-augmented Generation with Context Compression', 'https://drive.google.com/file/d/1FoLeFtN8atoW59rsR3FuAcwWGEKIs59K/view?usp=sharing'],
+      ['MiniRAG: A Lightweight RAG system with Small Language Models', 'https://drive.google.com/file/d/15ShyaTcVyvJOVnmGjeehWhEXVaYDqD48/view?usp=sharing'],
+      ['RAGGED: Towards Informed Design of Scalable and Stable RAG Systems', 'https://drive.google.com/file/d/1yLIn4UHIHitMahsOc5-ALgCZIXtiPDVV/view?usp=sharing'],
+      ['C-3PO: Compact Plug-and-Play Proxy Optimization to Achieve Human-like Retrieval-Augmented Generation', 'https://drive.google.com/file/d/1dfpnISEhf9tbMX1B4MWdrW4gwVjYww6_/view?usp=sharing'],
+      ['From Complex to Atomic: Enhancing Augmented Generation via Knowledge-Aware Dual Rewriting and Reasoning', 'https://drive.google.com/file/d/1U_u7jOK9RK3CwJmGVgJF07_NJ6Rrfbe9/view?usp=sharing']
+    ],
+    'Large language models': [
+      ['Large Language and Reasoning Models are Shallow Disjunctive Reasoners', 'https://drive.google.com/file/d/1KCTUeFWuAGs2uHcOFmTlhCJrmKLEZT9D/view?usp=sharing'],
+      ['Chain-of-Reasoning: Towards Unified Mathematical Reasoning in Large Language Models via a Multi-Paradigm Perspective', 'https://drive.google.com/file/d/1RS4XKVv6tbEM8GZji4HW8K-McpxewwtU/view?usp=sharing'],
+      ['SoftCoT: Soft Chain-of-Thought for Efficient Reasoning with LLMs', 'https://drive.google.com/file/d/12KEIJeC3jUhJ_srML2VUaB-zc2isSxN0/view?usp=sharing'],
+      ['Tracing and Dissecting How LLMs Recall Factual Knowledge for Real World Questions', 'https://drive.google.com/file/d/16czx5hxd31vXtFn6jcP6op0Hl4wx9pGd/view?usp=sharing'],
+      ['Can Large Language Models Detect Errors in Long Chain-of-Thought Reasoning?', 'https://drive.google.com/file/d/1iRX878BlARGUWk9pWqBRmG50q6W2oMd0/view?usp=sharing'],
+      ['InductionBench: LLMs Fail in the Simplest Complexity Class', 'https://drive.google.com/file/d/1UPdp9vq0cmwnwL7zSTn3Huhp8rcjb9WO/view?usp=sharing'],
+      ['(How) Do Language Models Track State?', 'https://drive.google.com/file/d/1AwzdZBtrQ_o_fNTK_w-80yQq0Wijpm_g/view?usp=sharing'],
+      ['How Much Do LLMs Hallucinate across Languages? On Realistic Multilingual Estimation of LLM Hallucination', 'https://drive.google.com/file/d/1N6Wy8Nxl_hgX_68ASDvOZnjsh0jPHMnI/view?usp=sharing'],
+      ['LogicTree: Structured Proof Exploration for Coherent and Rigorous Logical Reasoning with Large Language Models', 'https://drive.google.com/file/d/1gGyFvtCN2tyrjg5Rk6_dEAum0X7lqk-G/view?usp=sharing']
     ]
   };
 
