@@ -36,7 +36,7 @@
   ];
   var WHEN = ['Every class', 'L02 – L12', 'From week 4', 'From week 5 (TBC)', 'Due L07', 'L07', 'L14'];
   var AGENDA = [
-    ['Survey / exam', 'Level detection', '30–40 min'], ['Lecture plan & next chapter printout', '', '—'], ['Course overview', '', '20 min'],
+    ['Survey / exam', 'Level detection', '30–40 min'], ['Lecture plan', '', '—'], ['Course overview', '', '20 min'],
     ['Break', '', '10 min'], ['Review of survey', '', '5 min'], ['Project & paper survey overview', '', '15 min'],
     ['How to read a paper', 'S. Keshav (2007) · ACM SIGCOMM Computer Communication Review', '—', 'https://dl.acm.org/doi/epdf/10.1145/1273445.1273458'], ['Code evaluation criteria', 'Debug and modify', '—']
   ];
@@ -297,7 +297,7 @@
       : (u !== undefined ? [{ t: TOPICS[u][0], desc: u === 0 ? 'Book: Understanding Deep Learning, chapter 15.' : 'Readings on the course reading list.', label: TL.topic, v: 'outline' }] : [])
         .concat(items.map(function (it) { return { t: it[0].replace('Due · ', ''), desc: DESC[it[0]] || '', label: TL[it[1]], v: TV[it[1]] }; }));
     var nextDue = n < 14 ? L[n][1].filter(function (it) { return it[1] === 'due' || it[1] === 'exam'; }).map(function (it) { return it[0].replace('Due · ', ''); }) : [];
-    var prep = n === 1 ? ['Print 20–25 papers', 'Expect a 30–40 minute level survey', 'Bring something to take notes']
+    var prep = n === 1 ? ['Expect a 30–40 minute level survey', 'Bring something to take notes']
       : ['Bring the book printout for this class', 'Notes: things to do and questions to ask'].concat(nextDue.length ? ['Due next lecture: ' + nextDue.join(', ')] : []);
     var unit = u !== undefined ? 'Unit ' + (u + 1) + ' of 5 · ' + TOPICS[u][0] : n === 1 ? 'Level survey, course overview and how this course works' : h === 'Review' ? 'Review session' : 'Assessment';
     var m = MATERIALS[n] || {};
