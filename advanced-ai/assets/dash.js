@@ -385,9 +385,31 @@
     'Large language models': 'https://drive.google.com/drive/folders/1W6sEqIr8NGCQlsrbrga69TolQq6CrBGW?usp=sharing'
   };
 
+  // Topics listed here show each paper as its own link instead of a single folder link.
+  var PAPER_LISTS = {
+    'GAN': [
+      ['Generative Adversarial Diffusion', 'https://drive.google.com/file/d/11A0kSm8kAUfHHBwuL6nXe8aN8HG9RgS2/view?usp=sharing'],
+      ['Exploring Sparse MoE in GANs for Text-conditioned Image Synthesis', 'https://drive.google.com/file/d/1UmhgrPwEKi7GgJ2kMj902KLrmv8gKOpy/view?usp=sharing'],
+      ['Adversarial Diffusion Compression for Real-World Image Super-Resolution', 'https://drive.google.com/file/d/1LajBSE00HgCn9QgF7zLza5k-vsUOFLcS/view?usp=sharing'],
+      ['Reference-Based 3D-Aware Image Editing with Triplanes', 'https://drive.google.com/file/d/1ZlxvOJijqO1ePsyRs6WiMA9SsaS6jSez/view?usp=sharing'],
+      ['Exploring Semantic Feature Discrimination for Perceptual Image Super-Resolution and Opinion-Unaware No-Reference Image Quality Assessment', 'https://drive.google.com/file/d/1IA5ZA8jnpRiXxw3RQGklJLejhMBsD54z/view?usp=sharing'],
+      ['AvatarArtist: Open-Domain 4D Avatarization', 'https://drive.google.com/file/d/1w0XimsVd2Q_XrwjgE71CC-VwZxv74Vk5/view?usp=sharing'],
+      ['The Image as Its Own Reward: Reinforcement Learning with Adversarial Reward for Image Generation', 'https://drive.google.com/file/d/1gf6y0Zo66MWSh_LqbRj2dysiyZBplrir/view?usp=sharing']
+    ]
+  };
+
   function reading() {
     var topics = TOPICS.map(function (t, i) {
       var folderUrl = PAPER_FOLDERS[t[0]];
+      var list = PAPER_LISTS[t[0]];
+      var action = list
+        ? '<span class="mono muted" style="font-size:12px">' + list.length + ' papers</span>'
+        : '<a class="todo" href="' + esc(folderUrl) + '" target="_blank" rel="noopener noreferrer">View Papers ↗</a>';
+      var papers = list
+        ? '<ol class="paper-list">' + list.map(function (p) {
+            return '<li><a href="' + esc(p[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(p[0]) + ' ↗</a></li>';
+          }).join('') + '</ol>'
+        : '';
 
       return '<div class="topic-row">' +
         '<div class="row" style="gap:14px;min-width:0">' +
@@ -403,10 +425,8 @@
         '</span>' +
         '</span>' +
         '</div>' +
-        '<a class="todo" href="' + esc(folderUrl) +
-        '" target="_blank" rel="noopener noreferrer">' +
-        'View Papers ↗' +
-        '</a>' +
+        action +
+        papers +
         '</div>';
     }).join('');
     return '<div class="stack g36"><div class="stack g10"><span class="eyebrow">Resources</span><h1 class="h1">Reading list</h1><p class="lede">Curated papers, links only. Target 20–30 papers from CVPR and EMNLP, 2025–2026, matching class topics.</p></div>' +
