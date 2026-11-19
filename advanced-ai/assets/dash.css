@@ -239,6 +239,10 @@ a.todo:hover{text-decoration:underline}
 .pchip:hover{background:#e4e4e7;text-decoration:none}
 .pchip svg{flex:none;margin-right:4px}
 .pchip.sol{flex:none}
+.pchip.locked{color:#71717a;cursor:default}
+.pchip.locked:hover{background:#f4f4f5}
+.mat.locked{cursor:default;box-shadow:none}
+.mat.locked .t{color:#52525b}
 .mats.nb{grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr))}
 .dash{color:#d4d4d8}
 .pill-count{font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;border:1px solid #e4e4e7;color:#3f3f46;white-space:nowrap}

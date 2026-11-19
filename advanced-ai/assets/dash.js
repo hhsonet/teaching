@@ -68,10 +68,9 @@
   // Each entry: [title, notebookDriveId, solutionDriveId, notebookOpen, solutionOpen]
   //   notebookDriveId / solutionDriveId: Drive file ids of the [TODO] and [Complete] notebooks
   //     (the part after /file/d/ in the link). A full URL also works.
-  //   notebookOpen / solutionOpen: true once that file is released. Set its Drive sharing to
-  //     "Anyone with the link" at the same time; the card then drops the lock and opens in Colab.
-  //     While false, keep the file Restricted in Drive: the card shows a lock and links to Drive,
-  //     where students see "You need access" and can request it.
+  //   notebookOpen / solutionOpen: true once that file is released; the card then opens it in Colab.
+  //     While false, the card shows a lock and has no link. The id is still in this public file,
+  //     so keep unreleased files Restricted in Drive as well.
   // Lecture-only code can also go in MATERIALS[n].code with the same format.
   var TOPIC_CODE = {
     'GAN': [
@@ -94,11 +93,15 @@
     ]
   };
   var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Locked"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
-  // Released files open in Colab; locked ones go to Drive, which asks for access.
-  function driveUrl(id, open) { return !id ? '' : /^https?:/.test(id) ? id : open ? 'https://colab.research.google.com/drive/' + id : 'https://drive.google.com/file/d/' + id + '/view'; }
+  // Released files open in Colab; locked ones get no link.
+  function driveUrl(id, open) { return !id || !open ? '' : /^https?:/.test(id) ? id : 'https://colab.research.google.com/drive/' + id; }
   function nbUrl(c) { return driveUrl(c[1], c[3]); }
   function solUrl(c) { return driveUrl(c[2], c[4]); }
-  function chip(href, label, title, cls) { return '<a class="pchip' + (cls ? ' ' + cls : '') + '" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(title) + '">' + label + '</a>'; }
+  function chip(href, label, title, cls) {
+    cls = 'pchip' + (cls ? ' ' + cls : '');
+    return href ? '<a class="' + cls + '" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(title) + '">' + label + '</a>'
+      : '<span class="' + cls + ' locked" title="' + esc(title) + ' · locked">' + label + '</span>';
+  }
   function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), (c[3] ? '' : LOCK) + esc(c[0]), c[0]) + (c[2] ? chip(solUrl(c), (c[4] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
   function codeFor(n) {
     var u = UNIT_OF[L[n - 1][0]], m = MATERIALS[n] || {};
@@ -343,15 +346,16 @@
       : ['Bring the book printout for this class', 'Notes: things to do and questions to ask'].concat(nextDue.length ? ['Due next lecture: ' + nextDue.join(', ')] : []);
     var unit = u !== undefined ? 'Unit ' + (u + 1) + ' of 5 · ' + TOPICS[u][0] : n === 1 ? 'Level survey, course overview and how this course works' : h === 'Review' ? 'Review session' : 'Assessment';
     var m = MATERIALS[n] || {};
+    var locked = function (t, sub) { return '<div class="mat locked"><span class="tag">' + LOCK + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + sub + '</span></span></div>'; };
     var mat = function (tag, t, href, sub) { return '<a class="mat' + (href ? '' : ' off') + '" ' + (href ? 'href="' + esc(href) + '"' : '') + '><span class="tag">' + tag + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + (href ? sub : 'Not posted yet') + '</span></span><span class="go">' + (href ? '↗' : '') + '</span></a>'; };
     var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], 'Paper'); });
     var code = codeFor(n), codeCards = [];
     code.forEach(function (c) {
-      codeCards.push(mat(c[3] ? 'TODO' : LOCK, c[0], nbUrl(c), c[3] ? 'Notebook · open in Colab' : 'Notebook · locked'));
-      if (c[2]) codeCards.push(mat(c[4] ? 'SOL' : LOCK, 'Solution', solUrl(c), c[4] ? c[0] : 'Solution · locked'));
+      codeCards.push(c[3] ? mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab') : locked(c[0], 'Notebook · locked'));
+      if (c[2]) codeCards.push(c[4] ? mat('SOL', 'Solution', solUrl(c), c[0]) : locked('Solution', 'Solution · locked'));
     });
     var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))].concat(papers.length ? papers : [mat('PDF', 'Papers', '', '')]);
-    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.length;
+    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.filter(function (c) { return c[3]; }).length;
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
       '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span></div></div>'; }).join('') + '</div></section>' +
@@ -366,14 +370,14 @@
     var rows = L.map(function (l, i) {
       var n = i + 1, m = MATERIALS[n] || {}, papers = m.papers || [], code = codeFor(n);
       posted += (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length;
-      code.forEach(function (c) { if (seen.indexOf(c) < 0) { seen.push(c); posted++; } });
+      code.forEach(function (c) { if (c[3] && seen.indexOf(c) < 0) { seen.push(c); posted++; } });
       var f = function (href, label) { return href ? '<a class="mchip" href="' + esc(href) + '">' + label + ' <span style="color:#a1a1aa">↗</span></a>' : '<span class="dash">—</span>'; };
       return '<div class="trow cols-mat" style="' + (n === CURRENT ? 'background:#fafafa' : '') + '"><span class="num">' + pad(n) + '</span><button class="reset" style="font-weight:500;justify-self:start" data-act="lec:' + n + '">' + l[0] + '</button>' +
         '<span class="row">' + f(m.slides, 'Slides') + '</span><span class="row">' + f(m.notes, 'Notes') + '</span>' +
         '<span class="row wrap g6" style="min-width:0">' + (papers.length ? papers.map(function (p) { return '<a class="pchip" href="' + esc(p[1]) + '" title="' + esc(p[0]) + '">' + esc(p[0]) + '</a>'; }).join('') : '<span class="dash">—</span>') + '</span>' +
         '<span class="row wrap g6" style="min-width:0">' + (code.length ? code.map(codeChips).join('') : '<span class="dash">—</span>') + '</span></div>';
     }).join('');
-    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files and links, plus slides, notes, papers and example code for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
+    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files and links, plus slides, notes, papers and example code for every lecture.</p></div><span class="pill-count">' + (posted ? posted + (posted === 1 ? ' file' : ' files') + ' posted' : 'Nothing posted yet') + '</span></div>' +
       '<section class="stack g16"><h2 class="h2">Course files</h2><div class="mats wrapt">' + resCards(pick(['Understanding Deep Learning', 'Reading list', 'Publications', 'Paper survey'])) + '</div></section>' +
       '<section class="stack g16"><h2 class="h2">Lecture materials</h2><div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Papers</span><span>Code</span></div>' + rows + '</div></div></section></div>';
   }
