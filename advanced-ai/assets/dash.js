@@ -100,9 +100,9 @@
   function chip(href, label, title, cls) {
     cls = 'pchip' + (cls ? ' ' + cls : '');
     return href ? '<a class="' + cls + '" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(title) + '">' + label + '</a>'
-      : '<span class="' + cls + ' locked" title="' + esc(title) + ' · locked">' + label + '</span>';
+      : '<span class="' + cls + ' locked" title="Private">' + label + '</span>';
   }
-  function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), (c[3] ? '' : LOCK) + esc(c[0]), c[0]) + (c[2] ? chip(solUrl(c), (c[4] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
+  function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), c[3] ? esc(c[0]) : LOCK + 'Private', c[0]) + (c[2] ? chip(solUrl(c), (c[4] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
   function codeFor(n) {
     var u = UNIT_OF[L[n - 1][0]], m = MATERIALS[n] || {};
     return (u !== undefined ? TOPIC_CODE[TOPICS[u][0]] || [] : []).concat(m.code || []);
@@ -351,7 +351,7 @@
     var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], 'Paper'); });
     var code = codeFor(n), codeCards = [];
     code.forEach(function (c) {
-      codeCards.push(c[3] ? mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab') : locked(c[0], 'Notebook · locked'));
+      codeCards.push(c[3] ? mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab') : locked('Private', 'Notebook · locked'));
       if (c[2]) codeCards.push(c[4] ? mat('SOL', 'Solution', solUrl(c), c[0]) : locked('Solution', 'Solution · locked'));
     });
     var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))].concat(papers.length ? papers : [mat('PDF', 'Papers', '', '')]);
