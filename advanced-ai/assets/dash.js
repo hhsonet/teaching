@@ -65,38 +65,41 @@
   };
   // Example code per topic, shown on every lecture of that topic. Keys match TOPICS names.
   // Notebooks stay in Google Drive; nothing is copied into this repo.
-  // Each entry: [title, notebookDriveId, solutionDriveId, solutionOpen]
-  //   notebookDriveId: Drive file id of the student [TODO] notebook (the part after /file/d/ in its link).
-  //     Share it as "Anyone with the link"; the card opens it in Colab. A full URL also works here.
-  //   solutionDriveId: Drive file id of the [Complete] notebook. Keep that file Restricted;
-  //     students who click it see Google's "You need access" page and can request access.
-  //   solutionOpen: set true once the solution is released (Drive sharing opened); removes the lock.
+  // Each entry: [title, notebookDriveId, solutionDriveId, notebookOpen, solutionOpen]
+  //   notebookDriveId / solutionDriveId: Drive file ids of the [TODO] and [Complete] notebooks
+  //     (the part after /file/d/ in the link). A full URL also works.
+  //   notebookOpen / solutionOpen: true once that file is released. Set its Drive sharing to
+  //     "Anyone with the link" at the same time; the card then drops the lock and opens in Colab.
+  //     While false, keep the file Restricted in Drive: the card shows a lock and links to Drive,
+  //     where students see "You need access" and can request it.
   // Lecture-only code can also go in MATERIALS[n].code with the same format.
   var TOPIC_CODE = {
     'GAN': [
-      ['UDL 15.1 · GAN toy example', '121E2foB6S6UhEaCmygxVeqTdwUci5Y1s', '1kDVAvs_u-ZHC4riHbQbWxpp3EUs5xxt_', false]
+      ['UDL 15.1 · GAN toy example', '121E2foB6S6UhEaCmygxVeqTdwUci5Y1s', '1kDVAvs_u-ZHC4riHbQbWxpp3EUs5xxt_', true, false]
     ],
     'Attention & Transformers': [
-      ['UDL 12.1 · Self-attention', '1ueLQGKrum6PxOdvD16ntiOi_sixtT7iJ', '1kBKWuePBqco7QW07XsqwbwIvaWl98uhF', false],
-      ['UDL 12.2 · Multihead self-attention', '17XPuopdOm3CyVeLIIixzyaVIINX-azSy', '1HV6QvW0P4Q393_BH5nGzqZpv1vJF5IOa', false]
+      ['UDL 12.1 · Self-attention', '1ueLQGKrum6PxOdvD16ntiOi_sixtT7iJ', '1kBKWuePBqco7QW07XsqwbwIvaWl98uhF', false, false],
+      ['UDL 12.2 · Multihead self-attention', '17XPuopdOm3CyVeLIIixzyaVIINX-azSy', '1HV6QvW0P4Q393_BH5nGzqZpv1vJF5IOa', false, false]
     ],
     'Diffusion & distillation': [
-      ['UDL 18.2 · 1D diffusion model', '12ag-YjwflmBrBH3A84GQQ6Ieh5obcBrK', '1WLu__Hsi_zD1786jK2QUG7diSDlVEqIe', false],
-      ['Knowledge distillation', '1UgWxXLl4QNLEO7ngsTBi_xSblUAUfbVe', '1kW8yKM2b50JfQhjThyctf11180lFybZD', false]
+      ['UDL 18.2 · 1D diffusion model', '12ag-YjwflmBrBH3A84GQQ6Ieh5obcBrK', '1WLu__Hsi_zD1786jK2QUG7diSDlVEqIe', false, false],
+      ['Knowledge distillation', '1UgWxXLl4QNLEO7ngsTBi_xSblUAUfbVe', '1kW8yKM2b50JfQhjThyctf11180lFybZD', false, false]
     ],
     'Retrieval-augmented generation': [
-      ['RAG from scratch', '1_12iau9cKC-7DyQPxtyiRQLW0oQL19Vo', '1d-Y-GCCLy-5gQDOiVOXumSbCb33jkd88', false]
+      ['RAG from scratch', '1_12iau9cKC-7DyQPxtyiRQLW0oQL19Vo', '1d-Y-GCCLy-5gQDOiVOXumSbCb33jkd88', false, false]
     ],
     'Large language models': [
-      ['UDL 12.3 · Tokenization', '1WTd7baYjAvu_epOOB1aKTUYTYoArd6Zc', '1LbjfHSiQFvAuFtOalIelBgLv_ON5K0oP', false],
-      ['UDL 12.4 · Decoding strategies', '1DEOwx2ocWqFA0T5FUn37NafmiUSmAA66', '1SXKxRhA9sdJ6N6O38tkX4NX4cOEovzrc', false]
+      ['UDL 12.3 · Tokenization', '1WTd7baYjAvu_epOOB1aKTUYTYoArd6Zc', '1LbjfHSiQFvAuFtOalIelBgLv_ON5K0oP', false, false],
+      ['UDL 12.4 · Decoding strategies', '1DEOwx2ocWqFA0T5FUn37NafmiUSmAA66', '1SXKxRhA9sdJ6N6O38tkX4NX4cOEovzrc', false, false]
     ]
   };
   var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Locked"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
-  function nbUrl(c) { return !c[1] ? '' : /^https?:/.test(c[1]) ? c[1] : 'https://colab.research.google.com/drive/' + c[1]; }
-  function solUrl(c) { return c[2] ? 'https://drive.google.com/file/d/' + c[2] + '/view' : ''; }
+  // Released files open in Colab; locked ones go to Drive, which asks for access.
+  function driveUrl(id, open) { return !id ? '' : /^https?:/.test(id) ? id : open ? 'https://colab.research.google.com/drive/' + id : 'https://drive.google.com/file/d/' + id + '/view'; }
+  function nbUrl(c) { return driveUrl(c[1], c[3]); }
+  function solUrl(c) { return driveUrl(c[2], c[4]); }
   function chip(href, label, title, cls) { return '<a class="pchip' + (cls ? ' ' + cls : '') + '" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(title) + '">' + label + '</a>'; }
-  function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), esc(c[0]), c[0]) + (c[2] ? chip(solUrl(c), (c[3] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
+  function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), (c[3] ? '' : LOCK) + esc(c[0]), c[0]) + (c[2] ? chip(solUrl(c), (c[4] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
   function codeFor(n) {
     var u = UNIT_OF[L[n - 1][0]], m = MATERIALS[n] || {};
     return (u !== undefined ? TOPIC_CODE[TOPICS[u][0]] || [] : []).concat(m.code || []);
@@ -344,8 +347,8 @@
     var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], 'Paper'); });
     var code = codeFor(n), codeCards = [];
     code.forEach(function (c) {
-      codeCards.push(mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab'));
-      if (c[2]) codeCards.push(mat(c[3] ? 'SOL' : LOCK, 'Solution', solUrl(c), c[3] ? c[0] : 'Locked · request access'));
+      codeCards.push(mat(c[3] ? 'TODO' : LOCK, c[0], nbUrl(c), c[3] ? 'Notebook · open in Colab' : 'Notebook · locked'));
+      if (c[2]) codeCards.push(mat(c[4] ? 'SOL' : LOCK, 'Solution', solUrl(c), c[4] ? c[0] : 'Solution · locked'));
     });
     var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))].concat(papers.length ? papers : [mat('PDF', 'Papers', '', '')]);
     var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.length;
