@@ -15,7 +15,7 @@ description: Course topics, class materials and grading.
 
 - Book: *Understanding Deep Learning* (Prince).
 - GAN: chapter 15, notebooks 15.1 to 15.3 (TODO: confirm range).
-- Diffusion models
+- Diffusion models and distillation
 - Transformers
 - RAG
 - LLM

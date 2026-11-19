@@ -23,7 +23,7 @@
     ['Review', [['Class log review', 'log']]],
     ['Final', [['Final exam', 'exam']]]
   ];
-  var TOPICS = [['GAN', 2, 5], ['Attention & Transformers', 4, 8], ['Diffusion models', 8, 10], ['Retrieval-augmented generation', 9, 12], ['Large language models', 11, 12]];
+  var TOPICS = [['GAN', 2, 5], ['Attention & Transformers', 4, 8], ['Diffusion & distillation', 8, 10], ['Retrieval-augmented generation', 9, 12], ['Large language models', 11, 12]];
   var UNIT_OF = { GAN: 0, Attention: 1, Transformer: 1, Diffusion: 2, RAG: 3, 'LLM + RAG': 4 };
   var PARTS = [
     ['Class log', 25, 'One entry per class', ['2 marks per class for 12 classes, plus 1 (2 × 12 + 1)', 'Record what you learned, what to do and what to ask', 'Reviewed in lectures 6 and 13']],
@@ -63,6 +63,44 @@
   var MATERIALS = {
     1: { slides: '', notes: '', papers: [] }
   };
+  // Example code per topic, shown on every lecture of that topic. Keys match TOPICS names.
+  // Notebooks stay in Google Drive; nothing is copied into this repo.
+  // Each entry: [title, notebookDriveId, solutionDriveId, solutionOpen]
+  //   notebookDriveId: Drive file id of the student [TODO] notebook (the part after /file/d/ in its link).
+  //     Share it as "Anyone with the link"; the card opens it in Colab. A full URL also works here.
+  //   solutionDriveId: Drive file id of the [Complete] notebook. Keep that file Restricted;
+  //     students who click it see Google's "You need access" page and can request access.
+  //   solutionOpen: set true once the solution is released (Drive sharing opened); removes the lock.
+  // Lecture-only code can also go in MATERIALS[n].code with the same format.
+  var TOPIC_CODE = {
+    'GAN': [
+      ['UDL 15.1 · GAN toy example', '121E2foB6S6UhEaCmygxVeqTdwUci5Y1s', '1kDVAvs_u-ZHC4riHbQbWxpp3EUs5xxt_', false]
+    ],
+    'Attention & Transformers': [
+      ['UDL 12.1 · Self-attention', '1ueLQGKrum6PxOdvD16ntiOi_sixtT7iJ', '1kBKWuePBqco7QW07XsqwbwIvaWl98uhF', false],
+      ['UDL 12.2 · Multihead self-attention', '17XPuopdOm3CyVeLIIixzyaVIINX-azSy', '1HV6QvW0P4Q393_BH5nGzqZpv1vJF5IOa', false]
+    ],
+    'Diffusion & distillation': [
+      ['UDL 18.2 · 1D diffusion model', '12ag-YjwflmBrBH3A84GQQ6Ieh5obcBrK', '1WLu__Hsi_zD1786jK2QUG7diSDlVEqIe', false],
+      ['Knowledge distillation', '1UgWxXLl4QNLEO7ngsTBi_xSblUAUfbVe', '1kW8yKM2b50JfQhjThyctf11180lFybZD', false]
+    ],
+    'Retrieval-augmented generation': [
+      ['RAG from scratch', '1_12iau9cKC-7DyQPxtyiRQLW0oQL19Vo', '1d-Y-GCCLy-5gQDOiVOXumSbCb33jkd88', false]
+    ],
+    'Large language models': [
+      ['UDL 12.3 · Tokenization', '1WTd7baYjAvu_epOOB1aKTUYTYoArd6Zc', '1LbjfHSiQFvAuFtOalIelBgLv_ON5K0oP', false],
+      ['UDL 12.4 · Decoding strategies', '1DEOwx2ocWqFA0T5FUn37NafmiUSmAA66', '1SXKxRhA9sdJ6N6O38tkX4NX4cOEovzrc', false]
+    ]
+  };
+  var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Locked"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+  function nbUrl(c) { return !c[1] ? '' : /^https?:/.test(c[1]) ? c[1] : 'https://colab.research.google.com/drive/' + c[1]; }
+  function solUrl(c) { return c[2] ? 'https://drive.google.com/file/d/' + c[2] + '/view' : ''; }
+  function chip(href, label, title, cls) { return '<a class="pchip' + (cls ? ' ' + cls : '') + '" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(title) + '">' + label + '</a>'; }
+  function codeChips(c) { return '<span class="row g6" style="min-width:0;max-width:100%">' + chip(nbUrl(c), esc(c[0]), c[0]) + (c[2] ? chip(solUrl(c), (c[3] ? '' : LOCK) + 'Solution', 'Solution · ' + c[0], 'sol') : '') + '</span>'; }
+  function codeFor(n) {
+    var u = UNIT_OF[L[n - 1][0]], m = MATERIALS[n] || {};
+    return (u !== undefined ? TOPIC_CODE[TOPICS[u][0]] || [] : []).concat(m.code || []);
+  }
   // Paper survey list. status: 'available' | 'taken'
   var SURVEY_PAPERS = [
     ['Generative Adversarial Nets', 'Goodfellow et al.', 'GAN', 'NeurIPS 2014', 'https://arxiv.org/abs/1406.2661', 'available'],
@@ -304,30 +342,37 @@
     var m = MATERIALS[n] || {};
     var mat = function (tag, t, href, sub) { return '<a class="mat' + (href ? '' : ' off') + '" ' + (href ? 'href="' + esc(href) + '"' : '') + '><span class="tag">' + tag + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + (href ? sub : 'Not posted yet') + '</span></span><span class="go">' + (href ? '↗' : '') + '</span></a>'; };
     var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], 'Paper'); });
+    var code = codeFor(n), codeCards = [];
+    code.forEach(function (c) {
+      codeCards.push(mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab'));
+      if (c[2]) codeCards.push(mat(c[3] ? 'SOL' : LOCK, 'Solution', solUrl(c), c[3] ? c[0] : 'Locked · request access'));
+    });
     var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))].concat(papers.length ? papers : [mat('PDF', 'Papers', '', '')]);
-    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length;
+    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.length;
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
       '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span></div></div>'; }).join('') + '</div></section>' +
-      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div></section>' +
+      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div><div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Notebook', '', '')) + '</div></section>' +
       '<section class="stack g12"><h2 class="h2">Prepare</h2><ul class="bullets">' + prep.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></section>' +
       '<div class="pn"><button class="reset" style="opacity:' + (n > 1 ? 1 : .35) + '" data-act="lec:' + clamp(n - 1) + '"><span class="l1">← Previous</span><span class="l2">' + (n > 1 ? pad(n - 1) + ' · ' + L[n - 2][0] : 'Start') + '</span></button>' +
       '<button class="reset r" style="opacity:' + (n < 14 ? 1 : .35) + '" data-act="lec:' + clamp(n + 1) + '"><span class="l1">Next →</span><span class="l2">' + (n < 14 ? pad(n + 1) + ' · ' + L[n][0] : 'End') + '</span></button></div></div>';
   }
 
   function materials() {
-    var posted = 0;
+    var posted = 0, seen = [];
     var rows = L.map(function (l, i) {
-      var n = i + 1, m = MATERIALS[n] || {}, papers = m.papers || [];
+      var n = i + 1, m = MATERIALS[n] || {}, papers = m.papers || [], code = codeFor(n);
       posted += (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length;
+      code.forEach(function (c) { if (seen.indexOf(c) < 0) { seen.push(c); posted++; } });
       var f = function (href, label) { return href ? '<a class="mchip" href="' + esc(href) + '">' + label + ' <span style="color:#a1a1aa">↗</span></a>' : '<span class="dash">—</span>'; };
       return '<div class="trow cols-mat" style="' + (n === CURRENT ? 'background:#fafafa' : '') + '"><span class="num">' + pad(n) + '</span><button class="reset" style="font-weight:500;justify-self:start" data-act="lec:' + n + '">' + l[0] + '</button>' +
         '<span class="row">' + f(m.slides, 'Slides') + '</span><span class="row">' + f(m.notes, 'Notes') + '</span>' +
-        '<span class="row wrap g6" style="min-width:0">' + (papers.length ? papers.map(function (p) { return '<a class="pchip" href="' + esc(p[1]) + '" title="' + esc(p[0]) + '">' + esc(p[0]) + '</a>'; }).join('') : '<span class="dash">—</span>') + '</span></div>';
+        '<span class="row wrap g6" style="min-width:0">' + (papers.length ? papers.map(function (p) { return '<a class="pchip" href="' + esc(p[1]) + '" title="' + esc(p[0]) + '">' + esc(p[0]) + '</a>'; }).join('') : '<span class="dash">—</span>') + '</span>' +
+        '<span class="row wrap g6" style="min-width:0">' + (code.length ? code.map(codeChips).join('') : '<span class="dash">—</span>') + '</span></div>';
     }).join('');
-    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files and links, plus slides, notes and papers for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
+    return '<div class="stack g32"><div class="between wrap" style="align-items:flex-end;gap:16px"><div class="stack g8"><h1 class="h1">Materials</h1><p class="sub">Course files and links, plus slides, notes, papers and example code for every lecture.</p></div><span class="pill-count">' + (posted ? posted + ' files posted' : 'Nothing posted yet') + '</span></div>' +
       '<section class="stack g16"><h2 class="h2">Course files</h2><div class="mats wrapt">' + resCards(pick(['Understanding Deep Learning', 'Reading list', 'Publications', 'Paper survey'])) + '</div></section>' +
-      '<section class="stack g16"><h2 class="h2">Lecture materials</h2><div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Papers</span></div>' + rows + '</div></div></section></div>';
+      '<section class="stack g16"><h2 class="h2">Lecture materials</h2><div class="card sx"><div class="tbl"><div class="thead cols-mat"><span>#</span><span>Topic</span><span>Slides</span><span>Notes</span><span>Papers</span><span>Code</span></div>' + rows + '</div></div></section></div>';
   }
 
   function team() {
@@ -381,7 +426,7 @@
   var PAPER_FOLDERS = {
     'GAN': 'https://drive.google.com/drive/folders/1qhox9pPzXsa0MQwbBiEbLg5vLD0kQQd3?usp=sharing',
     'Attention & Transformers': 'https://drive.google.com/drive/folders/1GcrPH8MwF2e6xtPtBx92HS7gCLCGmGuC?usp=sharing',
-    'Diffusion models': 'https://drive.google.com/drive/folders/1EMj5jtjwg_fGYlgk8WyrFA2sLnnStXpu?usp=sharing',
+    'Diffusion & distillation': 'https://drive.google.com/drive/folders/1EMj5jtjwg_fGYlgk8WyrFA2sLnnStXpu?usp=sharing',
     'Retrieval-augmented generation': 'https://drive.google.com/drive/folders/1ABKZcJlU85CYmhBcY5s0HjDHt-fLmV1Y?usp=sharing',
     'Large language models': 'https://drive.google.com/drive/folders/1W6sEqIr8NGCQlsrbrga69TolQq6CrBGW?usp=sharing'
   };
@@ -408,7 +453,7 @@
       ['Self-Improving Transformers Overcome Easy-to-Hard and Length Generalization Challenges', 'https://drive.google.com/file/d/1AQvnQhrCUS0t25E-xb1KGorEqTmahbDY/view?usp=sharing'],
       ['Consensus Is All You Get: The Role of Attention in Transformers', 'https://drive.google.com/file/d/1eFDx98r43w86zB4E57Nm0qoDoGql04tY/view?usp=sharing']
     ],
-    'Diffusion models': [
+    'Diffusion & distillation': [
       ['LaVin-DiT: Large Vision Diffusion Transformer', 'https://drive.google.com/file/d/1xRScbnPcQeIlx_IQyfYj833_poltlHUe/view?usp=sharing'],
       ['Dual Diffusion for Unified Image Generation and Understanding', 'https://drive.google.com/file/d/1PpUhFdmmcxgHM3Opzub1Bys1l7WWPNOF/view?usp=sharing'],
       ['EDiT: Efficient Diffusion Transformers with Linear Compressed Attention', 'https://drive.google.com/file/d/1lTKKdb84qfiItLrrwiGImzH7z1qfX1sD/view?usp=sharing'],

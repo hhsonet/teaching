@@ -8,52 +8,48 @@ description: Student project groups for Advanced AI.
 
 Groups formed based on the initial class survey.
 
-### Group 1
-
-1. Anand Sarbabidya
-2. Younib Mridha
-3. Dibya Joy Paul
-
-### Group 2
-
-1. Md Fahim Shahriar
-2. Muhaiminul Rashid Shad
-3. Tahsin Saulat Choudhury
-
-### Group 3
-
-1. Shahir Abdullah Bin Shahnoor
-2. Nowrin Tasnim
-3. Md Abid Hossain
-
-### Group 4
-
-1. Md Arifur Rahman
-2. Md. Tauhidul Islam
-3. Tasfia Aktar
-
-### Group 5
-
-1. Md Karimul Islam
-2. Sumya Haque Hafsa
-3. Rinke Pal
-
-### Group 6
-
-1. Kawser Ahmed
-2. Ayan Pal
-3. Lubna
-
-### Group 7
-
-1. Homaira Alam
-2. Isnaad Sb Sharahbeel
-3. Md. Sazzad Hossain
-4. Shams Arefin Rubaiyat
-
-### Group 8
-
-1. Md. Samiul Islam
-2. Mahidul Islam Parash
-3. Annay Barua
-4. Muntasir
+<table style="border-collapse:collapse;width:100%;max-width:640px">
+<thead><tr><th style="background:#334155;color:#fff;text-align:center;border:1px solid #334155">Group</th><th style="background:#334155;color:#fff;text-align:center;border:1px solid #334155">Member No</th><th style="background:#334155;color:#fff;text-align:center;border:1px solid #334155">Student Name</th><th style="background:#334155;color:#fff;text-align:center;border:1px solid #334155">Cluster No</th></tr></thead>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;font-weight:600;white-space:nowrap">Group 1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Anand Sarbabidya</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Younib Mridha</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Dibya Joy Paul</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;font-weight:600;white-space:nowrap">Group 2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Md Fahim Shahriar</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Muhaiminul Rashid Shad</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Tahsin Saulat Choudhury</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;font-weight:600;white-space:nowrap">Group 3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Shahir Abdullah Bin Shahnoor</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Nowrin Tasnim</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Md Abid Hossain</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;font-weight:600;white-space:nowrap">Group 4</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Md Arifur Rahman</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Md. Tauhidul Islam</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Tasfia Aktar</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;font-weight:600;white-space:nowrap">Group 5</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Md Karimul Islam</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Sumya Haque Hafsa</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Rinke Pal</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="3" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;font-weight:600;white-space:nowrap">Group 6</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Kawser Ahmed</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Ayan Pal</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Lubna</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="4" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;font-weight:600;white-space:nowrap">Group 7</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Homaira Alam</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Isnaad Sb Sharahbeel</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Md. Sazzad Hossain</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">3</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">4</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;text-align:left">Shams Arefin Rubaiyat</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#eef2f7;">2</td></tr>
+</tbody>
+<tbody style="border-top:2px solid #94a3b8">
+<tr><td rowspan="4" style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;font-weight:600;white-space:nowrap">Group 8</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Md. Samiul Islam</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">1</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Mahidul Islam Parash</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">2</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Annay Barua</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">3</td></tr>
+<tr><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">4</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;text-align:left">Muntasir</td><td style="border:1px solid #d1d5db;text-align:center;vertical-align:middle;color:#111827;background:#ffffff;">0</td></tr>
+</tbody>
+</table>

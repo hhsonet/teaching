@@ -146,14 +146,14 @@ h1,h2,h3,h4,p{margin:0}
 .up-list>*:last-child,.dl-list>*:last-child{border-bottom:0}
 
 /* tables */
-.tbl{min-width:540px}
+.tbl{min-width:760px}
 .thead,.trow{display:grid;gap:16px;align-items:center}
 .thead{padding:10px 20px;background:#fafafa;border-bottom:1px solid #e4e4e7;font-size:13px;font-weight:500;color:#71717a}
 .trow{padding:12px 20px;border-bottom:1px solid #f4f4f5;font-size:14px}
 .cols-as{grid-template-columns:minmax(120px,1fr) 64px minmax(170px,2fr) 104px 16px}
 .cols-ev{grid-template-columns:minmax(140px,1fr) 84px minmax(220px,2.4fr) 16px}
 .cols-lec{grid-template-columns:64px 160px minmax(0,1fr) 108px}
-.cols-mat{grid-template-columns:52px minmax(120px,1fr) 96px 96px minmax(120px,1.4fr)}
+.cols-mat{grid-template-columns:52px minmax(110px,.8fr) 80px 80px minmax(120px,1fr) minmax(240px,1.8fr)}
 .cols-sp{grid-template-columns:minmax(0,1fr) 104px 96px}
 .clickable{cursor:pointer}
 .clickable:hover{background:#fafafa}
@@ -237,6 +237,9 @@ a.todo:hover{text-decoration:underline}
 .mchip:hover{background:#f4f4f5;text-decoration:none}
 .pchip{max-width:100%;height:28px;padding:0 10px;display:flex;align-items:center;border-radius:7px;background:#f4f4f5;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pchip:hover{background:#e4e4e7;text-decoration:none}
+.pchip svg{flex:none;margin-right:4px}
+.pchip.sol{flex:none}
+.mats.nb{grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr))}
 .dash{color:#d4d4d8}
 .pill-count{font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;border:1px solid #e4e4e7;color:#3f3f46;white-space:nowrap}
 
