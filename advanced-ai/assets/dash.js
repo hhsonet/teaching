@@ -98,8 +98,8 @@
       slides: '', notes: '',
       book: ['Understanding Deep Learning', 'https://udlbook.github.io/udlbook/', 'Chapter 15 · sections 15.1 and 15.2'],
       papers: [
-        ['Attention Is All You Need', 'https://arxiv.org/abs/1706.03762', 'Vaswani et al., 2017 · arXiv'],
-        ['Generative Adversarial Nets', 'https://arxiv.org/abs/1406.2661', 'Goodfellow et al., 2014 · arXiv']
+        ['Transformer base paper', 'https://arxiv.org/abs/1706.03762', 'Attention Is All You Need · Vaswani et al., 2017'],
+        ['GAN base paper', 'https://arxiv.org/abs/1406.2661', 'Generative Adversarial Nets · Goodfellow et al., 2014']
       ]
     }
   };
@@ -397,16 +397,19 @@
     var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], p[2] || 'Paper'); });
     var code = codeFor(n), codeCards = [];
     code.forEach(function (c) {
-      codeCards.push(c[3] ? mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab') : locked('Private', 'Notebook · locked'));
-      if (c[2]) codeCards.push(c[4] ? mat('SOL', 'Solution', solUrl(c), c[0]) : locked('Solution', 'Solution · locked'));
+      codeCards.push(c[3] ? mat('TODO', 'Code · TODO', nbUrl(c), c[0] + ' · Colab') : locked('Private', 'Code · TODO · locked'));
+      if (c[2]) codeCards.push(c[4] ? mat('SOL', 'Code · Solution', solUrl(c), c[0] + ' · Colab') : locked('Code · Solution', 'Locked'));
     });
-    var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))]
-      .concat(m.book ? [mat('BOOK', m.book[0], m.book[1], m.book[2] || 'Book')] : []).concat(papers.length ? [] : [mat('PDF', 'Papers', '', '')]);
     var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + (m.book ? 1 : 0) + papers.length + code.filter(function (c) { return c[3]; }).length;
+    // Once anything is posted, only posted files are shown; until then, empty placeholders show what to expect.
+    var mats = posted
+      ? (m.slides ? [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n))] : []).concat(m.notes ? [mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))] : [])
+          .concat(m.book ? [mat('BOOK', m.book[0], m.book[1], m.book[2] || 'Book')] : []).concat(papers)
+      : [mat('PPT', 'Slides', '', ''), mat('TXT', 'Class notes', '', ''), mat('PDF', 'Papers', '', '')];
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
       '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span>' + (x.links && x.links.length ? '<span class="row wrap g6" style="margin-top:4px">' + x.links.map(function (l) { return '<a class="pchip" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join('') + '</span>' : '') + '</div></div>'; }).join('') + '</div></section>' +
-      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div>' + (papers.length ? '<div class="mats nb">' + papers.join('') + '</div>' : '') + '<div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Notebook', '', '')) + '</div></section>' +
+      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div>' + (mats.length ? '<div class="' + (mats.length > 3 ? 'mats nb' : 'mats') + '">' + mats.join('') + '</div>' : '') + '<div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Code', '', '')) + '</div></section>' +
       '<section class="stack g12"><h2 class="h2">Prepare</h2><ul class="bullets">' + prep.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></section>' +
       '<div class="pn"><button class="reset" style="opacity:' + (n > 1 ? 1 : .35) + '" data-act="lec:' + clamp(n - 1) + '"><span class="l1">← Previous</span><span class="l2">' + (n > 1 ? pad(n - 1) + ' · ' + L[n - 2][0] : 'Start') + '</span></button>' +
       '<button class="reset r" style="opacity:' + (n < 14 ? 1 : .35) + '" data-act="lec:' + clamp(n + 1) + '"><span class="l1">Next →</span><span class="l2">' + (n < 14 ? pad(n + 1) + ' · ' + L[n][0] : 'End') + '</span></button></div></div>';
