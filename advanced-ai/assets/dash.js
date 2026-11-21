@@ -57,7 +57,22 @@
     ['How to read a paper', 'S. Keshav (2007) · ACM SIGCOMM Computer Communication Review', '—', 'https://dl.acm.org/doi/epdf/10.1145/1273445.1273458'], ['Code evaluation criteria', 'Debug and modify', '—']
   ];
   var SURVEY_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdmGdJ_abwAW4lD142tdgEu7rGFBT3WT0U_kNnd8hG4NE6iiw/viewform?usp=sharing&ouid=105444061250487076997';
-  var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'BD survey', exam: 'Exam', log: 'Class log', admin: 'Overview' };
+  var TL = { topic: 'Lecture', due: 'Due', review: 'Review', project: 'Project', survey: 'BD survey', exam: 'Exam', log: 'Class log', admin: 'Overview', code: 'Code', reading: 'Reading' };
+  // Optional full "In this lecture" list for a lecture, in teaching order. Replaces the generated list.
+  // Each item: [title, description, type (a TL key), link or '', extra links [[label, url], ...]]
+  // A link of 'notebook:<topic>' points to that topic's first released notebook.
+  var LECTURE_PLAN = {
+    2: [
+      ['Code evaluation criteria', 'How code is assessed: you debug the code and change it, and show that you can do both.', 'code', 'page:project#code-evaluation'],
+      ['GAN code example', 'UDL 15.1 · GAN toy example. Open the student notebook in Colab and complete the TODO cells.', 'code', 'notebook:GAN'],
+      ['GAN', 'Book: Understanding Deep Learning, sections 15.1 and 15.2.', 'topic', ''],
+      ['Project selection', 'Pick a project area grounded in class topics. Ideas beyond the syllabus are welcome.', 'project', ''],
+      ['How to read a paper', 'Worked through on two papers: the Transformer paper and the original GAN paper.', 'reading', '', [
+        ['Attention Is All You Need (Vaswani et al., 2017)', 'https://arxiv.org/abs/1706.03762'],
+        ['Generative Adversarial Nets (Goodfellow et al., 2014)', 'https://arxiv.org/abs/1406.2661']
+      ]]
+    ]
+  };
   var DESC = {
     'Project selection': 'Pick a project area grounded in class topics. Ideas beyond the syllabus are welcome.',
     'Survey start': 'Begin collecting recent, impactful papers in your field.',
@@ -351,9 +366,15 @@
       '<div class="card sx"><div style="min-width:600px"><div class="thead cols-lec"><span>#</span><span>Topic</span><span>Activities</span><span>Status</span></div>' + rows + '</div></div></div>';
   }
 
+  function planItem(p) {
+    var href = p[3] || '', nb;
+    if (/^page:/.test(href)) href = link(href.slice(5).split('#')[0]) + (href.indexOf('#') > -1 ? '#' + href.split('#')[1] : '');
+    else if (/^notebook:/.test(href)) { nb = (TOPIC_CODE[href.slice(9)] || []).filter(function (c) { return c[3]; })[0]; href = nb ? nbUrl(nb) : ''; }
+    return { t: p[0], desc: p[1], label: TL[p[2]], v: TV[p[2]] || 'outline', href: href, links: p[4] || [] };
+  }
   function lecture() {
     var n = state.lec, h = L[n - 1][0], items = L[n - 1][1], u = UNIT_OF[h], st = status(n);
-    var list = n === 1
+    var list = LECTURE_PLAN[n] ? LECTURE_PLAN[n].map(planItem) : n === 1
       ? AGENDA.map(function (a) { return { t: a[0], desc: a[1], href: a[3] || (a[0] === 'Survey / exam' ? SURVEY_FORM_URL : ''), label: a[2] === '—' ? 'Overview' : a[2], v: a[2] === '—' ? 'secondary' : 'outline' }; })
       : (u !== undefined ? [{ t: TOPICS[u][0], desc: u === 0 ? 'Book: Understanding Deep Learning, chapter 15.' : 'Readings on the course reading list.', label: TL.topic, v: 'outline' }] : [])
         .concat(items.map(function (it) { return { t: it[0].replace('Due · ', ''), desc: DESC[it[0]] || '', label: TL[it[1]], v: TV[it[1]] }; }));
@@ -374,7 +395,7 @@
     var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.filter(function (c) { return c[3]; }).length;
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
-      '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span></div></div>'; }).join('') + '</div></section>' +
+      '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span>' + (x.links && x.links.length ? '<span class="row wrap g6" style="margin-top:4px">' + x.links.map(function (l) { return '<a class="pchip" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join('') + '</span>' : '') + '</div></div>'; }).join('') + '</div></section>' +
       '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div><div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Notebook', '', '')) + '</div></section>' +
       '<section class="stack g12"><h2 class="h2">Prepare</h2><ul class="bullets">' + prep.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></section>' +
       '<div class="pn"><button class="reset" style="opacity:' + (n > 1 ? 1 : .35) + '" data-act="lec:' + clamp(n - 1) + '"><span class="l1">← Previous</span><span class="l2">' + (n > 1 ? pad(n - 1) + ' · ' + L[n - 2][0] : 'Start') + '</span></button>' +
