@@ -2,7 +2,23 @@
 (function () {
   var root = document.getElementById('app');
   var BASE = root.dataset.base || '';
-  var CURRENT = Math.min(14, Math.max(1, parseInt(root.dataset.current, 10) || 1));
+  // Lecture dates (YYYY-MM-DD). A lecture without a date is one week after the one before it.
+  var LECTURE_DATES = { 1: '2026-11-14', 2: '2026-11-21', 3: '2026-11-28' };
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var ymd = function (d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  function lectureDate(n) {
+    if (LECTURE_DATES[n]) return LECTURE_DATES[n];
+    var p = lectureDate(n - 1).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2] + 7);
+    return ymd(d);
+  }
+  // current_lecture in _config.yml overrides the date-based lecture when set above 0.
+  var CURRENT = (function () {
+    var set = parseInt(root.dataset.current, 10);
+    if (set > 0) return Math.min(14, set);
+    var today = ymd(new Date()), n = 1;
+    while (n < 14 && lectureDate(n + 1) <= today) n++;
+    return n;
+  })();
   var GITHUB = root.dataset.github || '#';
   var TEACHING = BASE.replace(/\/[^\/]*$/, '/') || '/';
 
@@ -164,8 +180,8 @@
   var badge = function (t, v) { return '<span class="bd bd-' + v + '">' + esc(t) + '</span>'; };
   var link = function (path) { return BASE + '/' + path + '/'; };
   var status = function (n) {
-    var dates = { 1: '14 November, 2026', 2: '21 November, 2026', 3: '28 November, 2026' };
-    return dates[n] ? [dates[n], 'outline'] : n < CURRENT ? ['Done', 'secondary'] : n === CURRENT ? ['This week', 'default'] : ['Upcoming', 'outline'];
+    var d = LECTURE_DATES[n] && LECTURE_DATES[n].split('-');
+    return d ? [+d[2] + ' ' + MONTHS[+d[1] - 1] + ', ' + d[0], 'outline'] : n < CURRENT ? ['Done', 'secondary'] : n === CURRENT ? ['This week', 'default'] : ['Upcoming', 'outline'];
   };
   var isDl = function (items) { return items.some(function (it) { return it[1] === 'due' || it[1] === 'exam'; }); };
   var arrowLink = function (href, label, ext) { return '<a class="noul" href="' + href + '"><span>' + label + '</span><span class="arr">' + (ext ? '↗' : '→') + '</span></a>'; };

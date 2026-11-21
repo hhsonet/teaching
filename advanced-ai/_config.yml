@@ -19,7 +19,7 @@ aux_links:
 footer_content: 'Teaching | HHS'
 
 # Dashboard settings
-current_lecture: 1 # bump each week; drives progress and deadlines on the home page
+current_lecture: 0 # 0 = automatic from the lecture dates in assets/dash.js; set a number to override
 github_url: 'https://github.com/hhsonet/teaching/tree/main/advanced-ai'
 
 # Collections for website data
