@@ -91,8 +91,17 @@
   };
   var MILESTONES = [[2, 'Project selection', 'Pick a project area grounded in class topics.'], [5, 'Define problem statement', 'What is the problem, and how will it be solved?'], [6, 'Finalize problem statement', 'Lock the problem statement before the midterm.'], [9, 'Progress review', 'Implementation check-in.'], [12, 'Final submission', 'Submit the project · 25 marks total.']];
   // Per-lecture materials. Paste links here: slides (PDF / Google Slides), notes, and papers [title, url].
+  // Per-lecture files. book: [title, url, subtitle]; papers: [[title, url, subtitle], ...]
   var MATERIALS = {
-    1: { slides: '', notes: '', papers: [] }
+    1: { slides: '', notes: '', papers: [] },
+    2: {
+      slides: '', notes: '',
+      book: ['Understanding Deep Learning', 'https://udlbook.github.io/udlbook/', 'Chapter 15 · sections 15.1 and 15.2'],
+      papers: [
+        ['Attention Is All You Need', 'https://arxiv.org/abs/1706.03762', 'Vaswani et al., 2017 · arXiv'],
+        ['Generative Adversarial Nets', 'https://arxiv.org/abs/1406.2661', 'Goodfellow et al., 2014 · arXiv']
+      ]
+    }
   };
   // Example code per topic, shown on every lecture of that topic. Keys match TOPICS names.
   // Notebooks stay in Google Drive; nothing is copied into this repo.
@@ -384,19 +393,20 @@
     var unit = u !== undefined ? 'Unit ' + (u + 1) + ' of 5 · ' + TOPICS[u][0] : n === 1 ? 'Level survey, course overview and how this course works' : h === 'Review' ? 'Review session' : 'Assessment';
     var m = MATERIALS[n] || {};
     var locked = function (t, sub) { return '<div class="mat locked"><span class="tag">' + LOCK + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + sub + '</span></span></div>'; };
-    var mat = function (tag, t, href, sub) { return '<a class="mat' + (href ? '' : ' off') + '" ' + (href ? 'href="' + esc(href) + '"' : '') + '><span class="tag">' + tag + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + (href ? sub : 'Not posted yet') + '</span></span><span class="go">' + (href ? '↗' : '') + '</span></a>'; };
-    var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], 'Paper'); });
+    var mat = function (tag, t, href, sub) { return '<a class="mat' + (href ? '' : ' off') + '" ' + (href ? 'href="' + esc(href) + '" target="_blank" rel="noopener"' : '') + '><span class="tag">' + tag + '</span><span class="stack g2" style="flex:1;min-width:0"><span class="t">' + esc(t) + '</span><span class="s">' + (href ? sub : 'Not posted yet') + '</span></span><span class="go">' + (href ? '↗' : '') + '</span></a>'; };
+    var papers = (m.papers || []).map(function (p) { return mat('PDF', p[0], p[1], p[2] || 'Paper'); });
     var code = codeFor(n), codeCards = [];
     code.forEach(function (c) {
       codeCards.push(c[3] ? mat('TODO', c[0], nbUrl(c), 'Notebook · open in Colab') : locked('Private', 'Notebook · locked'));
       if (c[2]) codeCards.push(c[4] ? mat('SOL', 'Solution', solUrl(c), c[0]) : locked('Solution', 'Solution · locked'));
     });
-    var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))].concat(papers.length ? papers : [mat('PDF', 'Papers', '', '')]);
-    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length + code.filter(function (c) { return c[3]; }).length;
+    var mats = [mat('PPT', 'Slides', m.slides, 'Lecture ' + pad(n)), mat('TXT', 'Class notes', m.notes, 'Lecture ' + pad(n))]
+      .concat(m.book ? [mat('BOOK', m.book[0], m.book[1], m.book[2] || 'Book')] : []).concat(papers.length ? [] : [mat('PDF', 'Papers', '', '')]);
+    var posted = (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + (m.book ? 1 : 0) + papers.length + code.filter(function (c) { return c[3]; }).length;
     return '<div class="stack g32"><div class="stack g12"><button class="reset back" data-act="go:lectures">← All lectures</button>' +
       '<div class="row g10"><span class="eyebrow">Lecture ' + pad(n) + ' of 14</span>' + badge(st[0], st[1]) + '</div><h1 class="h1">' + h + '</h1><p class="sub">' + unit + '</p></div>' +
       '<section class="stack g12"><h2 class="h2">In this lecture</h2><div class="card hid">' + list.map(function (x) { return '<div class="item-row">' + badge(x.label, x.v) + '<div class="stack g3" style="min-width:0">' + (x.href ? '<a class="t noul" href="' + esc(x.href) + '" target="_blank" rel="noopener">' + esc(x.t) + ' ↗</a>' : '<span class="t">' + esc(x.t) + '</span>') + '<span class="d">' + esc(x.desc) + '</span>' + (x.links && x.links.length ? '<span class="row wrap g6" style="margin-top:4px">' + x.links.map(function (l) { return '<a class="pchip" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join('') + '</span>' : '') + '</div></div>'; }).join('') + '</div></section>' +
-      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div><div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Notebook', '', '')) + '</div></section>' +
+      '<section class="stack g12"><div class="between" style="align-items:baseline"><h2 class="h2">Materials</h2><span class="muted" style="font-size:13px">' + (posted ? posted + ' posted' : 'Nothing posted yet') + '</span></div><div class="mats">' + mats.join('') + '</div>' + (papers.length ? '<div class="mats nb">' + papers.join('') + '</div>' : '') + '<div class="mats nb">' + (codeCards.length ? codeCards.join('') : mat('CODE', 'Notebook', '', '')) + '</div></section>' +
       '<section class="stack g12"><h2 class="h2">Prepare</h2><ul class="bullets">' + prep.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></section>' +
       '<div class="pn"><button class="reset" style="opacity:' + (n > 1 ? 1 : .35) + '" data-act="lec:' + clamp(n - 1) + '"><span class="l1">← Previous</span><span class="l2">' + (n > 1 ? pad(n - 1) + ' · ' + L[n - 2][0] : 'Start') + '</span></button>' +
       '<button class="reset r" style="opacity:' + (n < 14 ? 1 : .35) + '" data-act="lec:' + clamp(n + 1) + '"><span class="l1">Next →</span><span class="l2">' + (n < 14 ? pad(n + 1) + ' · ' + L[n][0] : 'End') + '</span></button></div></div>';
@@ -406,7 +416,7 @@
     var posted = 0, seen = [];
     var rows = L.map(function (l, i) {
       var n = i + 1, m = MATERIALS[n] || {}, papers = m.papers || [], code = codeFor(n);
-      posted += (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + papers.length;
+      posted += (m.slides ? 1 : 0) + (m.notes ? 1 : 0) + (m.book ? 1 : 0) + papers.length;
       code.forEach(function (c) { if (c[3] && seen.indexOf(c) < 0) { seen.push(c); posted++; } });
       var f = function (href, label) { return href ? '<a class="mchip" href="' + esc(href) + '">' + label + ' <span style="color:#a1a1aa">↗</span></a>' : '<span class="dash">—</span>'; };
       return '<div class="trow cols-mat" style="' + (n === CURRENT ? 'background:#fafafa' : '') + '"><span class="num">' + pad(n) + '</span><button class="reset" style="font-weight:500;justify-self:start" data-act="lec:' + n + '">' + l[0] + '</button>' +
