@@ -63,7 +63,7 @@
   // A link of 'notebook:<topic>' points to that topic's first released notebook.
   var LECTURE_PLAN = {
     2: [
-      ['Code evaluation criteria', 'How code is assessed: you debug the code and change it, and show that you can do both.', 'code', 'page:project#code-evaluation'],
+      ['Code evaluation criteria', 'How code is assessed: you debug the code and change it, and show that you can do both.', 'code', ''],
       ['GAN code example', 'UDL 15.1 · GAN toy example. Open the student notebook in Colab and complete the TODO cells.', 'code', 'notebook:GAN'],
       ['GAN', 'Book: Understanding Deep Learning, sections 15.1 and 15.2.', 'topic', ''],
       ['Project selection', 'Pick a project area grounded in class topics. Ideas beyond the syllabus are welcome.', 'project', ''],
