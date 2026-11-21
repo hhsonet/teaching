@@ -105,7 +105,7 @@
   // Lecture-only code can also go in MATERIALS[n].code with the same format.
   var TOPIC_CODE = {
     'GAN': [
-      ['UDL 15.1 · GAN toy example', '1t1fSXpqIvr_PsV0ASCSpFv5JqajIt2ic', '1kDVAvs_u-ZHC4riHbQbWxpp3EUs5xxt_', true, false]
+      ['UDL 15.1 · GAN toy example', '1t1fSXpqIvr_PsV0ASCSpFv5JqajIt2ic', '1DYYSPOhrqJPrPkldQcpODFGm4F5N34IF', true, true]
     ],
     'Attention & Transformers': [
       ['UDL 12.1 · Self-attention', '1ueLQGKrum6PxOdvD16ntiOi_sixtT7iJ', '1kBKWuePBqco7QW07XsqwbwIvaWl98uhF', false, false],
